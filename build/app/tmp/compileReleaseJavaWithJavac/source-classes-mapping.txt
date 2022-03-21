@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/smartersvision/home_services/BuildConfig.java
+ com.smartersvision.home_services.BuildConfig

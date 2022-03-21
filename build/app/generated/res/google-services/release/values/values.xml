@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">859797456537-krgtqduosj9ua5aksf4l3qpnctk270lu.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://homeservices-5190e.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">859797456537</string>
+    <string name="google_api_key" translatable="false">AIzaSyBs6Wst8oOY8Sfgf_JK6MV3GFoOM7ky2AA</string>
+    <string name="google_app_id" translatable="false">1:859797456537:android:ff25c75bdd8a3c4451da08</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBs6Wst8oOY8Sfgf_JK6MV3GFoOM7ky2AA</string>
+    <string name="google_storage_bucket" translatable="false">homeservices-5190e.appspot.com</string>
+    <string name="project_id" translatable="false">homeservices-5190e</string>
+</resources>

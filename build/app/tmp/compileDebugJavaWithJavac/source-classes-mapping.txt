@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/techmind/planc_client/BuildConfig.java
+ com.techmind.planc_client.BuildConfig
