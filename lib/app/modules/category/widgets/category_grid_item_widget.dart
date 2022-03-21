@@ -11,7 +11,8 @@ class CategoryGridItemWidget extends StatelessWidget {
   final Category category;
   final String heroTag;
 
-  CategoryGridItemWidget({Key key, this.category, this.heroTag}) : super(key: key);
+  CategoryGridItemWidget({Key key, this.category, this.heroTag})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,37 +28,43 @@ class CategoryGridItemWidget extends StatelessWidget {
         child: Wrap(
           children: <Widget>[
             Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 10),
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                    // colors: [category.color.withOpacity(1), category.color.withOpacity(0.1)],
-                    begin: AlignmentDirectional.topStart,
-                    //const FractionalOffset(1, 0),
-                    end: AlignmentDirectional.bottomEnd,
-                    stops: [0.1, 0.9],
-                    tileMode: TileMode.clamp),
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-              ),
-              child: 
-              // (category.mediaUrl.toLowerCase().endsWith('.svg')
-              //     ? SvgPicture.network(
-              //         category.mediaUrl,
-              //         color: category.color,
-              //         height: 100,
-              //       )
-                  // :
-                   CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      // imageUrl: category.mediaUrl,
-                      placeholder: (context, url) => Image.asset(
-                        'assets/img/loading.gif',
-                        fit: BoxFit.cover,
-                      ),
-                      errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                    )
-                    // ),
-            ),
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 10),
+                decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [
+                        Colors.blue.withOpacity(1),
+                        Colors.black.withOpacity(0.1)
+                      ],
+                      begin: AlignmentDirectional.topStart,
+                      //const FractionalOffset(1, 0),
+                      end: AlignmentDirectional.bottomEnd,
+                      stops: [0.1, 0.9],
+                      tileMode: TileMode.clamp),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5)),
+                ),
+                child: Image.asset('assets/img/helmet.png')
+                // (category.mediaUrl.toLowerCase().endsWith('.svg')
+                //     ? SvgPicture.network(
+                //         category.mediaUrl,
+                //         color: category.color,
+                //         height: 100,
+                //       )
+                // :
+                //     CachedNetworkImage(
+                //   fit: BoxFit.cover,
+                //   // imageUrl: category.mediaUrl,
+                //   placeholder: (context, url) => Image.asset(
+                //     'assets/img/loading.gif',
+                //     fit: BoxFit.cover,
+                //   ),
+                //   errorWidget: (context, url, error) =>
+                //       Icon(Icons.error_outline),
+                // )
+                // ),
+                ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
               child: Column(

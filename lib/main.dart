@@ -36,7 +36,8 @@ void main() async {
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.cupertino,
       themeMode: Get.find<SettingsService>().getThemeMode(),
-      theme: Get.find<SettingsService>().getLightTheme(), //Get.find<SettingsService>().getLightTheme.value,
+      theme: Get.find<SettingsService>()
+          .getLightTheme(), //Get.find<SettingsService>().getLightTheme.value,
       darkTheme: Get.find<SettingsService>().getDarkTheme(),
     ),
   );

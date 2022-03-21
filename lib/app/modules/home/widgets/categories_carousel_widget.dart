@@ -28,16 +28,11 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                 child: Container(
                   width: 100,
                   height: 100,
-                  margin: EdgeInsetsDirectional.only(end: 20, start: index == 0 ? 20 : 0),
+                  margin: EdgeInsetsDirectional.only(
+                      end: 20, start: index == 0 ? 20 : 0),
                   padding: EdgeInsets.symmetric(vertical: 10),
                   decoration: new BoxDecoration(
-                    gradient: new LinearGradient(
-                        colors: [_category.color.withOpacity(1), _category.color.withOpacity(0.1)],
-                        begin: AlignmentDirectional.topStart,
-                        //const FractionalOffset(1, 0),
-                        end: AlignmentDirectional.bottomEnd,
-                        stops: [0.1, 0.9],
-                        tileMode: TileMode.clamp),
+                    color: Colors.blueAccent,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: Stack(
@@ -45,42 +40,47 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                     children: [
                       Padding(
                         padding: EdgeInsetsDirectional.only(start: 30, top: 30),
-                        child: ClipRRect(
-                          
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top:30.0,
-                            left: 12
-                            ),
-                            child: Image.asset(_category.icon,
-                             fit: BoxFit.cover,
-                             scale: 10,
-                            ),
-                          ),
-                          // child: (_category.mediaUrl.toLowerCase().endsWith('.svg')
-                          //     ? SvgPicture.network(
-                          //         _category.mediaUrl,
-                          //         color: _category.color,
-                          //       )
-                          //     : CachedNetworkImage(
-                          //         fit: BoxFit.cover,
-                          //         imageUrl: _category.mediaUrl,
-                          //         placeholder: (context, url) => Image.asset(
-                          //           'assets/img/loading.gif',
-                          //           fit: BoxFit.cover,
-                          //         ),
-                          //         errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                          //       )),
-                        ),
+                        // child: ClipRRect(
+                        //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(top: 30.0, left: 12),
+                        //     child: Image.asset(
+                        //       _category,
+                        //       fit: BoxFit.cover,
+                        //       scale: 10,
+                        //     ),
+                        //   ),
+                        //   child: (_category.mediaUrl.toLowerCase().endsWith('.svg')
+                        //       ? SvgPicture.network(
+                        //           _category.mediaUrl,
+                        //           color: _category.color,
+                        //         )
+                        //       : CachedNetworkImage(
+                        //           fit: BoxFit.cover,
+                        //           imageUrl: _category.mediaUrl,
+                        //           placeholder: (context, url) => Image.asset(
+                        //             'assets/img/loading.gif',
+                        //             fit: BoxFit.cover,
+                        //           ),
+                        //           errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                        //         )),
+                        // ),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 10, top: 0),
+                        padding:
+                            const EdgeInsetsDirectional.only(start: 10, top: 0),
                         child: Text(
                           _category.name,
                           maxLines: 2,
-                          style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)),
+                          style: Get.textTheme.bodyText2
+                              .merge(TextStyle(color: Get.theme.primaryColor)),
                         ),
                       ),
+                      Container(
+                        padding: const EdgeInsetsDirectional.only(
+                            start: 10, top: 30),
+                        child: Image.asset('assets/img/helmet.png'),
+                      )
                     ],
                   ),
                 ),
