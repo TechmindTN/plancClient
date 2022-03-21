@@ -30,12 +30,14 @@ class CategoryView extends GetView<CategoryController> {
               iconTheme: IconThemeData(color: Get.theme.primaryColor),
               title: Text(
                 controller.category.value.name,
-                style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                style: Get.textTheme.headline6
+                    .merge(TextStyle(color: Get.theme.primaryColor)),
               ),
               centerTitle: true,
               automaticallyImplyLeading: false,
               leading: new IconButton(
-                icon: new Icon(Icons.arrow_back_ios, color: Get.theme.primaryColor),
+                icon: new Icon(Icons.arrow_back_ios,
+                    color: Get.theme.primaryColor),
                 onPressed: () => {Get.back()},
               ),
               bottom: HomeSearchBarWidget(),
@@ -45,36 +47,43 @@ class CategoryView extends GetView<CategoryController> {
                     alignment: AlignmentDirectional.bottomCenter,
                     children: [
                       Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.only(top: 75, bottom: 115),
-                        decoration: new BoxDecoration(
-                          gradient: new LinearGradient(
-                              // colors: [controller.category.value.color.withOpacity(1), controller.category.value.color.withOpacity(0.2)],
-                              begin: AlignmentDirectional.topStart,
-                              //const FractionalOffset(1, 0),
-                              end: AlignmentDirectional.bottomEnd,
-                              stops: [0.1, 0.9],
-                              tileMode: TileMode.clamp),
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-                        ),
-                        child: 
-                        // (controller.category.value.mediaUrl.toLowerCase().endsWith('.svg')
-                        //     ? SvgPicture.network(
-                        //         controller.category.value.mediaUrl,
-                        //         color: controller.category.value.color,
-                        //       )
-                        //     : 
-                            CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                // imageUrl: controller.category.value.mediaUrl,
-                                placeholder: (context, url) => Image.asset(
-                                  'assets/img/loading.gif',
-                                  fit: BoxFit.cover,
-                                ),
-                                errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                              )
-                              // ),
-                      ),
+                          width: double.infinity,
+                          padding: EdgeInsets.only(top: 75, bottom: 115),
+                          decoration: new BoxDecoration(
+                            color: Colors.blueAccent,
+                            // gradient: new LinearGradient(
+                            //     colors: [
+                            //       Colors.deepOrange.withOpacity(1),
+                            //       Colors.amber.withOpacity(0.2)
+                            //     ],
+                            //     begin: AlignmentDirectional.topStart,
+                            //     //const FractionalOffset(1, 0),
+                            //     end: AlignmentDirectional.bottomEnd,
+                            //     stops: [0.1, 0.9],
+                            //     tileMode: TileMode.clamp),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5)),
+                          ),
+                          child: Image.asset('assets/img/helmet.png')
+                          // (controller.category.value.mediaUrl.toLowerCase().endsWith('.svg')
+                          //     ? SvgPicture.network(
+                          //         controller.category.value.mediaUrl,
+                          //         color: controller.category.value.color,
+                          //       )
+                          //     :
+                          //     CachedNetworkImage(
+                          //   fit: BoxFit.cover,
+                          //   // imageUrl: controller.category.value.mediaUrl,
+                          //   placeholder: (context, url) => Image.asset(
+                          //     'assets/img/loading.gif',
+                          //     fit: BoxFit.cover,
+                          //   ),
+                          //   errorWidget: (context, url, error) =>
+                          //       Icon(Icons.error_outline),
+                          // )
+                          // // ),
+                          ),
                       AddressWidget().paddingOnly(bottom: 75),
                     ],
                   )).marginOnly(bottom: 42),
@@ -88,25 +97,35 @@ class CategoryView extends GetView<CategoryController> {
                         primary: false,
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        children: List.generate(CategoryFilter.values.length, (index) {
+                        children: List.generate(CategoryFilter.values.length,
+                            (index) {
                           var _filter = CategoryFilter.values.elementAt(index);
                           return Obx(() {
                             return Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 20),
+                              padding:
+                                  const EdgeInsetsDirectional.only(start: 20),
                               child: RawChip(
                                 elevation: 0,
                                 label: Text(_filter.toString().tr),
-                                labelStyle: controller.isSelected(_filter) ? Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)) : Get.textTheme.bodyText2,
-                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-                                backgroundColor: Theme.of(context).focusColor.withOpacity(0.1),
+                                labelStyle: controller.isSelected(_filter)
+                                    ? Get.textTheme.bodyText2.merge(TextStyle(
+                                        color: Get.theme.primaryColor))
+                                    : Get.textTheme.bodyText2,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 15),
+                                backgroundColor: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.1),
                                 // selectedColor: controller.category.value.color,
                                 selected: controller.isSelected(_filter),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
                                 showCheckmark: true,
                                 checkmarkColor: Get.theme.primaryColor,
                                 onSelected: (bool value) {
                                   controller.toggleSelected(_filter);
-                                  controller.getEServicesOfCategory(filter: controller.selected.value);
+                                  controller.getEServicesOfCategory(
+                                      filter: controller.selected.value);
                                 },
                               ),
                             );
