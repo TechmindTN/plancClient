@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
 
-
 class SlideItemWidget extends StatelessWidget {
   final Slide slide;
 
@@ -20,7 +19,8 @@ class SlideItemWidget extends StatelessWidget {
       children: [
         Transform(
           alignment: Alignment.center,
-          transform: Matrix4.rotationY(Directionality.of(context) == TextDirection.rtl ? math.pi : 0),
+          transform: Matrix4.rotationY(
+              Directionality.of(context) == TextDirection.rtl ? math.pi : 0),
           child: CachedNetworkImage(
             width: double.infinity,
             height: 310,
@@ -42,12 +42,14 @@ class SlideItemWidget extends StatelessWidget {
                 children: [
                   Text(
                     slide.title,
-                    style: Get.textTheme.headline5.merge(TextStyle(color: slide.textColor)),
+                    style: Get.textTheme.headline5
+                        .merge(TextStyle(color: slide.textColor)),
                     maxLines: 3,
                   ),
                   Text(
                     slide.description,
-                    style: Get.textTheme.bodyText1.merge(TextStyle(color: slide.textColor)),
+                    style: Get.textTheme.bodyText1
+                        .merge(TextStyle(color: slide.textColor)),
                     maxLines: 3,
                   ),
                 ],

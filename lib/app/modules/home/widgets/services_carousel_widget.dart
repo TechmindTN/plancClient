@@ -10,7 +10,8 @@ import '../../../routes/app_pages.dart';
 class ServicesCarouselWidget extends StatelessWidget {
   final List<EService> services;
 
-  const ServicesCarouselWidget({Key key, List<EService> this.services}) : super(key: key);
+  const ServicesCarouselWidget({Key key, List<EService> this.services})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +31,25 @@ class ServicesCarouselWidget extends StatelessWidget {
               },
               child: Container(
                 width: 220,
-                margin: EdgeInsetsDirectional.only(end: 20, start: index == 0 ? 20 : 0, top: 20, bottom: 10),
+                margin: EdgeInsetsDirectional.only(
+                    end: 20, start: index == 0 ? 20 : 0, top: 20, bottom: 10),
                 // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   boxShadow: [
-                    BoxShadow(color: Get.theme.focusColor.withOpacity(0.1), blurRadius: 10, offset: Offset(0, 5)),
+                    BoxShadow(
+                        color: Get.theme.focusColor.withOpacity(0.1),
+                        blurRadius: 10,
+                        offset: Offset(0, 5)),
                   ],
                 ),
                 child: Column(
                   //alignment: AlignmentDirectional.topStart,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10)),
                       child: CachedNetworkImage(
                         height: 130,
                         width: double.infinity,
@@ -54,16 +61,20 @@ class ServicesCarouselWidget extends StatelessWidget {
                           width: double.infinity,
                           height: 100,
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error_outline),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 10),
                       height: 100,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: Get.theme.primaryColor,
-                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +83,8 @@ class ServicesCarouselWidget extends StatelessWidget {
                           Text(
                             _service.title,
                             maxLines: 1,
-                            style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.hintColor)),
+                            style: Get.textTheme.bodyText2
+                                .merge(TextStyle(color: Get.theme.hintColor)),
                           ),
                           Wrap(
                             children: Ui.getStarsList(_service.rate),
@@ -80,9 +92,11 @@ class ServicesCarouselWidget extends StatelessWidget {
                           SizedBox(height: 10),
                           Wrap(
                             children: [
-                              Text("\$" + _service.minPrice.toString(), style: Get.textTheme.bodyText1),
+                              Text("\$" + _service.minPrice.toString(),
+                                  style: Get.textTheme.bodyText1),
                               Text(' - '),
-                              Text("\$" + _service.maxPrice.toString(), style: Get.textTheme.bodyText1),
+                              Text("\$" + _service.maxPrice.toString(),
+                                  style: Get.textTheme.bodyText1),
                             ],
                           )
                         ],

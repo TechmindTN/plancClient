@@ -14,7 +14,9 @@ class WelcomeWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), color: Get.theme.accentColor),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: Get.theme.accentColor),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,12 +25,18 @@ class WelcomeWidget extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Text("Welcome,".tr, style: Get.textTheme.bodyText1),
-                Text(Get.find<AuthService>().user.value.email, style: Get.textTheme.bodyText1.merge(TextStyle(color: Get.theme.primaryColor))),
-                Text('!', style: Get.textTheme.bodyText1.merge(TextStyle(color: Get.theme.primaryColor)))
+                Text(Get.find<AuthService>().user.value.email,
+                    style: Get.textTheme.bodyText1
+                        .merge(TextStyle(color: Get.theme.primaryColor))),
+                Text('!',
+                    style: Get.textTheme.bodyText1
+                        .merge(TextStyle(color: Get.theme.primaryColor)))
               ],
             ),
             SizedBox(height: 8),
-            Text("Can I help you something?".tr, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
+            Text("Can I help you something?".tr,
+                style: Get.textTheme.caption
+                    .merge(TextStyle(color: Get.theme.primaryColor))),
             SizedBox(height: 22),
             SearchBarWidget()
           ],

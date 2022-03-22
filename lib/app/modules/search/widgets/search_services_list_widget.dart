@@ -9,7 +9,8 @@ import '../../category/widgets/services_list_item_widget.dart';
 class SearchServicesListWidget extends StatelessWidget {
   final List<EService> services;
 
-  SearchServicesListWidget({Key key, List<EService> this.services}) : super(key: key);
+  SearchServicesListWidget({Key key, List<EService> this.services})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -9,9 +9,10 @@ import '../../../models/Provider.dart';
 import '../../../repositories/e_service_repository.dart';
 
 class EServiceController extends GetxController {
-  ServiceProviderNetwork providerServices=ServiceProviderNetwork();
-  List<ServiceProvider>providers=<ServiceProvider>[].obs;
+  ServiceProviderNetwork providerServices = ServiceProviderNetwork();
+  List<ServiceProvider> providers = <ServiceProvider>[].obs;
   final eService = EService().obs;
+  final Rx<ServiceProvider> serviceProvider = ServiceProvider().obs;
   final reviews = <Review>[].obs;
   final currentSlide = 0.obs;
   EServiceRepository _eServiceRepository;
@@ -20,17 +21,15 @@ class EServiceController extends GetxController {
     _eServiceRepository = new EServiceRepository();
   }
 
-
   getProviders() async {
     // // ServiceProvider serviceProviders
     // List<ServiceProvider> serviceProviders=await providerServices.getProvidersList();
-    // serviceProviders.forEach((element) { 
+    // serviceProviders.forEach((element) {
     //   Rx<ServiceProvider> rxProvider;
     //   rxProvider.value=element;
     //   // providers.add(rxProvider);
     // });
-    providers=await providerServices.getProvidersList();
-    
+    providers = await providerServices.getProvidersList();
   }
 
   @override
@@ -50,7 +49,9 @@ class EServiceController extends GetxController {
     await getEService();
     await getReviews();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eService.value.title + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message:
+              eService.value.title + " " + "page refreshed successfully".tr));
     }
   }
 

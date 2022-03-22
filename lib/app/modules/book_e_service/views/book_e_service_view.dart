@@ -38,7 +38,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
                 children: [
                   Text("Your Address".tr, style: Get.textTheme.caption),
                   SizedBox(height: 8),
-                  Text(controller.currentAddress.address, style: Get.textTheme.bodyText2),
+                  Text(controller.currentAddress.address,
+                      style: Get.textTheme.bodyText2),
                 ],
               ),
             ),
@@ -46,7 +47,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
             Obx(() {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: Ui.getBoxDecoration(color: controller.getColor(!controller.scheduled.value)),
+                decoration: Ui.getBoxDecoration(
+                    color: controller.getColor(!controller.scheduled.value)),
                 child: Theme(
                   data: ThemeData(
                     toggleableActiveColor: Get.theme.primaryColor,
@@ -57,7 +59,10 @@ class BookEServiceView extends GetView<BookEServiceController> {
                     onChanged: (value) {
                       controller.toggleScheduled(value);
                     },
-                    title: Text("As Soon as Possible".tr, style: controller.getTextTheme(!controller.scheduled.value)).paddingSymmetric(vertical: 20),
+                    title: Text("As Soon as Possible".tr,
+                            style: controller
+                                .getTextTheme(!controller.scheduled.value))
+                        .paddingSymmetric(vertical: 20),
                   ),
                 ),
               );
@@ -65,7 +70,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
             Obx(() {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: Ui.getBoxDecoration(color: controller.getColor(controller.scheduled.value)),
+                decoration: Ui.getBoxDecoration(
+                    color: controller.getColor(controller.scheduled.value)),
                 child: Theme(
                   data: ThemeData(
                     toggleableActiveColor: Get.theme.primaryColor,
@@ -76,7 +82,10 @@ class BookEServiceView extends GetView<BookEServiceController> {
                     onChanged: (value) {
                       controller.toggleScheduled(value);
                     },
-                    title: Text("Schedule an Order".tr, style: controller.getTextTheme(controller.scheduled.value)).paddingSymmetric(vertical: 20),
+                    title: Text("Schedule an Order".tr,
+                            style: controller
+                                .getTextTheme(controller.scheduled.value))
+                        .paddingSymmetric(vertical: 20),
                   ),
                 ),
               );
@@ -87,15 +96,21 @@ class BookEServiceView extends GetView<BookEServiceController> {
                 duration: Duration(milliseconds: 300),
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 300),
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: controller.scheduled.value ? 20 : 0),
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: controller.scheduled.value ? 20 : 0),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: controller.scheduled.value ? 20 : 0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: controller.scheduled.value ? 20 : 0),
                   decoration: Ui.getBoxDecoration(),
                   child: Column(
                     children: [
                       Row(
                         children: [
                           Expanded(
-                            child: Text("When would you like us to come to your address?", style: Get.textTheme.bodyText1),
+                            child: Text(
+                                "When would you like us to come to your address?",
+                                style: Get.textTheme.bodyText1),
                           ),
                           SizedBox(width: 10),
                           MaterialButton(
@@ -105,7 +120,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
                             },
                             shape: StadiumBorder(),
                             color: Get.theme.accentColor.withOpacity(0.2),
-                            child: Text("Select a Date".tr, style: Get.textTheme.subtitle1),
+                            child: Text("Select a Date".tr,
+                                style: Get.textTheme.subtitle1),
                           ),
                         ],
                       ),
@@ -113,7 +129,9 @@ class BookEServiceView extends GetView<BookEServiceController> {
                       Row(
                         children: [
                           Expanded(
-                            child: Text("At What's time you are free in your address?", style: Get.textTheme.bodyText1),
+                            child: Text(
+                                "At What's time you are free in your address?",
+                                style: Get.textTheme.bodyText1),
                           ),
                           SizedBox(width: 10),
                           MaterialButton(
@@ -123,7 +141,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
                             },
                             shape: StadiumBorder(),
                             color: Get.theme.accentColor.withOpacity(0.2),
-                            child: Text("Select a time".tr, style: Get.textTheme.subtitle1),
+                            child: Text("Select a time".tr,
+                                style: Get.textTheme.subtitle1),
                           ),
                         ],
                       ),
@@ -135,13 +154,19 @@ class BookEServiceView extends GetView<BookEServiceController> {
             Obx(() {
               return AnimatedContainer(
                 duration: Duration(milliseconds: 300),
-                transform: Matrix4.translationValues(0, controller.scheduled.value ? 0 : -110, 0),
+                transform: Matrix4.translationValues(
+                    0, controller.scheduled.value ? 0 : -110, 0),
                 child: Obx(() {
                   return Column(
                     children: [
-                      Text("Requested Service on".tr).paddingSymmetric(vertical: 20),
-                      Text('${DateFormat.yMMMMEEEEd().format(controller.task.value.dateTime)}', style: Get.textTheme.headline5),
-                      Text('At ${DateFormat('HH:mm').format(controller.task.value.dateTime)}', style: Get.textTheme.headline3),
+                      Text("Requested Service on".tr)
+                          .paddingSymmetric(vertical: 20),
+                      Text(
+                          '${DateFormat.yMMMMEEEEd().format(controller.task.value.dateTime)}',
+                          style: Get.textTheme.headline5),
+                      Text(
+                          'At ${DateFormat('HH:mm').format(controller.task.value.dateTime)}',
+                          style: Get.textTheme.headline3),
                     ],
                   );
                 }),
@@ -158,7 +183,10 @@ class BookEServiceView extends GetView<BookEServiceController> {
         color: Get.theme.primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: [
-          BoxShadow(color: Get.theme.focusColor.withOpacity(0.1), blurRadius: 10, offset: Offset(0, -5)),
+          BoxShadow(
+              color: Get.theme.focusColor.withOpacity(0.1),
+              blurRadius: 10,
+              offset: Offset(0, -5)),
         ],
       ),
       child: BlockButtonWidget(
@@ -175,7 +203,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
                   ),
                 ),
               ),
-              Icon(Icons.arrow_forward_ios, color: Get.theme.primaryColor, size: 20)
+              Icon(Icons.arrow_forward_ios,
+                  color: Get.theme.primaryColor, size: 20)
             ],
           ),
           color: Get.theme.accentColor,

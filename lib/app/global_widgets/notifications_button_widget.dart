@@ -41,8 +41,11 @@ class NotificationsButtonWidget extends StatelessWidget {
               ),
             ),
             padding: EdgeInsets.all(0),
-            decoration: BoxDecoration(color: labelColor ?? Get.theme.accentColor, borderRadius: BorderRadius.all(Radius.circular(10))),
-            constraints: BoxConstraints(minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
+            decoration: BoxDecoration(
+                color: labelColor ?? Get.theme.accentColor,
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            constraints: BoxConstraints(
+                minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
           ),
         ],
       ),

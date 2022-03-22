@@ -29,7 +29,8 @@ class BookEServiceController extends GetxController {
 
   TextStyle getTextTheme(bool selected) {
     if (selected) {
-      return Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor));
+      return Get.textTheme.bodyText2
+          .merge(TextStyle(color: Get.theme.primaryColor));
     }
     return Get.textTheme.bodyText2;
   }
@@ -54,7 +55,8 @@ class BookEServiceController extends GetxController {
     );
     if (picked != null) {
       task.update((val) {
-        val.dateTime = DateTime(picked.year, picked.month, picked.day, val.dateTime.hour, val.dateTime.minute);
+        val.dateTime = DateTime(picked.year, picked.month, picked.day,
+            val.dateTime.hour, val.dateTime.minute);
         ;
       });
     }
@@ -71,7 +73,9 @@ class BookEServiceController extends GetxController {
     //print(picked);
     if (picked != null) {
       task.update((val) {
-        val.dateTime = DateTime(task.value.dateTime.year, task.value.dateTime.month, task.value.dateTime.day).add(Duration(minutes: picked.minute + picked.hour * 60));
+        val.dateTime = DateTime(task.value.dateTime.year,
+                task.value.dateTime.month, task.value.dateTime.day)
+            .add(Duration(minutes: picked.minute + picked.hour * 60));
       });
     }
   }

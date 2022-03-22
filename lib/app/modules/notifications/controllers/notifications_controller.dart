@@ -21,7 +21,8 @@ class NotificationsController extends GetxController {
   Future refreshNotifications({bool showMessage}) async {
     await getNotifications();
     if (showMessage == true) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "List of notifications refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: "List of notifications refreshed successfully".tr));
     }
   }
 

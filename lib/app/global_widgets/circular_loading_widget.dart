@@ -7,20 +7,25 @@ class CircularLoadingWidget extends StatefulWidget {
   final ValueChanged<void> onComplete;
   final String onCompleteText;
 
-  CircularLoadingWidget({Key key, this.height, this.onComplete, this.onCompleteText}) : super(key: key);
+  CircularLoadingWidget(
+      {Key key, this.height, this.onComplete, this.onCompleteText})
+      : super(key: key);
 
   @override
   _CircularLoadingWidgetState createState() => _CircularLoadingWidgetState();
 }
 
-class _CircularLoadingWidgetState extends State<CircularLoadingWidget> with SingleTickerProviderStateMixin {
+class _CircularLoadingWidgetState extends State<CircularLoadingWidget>
+    with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController animationController;
 
   void initState() {
     super.initState();
-    animationController = AnimationController(duration: Duration(milliseconds: 300), vsync: this);
-    CurvedAnimation curve = CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+    CurvedAnimation curve =
+        CurvedAnimation(parent: animationController, curve: Curves.easeOut);
     animation = Tween<double>(begin: widget.height, end: 0).animate(curve)
       ..addListener(() {
         if (mounted) {
@@ -51,7 +56,11 @@ class _CircularLoadingWidgetState extends State<CircularLoadingWidget> with Sing
         ? SizedBox(
             height: widget.height,
             child: Center(
-              child: Text(widget.onCompleteText ?? "", style: Theme.of(context).textTheme.caption.merge(TextStyle(fontSize: 14))),
+              child: Text(widget.onCompleteText ?? "",
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .merge(TextStyle(fontSize: 14))),
             ),
           )
         : Opacity(

@@ -38,7 +38,8 @@ class TranslationService extends GetxService {
   Locale fromStringToLocale(String _locale) {
     if (_locale.contains('_')) {
       // en_US
-      return Locale(_locale.split('_').elementAt(0), _locale.split('_').elementAt(1));
+      return Locale(
+          _locale.split('_').elementAt(0), _locale.split('_').elementAt(1));
     } else {
       // en
       return Locale(_locale);

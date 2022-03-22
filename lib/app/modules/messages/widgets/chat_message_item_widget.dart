@@ -12,7 +12,9 @@ class ChatMessageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Get.find<AuthService>().user.value.id == this.chat.userId ? getSentMessageLayout(context) : getReceivedMessageLayout(context);
+    return Get.find<AuthService>().user.value.id == this.chat.userId
+        ? getSentMessageLayout(context)
+        : getReceivedMessageLayout(context);
   }
 
   Widget getSentMessageLayout(context) {
@@ -21,7 +23,10 @@ class ChatMessageItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: Get.theme.focusColor.withOpacity(0.2),
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15))),
         padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
         margin: EdgeInsets.symmetric(vertical: 5),
         child: Row(
@@ -33,7 +38,9 @@ class ChatMessageItem extends StatelessWidget {
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  new Text(this.chat.user.name, style: Get.textTheme.bodyText1.merge(TextStyle(fontWeight: FontWeight.w600))),
+                  new Text(this.chat.user.name,
+                      style: Get.textTheme.bodyText1
+                          .merge(TextStyle(fontWeight: FontWeight.w600))),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
                     child: new Text(chat.text),
@@ -56,7 +63,8 @@ class ChatMessageItem extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
             ),
@@ -71,7 +79,11 @@ class ChatMessageItem extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Container(
         decoration: BoxDecoration(
-            color: Get.theme.accentColor, borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+            color: Get.theme.accentColor,
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(15),
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15))),
         padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
         margin: EdgeInsets.symmetric(vertical: 5),
         child: Row(
@@ -94,7 +106,8 @@ class ChatMessageItem extends StatelessWidget {
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
             ),
@@ -102,7 +115,10 @@ class ChatMessageItem extends StatelessWidget {
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text(this.chat.user.name, style: Get.textTheme.bodyText1.merge(TextStyle(fontWeight: FontWeight.w600, color: Get.theme.primaryColor))),
+                  new Text(this.chat.user.name,
+                      style: Get.textTheme.bodyText1.merge(TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Get.theme.primaryColor))),
                   new Container(
                     margin: const EdgeInsets.only(top: 5.0),
                     child: new Text(

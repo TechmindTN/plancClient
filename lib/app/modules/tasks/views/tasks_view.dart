@@ -32,35 +32,52 @@ class TasksView extends GetView<TasksController> {
             unselectedLabelColor: Get.theme.accentColor,
             labelColor: Get.theme.primaryColor,
             labelStyle: Get.textTheme.bodyText1,
-            indicator: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Get.theme.accentColor),
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Get.theme.accentColor),
             tabs: [
               Tab(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Get.theme.accentColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Get.theme.accentColor.withOpacity(0.2)),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text("Ongoing".tr, maxLines: 1, textAlign: TextAlign.center, overflow: TextOverflow.fade),
+                    child: Text("Ongoing".tr,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade),
                   ),
                 ),
               ),
               Tab(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Get.theme.accentColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Get.theme.accentColor.withOpacity(0.2)),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text("Completed".tr, maxLines: 1, textAlign: TextAlign.center, overflow: TextOverflow.fade),
+                    child: Text("Completed".tr,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade),
                   ),
                 ),
               ),
               Tab(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Get.theme.accentColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Get.theme.accentColor.withOpacity(0.2)),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text("Archived".tr, maxLines: 1, textAlign: TextAlign.center, overflow: TextOverflow.fade),
+                    child: Text("Archived".tr,
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade),
                   ),
                 ),
               ),

@@ -3,7 +3,6 @@ import 'package:home_services/app/their_models/e_provider_model.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/review_model.dart';
 
-
 import '../providers/mock_provider.dart';
 
 class EProviderRepository {
@@ -21,7 +20,8 @@ class EProviderRepository {
     return _apiClient.getEProviderReviews(eProviderId);
   }
 
-  Future<List<EService>> getEServicesWithPagination(String eProviderId, {int page}) {
+  Future<List<EService>> getEServicesWithPagination(String eProviderId,
+      {int page}) {
     return _apiClient.getEProviderEServicesWithPagination(eProviderId, page);
   }
 

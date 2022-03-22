@@ -16,7 +16,8 @@ class LanguageController extends GetxController {
   void updateLocale(value) async {
     if (value.contains('_')) {
       // en_US
-      Get.updateLocale(Locale(value.split('_').elementAt(0), value.split('_').elementAt(1)));
+      Get.updateLocale(
+          Locale(value.split('_').elementAt(0), value.split('_').elementAt(1)));
     } else {
       // en
       Get.updateLocale(Locale(value));

@@ -8,7 +8,8 @@ class PaymentMethod extends Model {
   String route;
   bool isDefault;
 
-  PaymentMethod(this.id, this.name, this.description, this.route, this.logo, {this.isDefault = false});
+  PaymentMethod(this.id, this.name, this.description, this.route, this.logo,
+      {this.isDefault = false});
 
   PaymentMethod.fromJson(Map<String, dynamic> json) {
     id = json['id'];

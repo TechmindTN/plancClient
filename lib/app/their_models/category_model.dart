@@ -13,8 +13,9 @@ class Category extends MediaModel {
 
   Category.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    
-    color = Ui.parseColor(json['color'] != null ? json['color'].toString() : '#000000');
+
+    color = Ui.parseColor(
+        json['color'] != null ? json['color'].toString() : '#000000');
     if (json['subCategories'] != null && json['subCategories'] is List) {
       subCategories = <Category>[];
       json['subCategories'].forEach((v) {
@@ -31,7 +32,8 @@ class Category extends MediaModel {
       data['media'] = this.media.toJson();
     }
     if (this.subCategories != null) {
-      data['subCategories'] = this.subCategories.map((v) => v.toJson()).toList();
+      data['subCategories'] =
+          this.subCategories.map((v) => v.toJson()).toList();
     }
     data['color'] = this.color.toString();
     return data;

@@ -19,7 +19,8 @@ class PhoneVerificationView extends GetView<AuthController> {
         appBar: AppBar(
           title: Text(
             "Forgot Password".tr,
-            style: Get.textTheme.headline6.merge(TextStyle(color: context.theme.primaryColor)),
+            style: Get.textTheme.headline6
+                .merge(TextStyle(color: context.theme.primaryColor)),
           ),
           centerTitle: true,
           backgroundColor: Get.theme.accentColor,
@@ -37,9 +38,13 @@ class PhoneVerificationView extends GetView<AuthController> {
                   width: Get.width,
                   decoration: BoxDecoration(
                     color: Get.theme.accentColor,
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(10)),
                     boxShadow: [
-                      BoxShadow(color: Get.theme.focusColor.withOpacity(0.2), blurRadius: 10, offset: Offset(0, 5)),
+                      BoxShadow(
+                          color: Get.theme.focusColor.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: Offset(0, 5)),
                     ],
                   ),
                   margin: EdgeInsets.only(bottom: 50),
@@ -49,12 +54,14 @@ class PhoneVerificationView extends GetView<AuthController> {
                       children: [
                         Text(
                           _settings.appName,
-                          style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor, fontSize: 24)),
+                          style: Get.textTheme.headline6.merge(TextStyle(
+                              color: Get.theme.primaryColor, fontSize: 24)),
                         ),
                         SizedBox(height: 5),
                         Text(
                           "Welcome to the best service provider system!".tr,
-                          style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor)),
+                          style: Get.textTheme.caption
+                              .merge(TextStyle(color: Get.theme.primaryColor)),
                           textAlign: TextAlign.center,
                         ),
                         // Text("Fill the following credentials to login your account", style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
@@ -80,7 +87,8 @@ class PhoneVerificationView extends GetView<AuthController> {
               ],
             ),
             Text(
-              "We sent the OTP code to your email, please check it and enter below".tr,
+              "We sent the OTP code to your email, please check it and enter below"
+                  .tr,
               style: Get.textTheme.bodyText1,
               textAlign: TextAlign.center,
             ).paddingSymmetric(horizontal: 20, vertical: 20),
@@ -99,7 +107,8 @@ class PhoneVerificationView extends GetView<AuthController> {
               color: Get.theme.accentColor,
               text: Text(
                 "Verify".tr,
-                style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                style: Get.textTheme.headline6
+                    .merge(TextStyle(color: Get.theme.primaryColor)),
               ),
             ).paddingSymmetric(vertical: 35, horizontal: 20),
             Row(

@@ -28,7 +28,9 @@ class CategoryController extends GetxController {
     category.value = Get.arguments as Category;
     selected.value = CategoryFilter.ALL;
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent && !isDone.value) {
+      if (scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent &&
+          !isDone.value) {
         loadMoreEServicesOfCategory(filter: selected.value);
       }
     });
@@ -44,7 +46,8 @@ class CategoryController extends GetxController {
   Future refreshEServices({bool showMessage}) async {
     await getEServicesOfCategory(filter: selected.value);
     if (showMessage == true) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "List of services refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: "List of services refreshed successfully".tr));
     }
   }
 
@@ -64,7 +67,8 @@ class CategoryController extends GetxController {
       switch (filter) {
         case CategoryFilter.ALL:
           this.page.value = 1;
-          eServices.value = await _eServiceRepository.getAllWithPagination(page: 1);
+          eServices.value =
+              await _eServiceRepository.getAllWithPagination(page: 1);
           break;
         case CategoryFilter.FEATURED:
           eServices.value = await _eServiceRepository.getFeatured();
@@ -92,7 +96,8 @@ class CategoryController extends GetxController {
       switch (filter) {
         case CategoryFilter.ALL:
           this.page.value++;
-          var _eServices = await _eServiceRepository.getAllWithPagination(page: this.page.value);
+          var _eServices = await _eServiceRepository.getAllWithPagination(
+              page: this.page.value);
           if (_eServices.isNotEmpty) {
             this.eServices.value += _eServices;
           } else {

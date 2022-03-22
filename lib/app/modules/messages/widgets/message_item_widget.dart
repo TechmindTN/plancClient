@@ -9,7 +9,8 @@ import '../../../routes/app_pages.dart';
 import '../../../services/auth_service.dart';
 
 class MessageItemWidget extends StatelessWidget {
-  MessageItemWidget({Key key, this.message, this.onDismissed}) : super(key: key);
+  MessageItemWidget({Key key, this.message, this.onDismissed})
+      : super(key: key);
   final Message message;
   final ValueChanged<Message> onDismissed;
 
@@ -40,12 +41,18 @@ class MessageItemWidget extends StatelessWidget {
         onDismissed: (direction) {
           onDismissed(this.message);
           // Then show a snackbar.
-          Get.showSnackbar(Ui.SuccessSnackBar(message: "The conversation with ${this.message.name} is dismissed"));
+          Get.showSnackbar(Ui.SuccessSnackBar(
+              message:
+                  "The conversation with ${this.message.name} is dismissed"));
         },
         child: Container(
           padding: EdgeInsets.all(12),
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          decoration: Ui.getBoxDecoration(color: this.message.readByUsers.contains(_authService.user.value.id) ? Get.theme.primaryColor : Get.theme.accentColor.withOpacity(0.05)),
+          decoration: Ui.getBoxDecoration(
+              color:
+                  this.message.readByUsers.contains(_authService.user.value.id)
+                      ? Get.theme.primaryColor
+                      : Get.theme.accentColor.withOpacity(0.05)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -60,7 +67,12 @@ class MessageItemWidget extends StatelessWidget {
                         height: 140,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        imageUrl: this.message.users.firstWhere((element) => element.id == _authService.user.value.id).mediaThumb,
+                        imageUrl: this
+                            .message
+                            .users
+                            .firstWhere((element) =>
+                                element.id == _authService.user.value.id)
+                            .mediaThumb,
                         // imageUrl: 'assets/img/loading.gif',
                         placeholder: (context, url) => Image.asset(
                           'assets/img/loading.gif',
@@ -68,7 +80,8 @@ class MessageItemWidget extends StatelessWidget {
                           width: double.infinity,
                           height: 140,
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error_outline),
                       ),
                     ),
                   ),
@@ -101,12 +114,20 @@ class MessageItemWidget extends StatelessWidget {
                             this.message.name,
                             overflow: TextOverflow.fade,
                             softWrap: false,
-                            style: Get.textTheme.bodyText1
-                                .merge(TextStyle(fontWeight: this.message.readByUsers.contains(_authService.user.value.id) ? FontWeight.w400 : FontWeight.w800)),
+                            style: Get.textTheme.bodyText1.merge(TextStyle(
+                                fontWeight: this
+                                        .message
+                                        .readByUsers
+                                        .contains(_authService.user.value.id)
+                                    ? FontWeight.w400
+                                    : FontWeight.w800)),
                           ),
                         ),
                         Text(
-                          DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(this.message.lastMessageTime, isUtc: true)),
+                          DateFormat('HH:mm').format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  this.message.lastMessageTime,
+                                  isUtc: true)),
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Get.textTheme.caption,
@@ -121,12 +142,20 @@ class MessageItemWidget extends StatelessWidget {
                             this.message.lastMessage,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                            style: Get.textTheme.caption
-                                .merge(TextStyle(fontWeight: this.message.readByUsers.contains(_authService.user.value.id) ? FontWeight.w400 : FontWeight.w800)),
+                            style: Get.textTheme.caption.merge(TextStyle(
+                                fontWeight: this
+                                        .message
+                                        .readByUsers
+                                        .contains(_authService.user.value.id)
+                                    ? FontWeight.w400
+                                    : FontWeight.w800)),
                           ),
                         ),
                         Text(
-                          DateFormat('dd-MM-yyyy').format(DateTime.fromMillisecondsSinceEpoch(this.message.lastMessageTime, isUtc: true)),
+                          DateFormat('dd-MM-yyyy').format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  this.message.lastMessageTime,
+                                  isUtc: true)),
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Get.textTheme.caption,

@@ -35,7 +35,8 @@ class SearchController extends GetxController {
   Future refreshSearch({bool showMessage}) async {
     await searchEServices();
     if (showMessage == true) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "List of services refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: "List of services refreshed successfully".tr));
     }
   }
 

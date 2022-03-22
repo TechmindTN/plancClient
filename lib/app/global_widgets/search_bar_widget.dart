@@ -37,7 +37,8 @@ class SearchBarWidget extends StatelessWidget {
               //controller.increment();
             },
             child: Container(
-              padding: const EdgeInsets.only(right: 10, left: 10, top: 6, bottom: 6),
+              padding:
+                  const EdgeInsets.only(right: 10, left: 10, top: 6, bottom: 6),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(6)),
                 color: Get.theme.focusColor.withOpacity(0.1),

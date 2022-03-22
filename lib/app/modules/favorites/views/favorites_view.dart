@@ -27,12 +27,14 @@ class FavoritesView extends GetView<FavoritesController> {
               iconTheme: IconThemeData(color: Get.theme.primaryColor),
               title: Text(
                 "Favorites".tr,
-                style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                style: Get.textTheme.headline6
+                    .merge(TextStyle(color: Get.theme.primaryColor)),
               ),
               centerTitle: true,
               automaticallyImplyLeading: false,
               leading: new IconButton(
-                icon: new Icon(Icons.arrow_back_ios, color: Get.theme.primaryColor),
+                icon: new Icon(Icons.arrow_back_ios,
+                    color: Get.theme.primaryColor),
                 onPressed: () => {Get.back()},
               ),
               bottom: HomeSearchBarWidget(),
@@ -43,15 +45,21 @@ class FavoritesView extends GetView<FavoritesController> {
                     padding: EdgeInsets.symmetric(vertical: 75),
                     decoration: new BoxDecoration(
                       gradient: new LinearGradient(
-                          colors: [Colors.redAccent.withOpacity(1), Colors.redAccent.withOpacity(0.2)],
+                          colors: [
+                            Colors.redAccent.withOpacity(1),
+                            Colors.redAccent.withOpacity(0.2)
+                          ],
                           begin: AlignmentDirectional.topStart,
                           //const FractionalOffset(1, 0),
                           end: AlignmentDirectional.bottomEnd,
                           stops: [0.1, 0.9],
                           tileMode: TileMode.clamp),
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          topRight: Radius.circular(5)),
                     ),
-                    child: Icon(Icons.favorite_outline, size: 66, color: Get.theme.primaryColor),
+                    child: Icon(Icons.favorite_outline,
+                        size: 66, color: Get.theme.primaryColor),
                   )).marginOnly(bottom: 42),
             ),
             SliverToBoxAdapter(

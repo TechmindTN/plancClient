@@ -45,7 +45,8 @@ class TasksListWidget extends StatelessWidget {
                       width: double.infinity,
                       height: 70,
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error_outline),
                   ),
                 ),
                 SizedBox(width: 20),
@@ -76,7 +77,8 @@ class TasksListWidget extends StatelessWidget {
                           ),
                           Wrap(
                             spacing: 0,
-                            children: Ui.getStarsList((_task.rate != null) ? _task.rate : 0.0),
+                            children: Ui.getStarsList(
+                                (_task.rate != null) ? _task.rate : 0.0),
                           ),
                         ],
                       ),
@@ -102,7 +104,8 @@ class TasksListWidget extends StatelessWidget {
                               style: Get.textTheme.bodyText1,
                             ),
                           ),
-                          Ui.getPrice(_task.total, style: Get.textTheme.headline6),
+                          Ui.getPrice(_task.total,
+                              style: Get.textTheme.headline6),
                         ],
                       ),
                       Wrap(
@@ -115,14 +118,16 @@ class TasksListWidget extends StatelessWidget {
                             },
                             shape: StadiumBorder(),
                             color: Get.theme.accentColor.withOpacity(0.1),
-                            child: Text("Rating".tr, style: Get.textTheme.subtitle1),
+                            child: Text("Rating".tr,
+                                style: Get.textTheme.subtitle1),
                           ),
                           MaterialButton(
                             elevation: 0,
                             onPressed: () {},
                             shape: StadiumBorder(),
                             color: Get.theme.accentColor.withOpacity(0.1),
-                            child: Text("Re-Booking".tr, style: Get.textTheme.subtitle1),
+                            child: Text("Re-Booking".tr,
+                                style: Get.textTheme.subtitle1),
                           ),
                         ],
                       )

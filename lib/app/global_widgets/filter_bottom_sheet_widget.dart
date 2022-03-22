@@ -15,9 +15,13 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
       height: Get.height - 90,
       decoration: BoxDecoration(
         color: Get.theme.primaryColor,
-        borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20), topLeft: Radius.circular(20)),
         boxShadow: [
-          BoxShadow(color: Get.theme.focusColor.withOpacity(0.4), blurRadius: 30, offset: Offset(0, -30)),
+          BoxShadow(
+              color: Get.theme.focusColor.withOpacity(0.4),
+              blurRadius: 30,
+              offset: Offset(0, -30)),
         ],
       ),
       child: Stack(
@@ -28,7 +32,8 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
               padding: EdgeInsets.only(top: 20, bottom: 15, left: 4, right: 4),
               children: [
                 ExpansionTile(
-                  title: Text("Available Provider".tr, style: Get.textTheme.bodyText2),
+                  title: Text("Available Provider".tr,
+                      style: Get.textTheme.bodyText2),
                   children: [
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.trailing,
@@ -57,8 +62,10 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
                     return CircularLoadingWidget(height: 100);
                   }
                   return ExpansionTile(
-                    title: Text("Categories".tr, style: Get.textTheme.bodyText2),
-                    children: List.generate(controller.categories.length, (index) {
+                    title:
+                        Text("Categories".tr, style: Get.textTheme.bodyText2),
+                    children:
+                        List.generate(controller.categories.length, (index) {
                       var _category = controller.categories.elementAt(index);
                       return CheckboxListTile(
                         controlAffinity: ListTileControlAffinity.trailing,
@@ -87,13 +94,15 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 45),
             child: Row(
               children: [
-                Expanded(child: Text("Filter".tr, style: Get.textTheme.headline5)),
+                Expanded(
+                    child: Text("Filter".tr, style: Get.textTheme.headline5)),
                 MaterialButton(
                   elevation: 0,
                   onPressed: () {
                     Get.back();
                   },
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   color: Get.theme.accentColor.withOpacity(0.15),
                   child: Text("Apply".tr, style: Get.textTheme.subtitle1),
                 ),
@@ -103,10 +112,12 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
           Container(
             height: 30,
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 13, horizontal: (Get.width / 2) - 30),
+            padding: EdgeInsets.symmetric(
+                vertical: 13, horizontal: (Get.width / 2) - 30),
             decoration: BoxDecoration(
               color: Get.theme.focusColor.withOpacity(0.1),
-              borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20), topLeft: Radius.circular(20)),
             ),
             child: Container(
               decoration: BoxDecoration(

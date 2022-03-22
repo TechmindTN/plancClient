@@ -21,7 +21,8 @@ class PaymentMethodItemWidget extends GetWidget<CheckoutController> {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 3),
         padding: EdgeInsets.symmetric(vertical: 10),
-        decoration: Ui.getBoxDecoration(color: controller.getColor(_paymentMethod)),
+        decoration:
+            Ui.getBoxDecoration(color: controller.getColor(_paymentMethod)),
         child: Theme(
           data: ThemeData(
             toggleableActiveColor: Get.theme.primaryColor,
@@ -32,14 +33,18 @@ class PaymentMethodItemWidget extends GetWidget<CheckoutController> {
             onChanged: (value) {
               controller.selectPaymentMethod(value);
             },
-            title: Text(_paymentMethod.name, style: controller.getTitleTheme(_paymentMethod)).paddingOnly(bottom: 5),
-            subtitle: Text(_paymentMethod.description, style: controller.getSubTitleTheme(_paymentMethod)),
+            title: Text(_paymentMethod.name,
+                    style: controller.getTitleTheme(_paymentMethod))
+                .paddingOnly(bottom: 5),
+            subtitle: Text(_paymentMethod.description,
+                style: controller.getSubTitleTheme(_paymentMethod)),
             secondary: Container(
               height: 60,
               width: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                image: DecorationImage(image: AssetImage(_paymentMethod.logo), fit: BoxFit.fill),
+                image: DecorationImage(
+                    image: AssetImage(_paymentMethod.logo), fit: BoxFit.fill),
               ),
             ),
           ),

@@ -7,7 +7,9 @@ abstract class MediaModel extends Model {
   void fromJson(Map<String, dynamic> json) {
     try {
       super.fromJson(json);
-      media = json['media'] != null && (json['media'] as List).length > 0 ? Media.fromJson(json['media'][0]) : new Media();
+      media = json['media'] != null && (json['media'] as List).length > 0
+          ? Media.fromJson(json['media'][0])
+          : new Media();
     } catch (e) {
       media = new Media();
       print(e);

@@ -33,8 +33,12 @@ class TabBarWidget extends GetView<TabBarController> implements PreferredSize {
     if (controller.selected.firstRebuild) {
       controller.selected.value = tabs.elementAt(0);
     }
-    tabs[0] = Padding(padding: EdgeInsetsDirectional.only(start: 15), child: tabs.elementAt(0));
-    tabs[tabs.length - 1] = Padding(padding: EdgeInsetsDirectional.only(end: 15), child: tabs[tabs.length - 1]);
+    tabs[0] = Padding(
+        padding: EdgeInsetsDirectional.only(start: 15),
+        child: tabs.elementAt(0));
+    tabs[tabs.length - 1] = Padding(
+        padding: EdgeInsetsDirectional.only(end: 15),
+        child: tabs[tabs.length - 1]);
   }
 
   final List<Widget> tabs;
@@ -43,7 +47,11 @@ class TabBarWidget extends GetView<TabBarController> implements PreferredSize {
     return Container(
       alignment: AlignmentDirectional.centerStart,
       height: 60,
-      child: ListView(primary: false, shrinkWrap: true, scrollDirection: Axis.horizontal, children: tabs),
+      child: ListView(
+          primary: false,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          children: tabs),
     );
   }
 
@@ -78,7 +86,10 @@ class ChipWidget extends StatelessWidget {
       return RawChip(
         elevation: 0,
         label: Text(text),
-        labelStyle: controller.isSelected(this) ? Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)) : Get.textTheme.bodyText2,
+        labelStyle: controller.isSelected(this)
+            ? Get.textTheme.bodyText2
+                .merge(TextStyle(color: Get.theme.primaryColor))
+            : Get.textTheme.bodyText2,
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         backgroundColor: Get.theme.focusColor.withOpacity(0.1),
         selectedColor: Get.theme.accentColor,

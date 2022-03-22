@@ -32,9 +32,15 @@ class Message extends Model {
     try {
       id = jsonMap.id;
       name = jsonMap.get('name') != null ? jsonMap.get('name').toString() : '';
-      readByUsers = jsonMap.get('read_by_users') != null ? List.from(jsonMap.get('read_by_users')) : [];
-      visibleToUsers = jsonMap.get('visible_to_users') != null ? List.from(jsonMap.get('visible_to_users')) : [];
-      lastMessage = jsonMap.get('message') != null ? jsonMap.get('message').toString() : '';
+      readByUsers = jsonMap.get('read_by_users') != null
+          ? List.from(jsonMap.get('read_by_users'))
+          : [];
+      visibleToUsers = jsonMap.get('visible_to_users') != null
+          ? List.from(jsonMap.get('visible_to_users'))
+          : [];
+      lastMessage = jsonMap.get('message') != null
+          ? jsonMap.get('message').toString()
+          : '';
       lastMessageTime = jsonMap.get('time') != null ? jsonMap.get('time') : 0;
       users = jsonMap.get('users') != null
           ? List.from(jsonMap.get('users')).map((element) {
@@ -59,8 +65,10 @@ class Message extends Model {
     var map = new Map<String, dynamic>();
     map["id"] = id;
     map["name"] = name;
-    map["users"] = users.map((element) => element.toRestrictMap()).toSet().toList();
-    map["visible_to_users"] = users.map((element) => element.id).toSet().toList();
+    map["users"] =
+        users.map((element) => element.toRestrictMap()).toSet().toList();
+    map["visible_to_users"] =
+        users.map((element) => element.id).toSet().toList();
     map["read_by_users"] = readByUsers;
     map["message"] = lastMessage;
     map["time"] = lastMessageTime;

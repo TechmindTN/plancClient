@@ -10,7 +10,7 @@ class HelpPrivacyBinding extends Bindings {
       () => PrivacyController(),
     );
     Get.lazyPut<HelpController>(
-          () => HelpController(),
+      () => HelpController(),
     );
   }
 }

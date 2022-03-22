@@ -28,9 +28,12 @@ class MainDrawerWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Welcome".tr, style: Get.textTheme.headline5.merge(TextStyle(color: Theme.of(context).accentColor))),
+                  Text("Welcome".tr,
+                      style: Get.textTheme.headline5.merge(
+                          TextStyle(color: Theme.of(context).accentColor))),
                   SizedBox(height: 5),
-                  Text("Login account or create new one for free".tr, style: Get.textTheme.bodyText1),
+                  Text("Login account or create new one for free".tr,
+                      style: Get.textTheme.bodyText1),
                   SizedBox(height: 15),
                   Wrap(
                     spacing: 10,
@@ -47,10 +50,12 @@ class MainDrawerWidget extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           spacing: 9,
                           children: [
-                            Icon(Icons.exit_to_app_outlined, color: Get.theme.primaryColor, size: 24),
+                            Icon(Icons.exit_to_app_outlined,
+                                color: Get.theme.primaryColor, size: 24),
                             Text(
                               "Login".tr,
-                              style: Get.textTheme.subtitle1.merge(TextStyle(color: Get.theme.primaryColor)),
+                              style: Get.textTheme.subtitle1.merge(
+                                  TextStyle(color: Get.theme.primaryColor)),
                             ),
                           ],
                         ),
@@ -68,10 +73,12 @@ class MainDrawerWidget extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           spacing: 9,
                           children: [
-                            Icon(Icons.person_add_outlined, color: Get.theme.hintColor, size: 24),
+                            Icon(Icons.person_add_outlined,
+                                color: Get.theme.hintColor, size: 24),
                             Text(
                               "Register".tr,
-                              style: Get.textTheme.subtitle1.merge(TextStyle(color: Get.theme.hintColor)),
+                              style: Get.textTheme.subtitle1
+                                  .merge(TextStyle(color: Get.theme.hintColor)),
                             ),
                           ],
                         ),
@@ -205,7 +212,9 @@ class MainDrawerWidget extends StatelessWidget {
             ListTile(
               dense: true,
               title: Text(
-                "Version".tr + " " + Get.find<SettingsService>().setting.value.appVersion,
+                "Version".tr +
+                    " " +
+                    Get.find<SettingsService>().setting.value.appVersion,
                 style: Get.textTheme.caption,
               ),
               trailing: Icon(

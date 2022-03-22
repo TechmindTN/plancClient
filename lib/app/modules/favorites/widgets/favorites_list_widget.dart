@@ -9,7 +9,8 @@ import 'favorites_list_item_widget.dart';
 class FavoritesListWidget extends StatelessWidget {
   final List<EService> services;
 
-  FavoritesListWidget({Key key, List<EService> this.services}) : super(key: key);
+  FavoritesListWidget({Key key, List<EService> this.services})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

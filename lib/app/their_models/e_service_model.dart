@@ -52,8 +52,12 @@ class EService extends MediaListModel {
           subCategories.add(Category.fromJson(v));
         });
       }
-      eProvider = json['e_provider'] != null ? EProvider.fromJson(json['e_provider']) : null;
-      eCompany = json['e_company'] != null ? EProvider.fromJson(json['e_company']) : null;
+      eProvider = json['e_provider'] != null
+          ? EProvider.fromJson(json['e_provider'])
+          : null;
+      eCompany = json['e_company'] != null
+          ? EProvider.fromJson(json['e_company'])
+          : null;
       super.fromJson(json);
     } catch (e) {
       print(e);
@@ -76,7 +80,8 @@ class EService extends MediaListModel {
       data['categories'] = this.categories.map((v) => v.toJson()).toList();
     }
     if (this.subCategories != null) {
-      data['sub_categories'] = this.subCategories.map((v) => v.toJson()).toList();
+      data['sub_categories'] =
+          this.subCategories.map((v) => v.toJson()).toList();
     }
     if (this.media != null) {
       data['media'] = this.media.map((v) => v.toJson()).toList();
@@ -108,5 +113,11 @@ class EService extends MediaListModel {
           eCompany == other.eCompany;
 
   @override
-  int get hashCode => super.hashCode ^ title.hashCode ^ description.hashCode ^ rate.hashCode ^ eProvider.hashCode ^ eCompany.hashCode;
+  int get hashCode =>
+      super.hashCode ^
+      title.hashCode ^
+      description.hashCode ^
+      rate.hashCode ^
+      eProvider.hashCode ^
+      eCompany.hashCode;
 }

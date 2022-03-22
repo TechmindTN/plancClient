@@ -6,7 +6,8 @@ import '../../../../common/ui.dart';
 import '../../../their_models/notification_model.dart' as model;
 
 class NotificationItemWidget extends StatelessWidget {
-  NotificationItemWidget({Key key, this.notification, this.onDismissed}) : super(key: key);
+  NotificationItemWidget({Key key, this.notification, this.onDismissed})
+      : super(key: key);
   final model.Notification notification;
   final ValueChanged<model.Notification> onDismissed;
 
@@ -33,12 +34,16 @@ class NotificationItemWidget extends StatelessWidget {
       onDismissed: (direction) {
         onDismissed(this.notification);
         // Then show a snackbar
-        Get.showSnackbar(Ui.SuccessSnackBar(message: "The notification is deleted".tr));
+        Get.showSnackbar(
+            Ui.SuccessSnackBar(message: "The notification is deleted".tr));
       },
       child: Container(
         padding: EdgeInsets.all(12),
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        decoration: Ui.getBoxDecoration(color: this.notification.read ? Get.theme.primaryColor : Get.theme.focusColor.withOpacity(0.15)),
+        decoration: Ui.getBoxDecoration(
+            color: this.notification.read
+                ? Get.theme.primaryColor
+                : Get.theme.focusColor.withOpacity(0.15)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -49,10 +54,13 @@ class NotificationItemWidget extends StatelessWidget {
                   height: 80,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                        Get.theme.focusColor.withOpacity(1),
-                        Get.theme.focusColor.withOpacity(0.2),
-                      ])),
+                      gradient: LinearGradient(
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          colors: [
+                            Get.theme.focusColor.withOpacity(1),
+                            Get.theme.focusColor.withOpacity(0.2),
+                          ])),
                   child: Icon(
                     Icons.notifications_outlined,
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -66,7 +74,9 @@ class NotificationItemWidget extends StatelessWidget {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.15),
+                      color: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.15),
                       borderRadius: BorderRadius.circular(150),
                     ),
                   ),
@@ -78,7 +88,9 @@ class NotificationItemWidget extends StatelessWidget {
                     width: 90,
                     height: 90,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.15),
+                      color: Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.15),
                       borderRadius: BorderRadius.circular(150),
                     ),
                   ),
@@ -96,10 +108,15 @@ class NotificationItemWidget extends StatelessWidget {
                     this.notification.type.tr,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
-                    style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600)),
+                    style: Theme.of(context).textTheme.bodyText1.merge(
+                        TextStyle(
+                            fontWeight: notification.read
+                                ? FontWeight.w300
+                                : FontWeight.w600)),
                   ),
                   Text(
-                    DateFormat('d, MMMM y | HH:mm').format(this.notification.createdAt),
+                    DateFormat('d, MMMM y | HH:mm')
+                        .format(this.notification.createdAt),
                     style: Theme.of(context).textTheme.caption,
                   )
                 ],

@@ -39,7 +39,10 @@ class RatingView extends GetView<RatingController> {
                 color: Get.theme.primaryColor,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 boxShadow: [
-                  BoxShadow(color: Get.theme.focusColor.withOpacity(0.1), blurRadius: 10, offset: Offset(0, 5)),
+                  BoxShadow(
+                      color: Get.theme.focusColor.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: Offset(0, 5)),
                 ],
               ),
               child: Obx(
@@ -51,7 +54,8 @@ class RatingView extends GetView<RatingController> {
                       Text("Hi,".tr),
                       Text(
                         Get.find<AuthService>().user.value.email,
-                        style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.accentColor)),
+                        style: Get.textTheme.bodyText2
+                            .merge(TextStyle(color: Get.theme.accentColor)),
                       )
                     ]),
                     SizedBox(height: 10),
@@ -73,7 +77,8 @@ class RatingView extends GetView<RatingController> {
                           width: double.infinity,
                           height: 70,
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error_outline),
                       ),
                     ),
                     SizedBox(height: 10),
@@ -101,10 +106,17 @@ class RatingView extends GetView<RatingController> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(12),
                         hintText: "Tell us somethings about this service".tr,
-                        hintStyle: Get.textTheme.caption.merge(TextStyle(fontSize: 14)),
-                        border: OutlineInputBorder(borderSide: BorderSide(color: Get.theme.focusColor.withOpacity(0.1))),
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Get.theme.focusColor.withOpacity(0.2))),
-                        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Get.theme.focusColor.withOpacity(0.1))),
+                        hintStyle: Get.textTheme.caption
+                            .merge(TextStyle(fontSize: 14)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Get.theme.focusColor.withOpacity(0.1))),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Get.theme.focusColor.withOpacity(0.2))),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Get.theme.focusColor.withOpacity(0.1))),
                       ),
                     ),
                   ],
@@ -115,7 +127,8 @@ class RatingView extends GetView<RatingController> {
             child: BlockButtonWidget(
                 text: Text(
                   "Done".tr,
-                  style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                  style: Get.textTheme.headline6
+                      .merge(TextStyle(color: Get.theme.primaryColor)),
                 ),
                 color: Get.theme.accentColor,
                 onPressed: () {

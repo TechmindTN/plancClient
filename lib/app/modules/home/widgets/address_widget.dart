@@ -16,7 +16,10 @@ class AddressWidget extends StatelessWidget {
           SizedBox(width: 10),
           Expanded(
             child: Obx(() {
-              return Text(Get.find<AuthService>().address.value?.address ?? "Loading...".tr, style: Get.textTheme.bodyText1);
+              return Text(
+                  Get.find<AuthService>().address.value?.address ??
+                      "Loading...".tr,
+                  style: Get.textTheme.bodyText1);
             }),
           ),
           SizedBox(width: 10),

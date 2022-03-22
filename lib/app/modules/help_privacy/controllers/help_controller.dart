@@ -21,7 +21,8 @@ class HelpController extends GetxController {
   Future refreshFaqs({bool showMessage}) async {
     await getFaqs();
     if (showMessage == true) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "List of faqs refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: "List of faqs refreshed successfully".tr));
     }
   }
 

@@ -1,7 +1,7 @@
 part of 'app_pages.dart';
 
 abstract class Routes {
-  static const PRE="/";
+  static const PRE = "/";
   static const LOGIN = '/login';
   static const REGISTER = '/register';
   static const FORGOT_PASSWORD = '/forgot_password';

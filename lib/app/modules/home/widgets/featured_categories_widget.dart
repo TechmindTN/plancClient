@@ -17,13 +17,16 @@ class FeaturedCategoriesWidget extends GetWidget<HomeController> {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: Row(
                   children: [
-                    Expanded(child: Text(_category.name, style: Get.textTheme.headline5)),
+                    Expanded(
+                        child: Text(_category.name,
+                            style: Get.textTheme.headline5)),
                     MaterialButton(
                       elevation: 0,
                       onPressed: () {},
                       shape: StadiumBorder(),
                       color: Get.theme.accentColor.withOpacity(0.1),
-                      child: Text("View All".tr, style: Get.textTheme.subtitle1),
+                      child:
+                          Text("View All".tr, style: Get.textTheme.subtitle1),
                     ),
                   ],
                 ),

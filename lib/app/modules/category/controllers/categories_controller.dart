@@ -26,7 +26,8 @@ class CategoriesController extends GetxController {
   Future refreshCategories({bool showMessage}) async {
     await getCategories();
     if (showMessage == true) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "List of categories refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: "List of categories refreshed successfully".tr));
     }
   }
 

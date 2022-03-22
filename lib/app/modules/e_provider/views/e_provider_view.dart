@@ -41,11 +41,13 @@ class EProviderView extends GetView<EProviderController> {
                     elevation: 0,
                     // pinned: true,
                     floating: true,
-                    iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+                    iconTheme:
+                        IconThemeData(color: Theme.of(context).primaryColor),
                     centerTitle: true,
                     automaticallyImplyLeading: false,
                     leading: new IconButton(
-                      icon: new Icon(Icons.arrow_back_ios, color: Get.theme.hintColor),
+                      icon: new Icon(Icons.arrow_back_ios,
+                          color: Get.theme.hintColor),
                       onPressed: () => {Get.back()},
                     ),
                     bottom: buildEProviderTitleBarWidget(_eProvider),
@@ -72,25 +74,33 @@ class EProviderView extends GetView<EProviderController> {
                         buildContactUs(),
                         //buildCategories(_eService),
                         EProviderTilWidget(
-                          title: Text("Description".tr, style: Get.textTheme.subtitle2),
-                          content: Text(_eProvider.about, style: Get.textTheme.bodyText1),
+                          title: Text("Description".tr,
+                              style: Get.textTheme.subtitle2),
+                          content: Text(_eProvider.about,
+                              style: Get.textTheme.bodyText1),
                         ),
                         EProviderTilWidget(
                           horizontalPadding: 0,
-                          title: Text("Featured Services".tr, style: Get.textTheme.subtitle2).paddingSymmetric(horizontal: 20),
+                          title: Text("Featured Services".tr,
+                                  style: Get.textTheme.subtitle2)
+                              .paddingSymmetric(horizontal: 20),
                           content: RecommendedCarouselWidget(),
                           actions: [
                             InkWell(
                               onTap: () {
-                                Get.toNamed(Routes.E_PROVIDER_E_SERVICES, arguments: _eProvider);
+                                Get.toNamed(Routes.E_PROVIDER_E_SERVICES,
+                                    arguments: _eProvider);
                               },
-                              child: Text("View All".tr, style: Get.textTheme.subtitle1),
+                              child: Text("View All".tr,
+                                  style: Get.textTheme.subtitle1),
                             ).paddingSymmetric(horizontal: 20),
                           ],
                         ),
                         EProviderTilWidget(
                           horizontalPadding: 0,
-                          title: Text("Galleries".tr, style: Get.textTheme.subtitle2).paddingSymmetric(horizontal: 20),
+                          title: Text("Galleries".tr,
+                                  style: Get.textTheme.subtitle2)
+                              .paddingSymmetric(horizontal: 20),
                           content: Container(
                             height: 120,
                             child: ListView.builder(
@@ -99,7 +109,8 @@ class EProviderView extends GetView<EProviderController> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: _eProvider.media.length,
                                 itemBuilder: (_, index) {
-                                  var _media = _eProvider.media.elementAt(index);
+                                  var _media =
+                                      _eProvider.media.elementAt(index);
                                   return InkWell(
                                     onTap: () {
                                       // TODO show fullscreen gallery
@@ -108,32 +119,45 @@ class EProviderView extends GetView<EProviderController> {
                                     child: Container(
                                       width: 100,
                                       height: 100,
-                                      margin: EdgeInsetsDirectional.only(end: 20, start: index == 0 ? 20 : 0, top: 10, bottom: 10),
+                                      margin: EdgeInsetsDirectional.only(
+                                          end: 20,
+                                          start: index == 0 ? 20 : 0,
+                                          top: 10,
+                                          bottom: 10),
                                       child: Stack(
-                                        alignment: AlignmentDirectional.topStart,
+                                        alignment:
+                                            AlignmentDirectional.topStart,
                                         children: [
                                           ClipRRect(
-                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
                                             child: CachedNetworkImage(
                                               height: 100,
                                               width: double.infinity,
                                               fit: BoxFit.cover,
                                               imageUrl: _media.thumb,
-                                              placeholder: (context, url) => Image.asset(
+                                              placeholder: (context, url) =>
+                                                  Image.asset(
                                                 'assets/img/loading.gif',
                                                 fit: BoxFit.cover,
                                                 width: double.infinity,
                                                 height: 100,
                                               ),
-                                              errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error_outline),
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsetsDirectional.only(start: 12, top: 8),
+                                            padding: const EdgeInsetsDirectional
+                                                .only(start: 12, top: 8),
                                             child: Text(
                                               _media.name ?? '',
                                               maxLines: 2,
-                                              style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)),
+                                              style: Get.textTheme.bodyText2
+                                                  .merge(TextStyle(
+                                                      color: Get
+                                                          .theme.primaryColor)),
                                             ),
                                           ),
                                         ],
@@ -148,20 +172,26 @@ class EProviderView extends GetView<EProviderController> {
                                 // TODO show all galleries
                                 // Get.toNamed(Routes.Galleries, argument, eProvider);
                               },
-                              child: Text("View All".tr, style: Get.textTheme.subtitle1).paddingSymmetric(horizontal: 20),
+                              child: Text("View All".tr,
+                                      style: Get.textTheme.subtitle1)
+                                  .paddingSymmetric(horizontal: 20),
                             ),
                           ],
                         ),
                         EProviderTilWidget(
-                          title: Text("Reviews & Ratings".tr, style: Get.textTheme.subtitle2),
+                          title: Text("Reviews & Ratings".tr,
+                              style: Get.textTheme.subtitle2),
                           content: Column(
                             children: [
-                              Text(_eProvider.rate.toString(), style: Get.textTheme.headline1),
+                              Text(_eProvider.rate.toString(),
+                                  style: Get.textTheme.headline1),
                               Wrap(
-                                children: Ui.getStarsList(_eProvider.rate, size: 32),
+                                children:
+                                    Ui.getStarsList(_eProvider.rate, size: 32),
                               ),
                               Text(
-                                "Reviews (%s)".trArgs([_eProvider.totalReviews.toString()]),
+                                "Reviews (%s)".trArgs(
+                                    [_eProvider.totalReviews.toString()]),
                                 style: Get.textTheme.caption,
                               ).paddingOnly(top: 10),
                               Divider(height: 35, thickness: 1.3),
@@ -172,7 +202,9 @@ class EProviderView extends GetView<EProviderController> {
                                 return ListView.separated(
                                   padding: EdgeInsets.all(0),
                                   itemBuilder: (context, index) {
-                                    return ReviewItemWidget(review: controller.reviews.elementAt(index));
+                                    return ReviewItemWidget(
+                                        review: controller.reviews
+                                            .elementAt(index));
                                   },
                                   separatorBuilder: (context, index) {
                                     return Divider(height: 35, thickness: 1.3);
@@ -189,7 +221,8 @@ class EProviderView extends GetView<EProviderController> {
                               onTap: () {
                                 // Get.offAllNamed(Routes.REGISTER);
                               },
-                              child: Text("View All".tr, style: Get.textTheme.subtitle1),
+                              child: Text("View All".tr,
+                                  style: Get.textTheme.subtitle1),
                             ),
                           ],
                         ),
@@ -215,7 +248,8 @@ class EProviderView extends GetView<EProviderController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Contact us".tr, style: Get.textTheme.subtitle2),
-                Text("If your have any question!".tr, style: Get.textTheme.caption),
+                Text("If your have any question!".tr,
+                    style: Get.textTheme.caption),
               ],
             ),
           ),
@@ -230,7 +264,8 @@ class EProviderView extends GetView<EProviderController> {
                 height: 44,
                 minWidth: 44,
                 padding: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 color: Get.theme.accentColor.withOpacity(0.2),
                 child: Icon(
                   Icons.phone_android_outlined,
@@ -242,7 +277,8 @@ class EProviderView extends GetView<EProviderController> {
                 onPressed: () {
                   //controller.saveProfileForm(_profileForm);
                 },
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
                 color: Get.theme.accentColor.withOpacity(0.2),
                 padding: EdgeInsets.zero,
                 height: 44,
@@ -308,7 +344,10 @@ class EProviderView extends GetView<EProviderController> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
-                color: controller.currentSlide.value == _eProvider.media.indexOf(media) ? Get.theme.hintColor : Get.theme.primaryColor.withOpacity(0.4)),
+                color: controller.currentSlide.value ==
+                        _eProvider.media.indexOf(media)
+                    ? Get.theme.hintColor
+                    : Get.theme.primaryColor.withOpacity(0.4)),
           );
         }).toList(),
       ),
@@ -334,7 +373,8 @@ class EProviderView extends GetView<EProviderController> {
                   child: Text("Available".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2.merge(
-                        TextStyle(color: Colors.green, height: 1.4, fontSize: 10),
+                        TextStyle(
+                            color: Colors.green, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
                       textAlign: TextAlign.center,
@@ -350,7 +390,8 @@ class EProviderView extends GetView<EProviderController> {
                   child: Text("Offline".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2.merge(
-                        TextStyle(color: Colors.grey, height: 1.4, fontSize: 10),
+                        TextStyle(
+                            color: Colors.grey, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
                       textAlign: TextAlign.center,
@@ -372,7 +413,8 @@ class EProviderView extends GetView<EProviderController> {
                     ..addAll([
                       SizedBox(width: 5),
                       Text(
-                        "Reviews (%s)".trArgs([_eProvider.totalReviews.toString()]),
+                        "Reviews (%s)"
+                            .trArgs([_eProvider.totalReviews.toString()]),
                         style: Get.textTheme.caption,
                       ),
                     ]),

@@ -18,7 +18,18 @@ class EProvider extends MediaListModel {
   bool verified;
   int tasksInProgress;
 
-  EProvider({this.about, this.address, this.available, this.experience, this.name, this.phone, this.rate, this.reviews, this.totalReviews, this.verified, this.tasksInProgress});
+  EProvider(
+      {this.about,
+      this.address,
+      this.available,
+      this.experience,
+      this.name,
+      this.phone,
+      this.rate,
+      this.reviews,
+      this.totalReviews,
+      this.verified,
+      this.tasksInProgress});
 
   EProvider.fromJson(Map<String, dynamic> json) {
     about = json['about'];

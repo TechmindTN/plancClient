@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:home_services/app/their_models/chat_model.dart';
 import 'package:home_services/app/their_models/message_model.dart';
 
-
 import '../../../repositories/chat_repository.dart';
 import '../../../services/auth_service.dart';
 // import '../repository/notification_repository.dart';
@@ -69,7 +68,8 @@ class MessagesController extends GetxController {
   }
 
   addMessage(Message _message, String text) {
-    Chat _chat = new Chat(text, DateTime.now().toUtc().millisecondsSinceEpoch, _authService.user.value.id);
+    Chat _chat = new Chat(text, DateTime.now().toUtc().millisecondsSinceEpoch,
+        _authService.user.value.id);
     if (_message.id == null) {
       _message.id = UniqueKey().toString();
       createMessage(_message);

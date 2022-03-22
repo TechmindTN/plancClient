@@ -46,7 +46,8 @@ class AuthService extends GetxService {
       } else {
         List<Address> _addresses = await _usersRepo.getAddresses();
         if (_addresses.isNotEmpty) {
-          address.value = _addresses.firstWhere((_address) => _address.isDefault, orElse: () {
+          address.value = _addresses
+              .firstWhere((_address) => _address.isDefault, orElse: () {
             return _addresses.first;
           });
         } else {

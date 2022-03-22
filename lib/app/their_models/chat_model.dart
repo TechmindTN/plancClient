@@ -25,7 +25,8 @@ class Chat extends Model {
       id = jsonMap.id;
       text = jsonMap.get('text') != null ? jsonMap.get('text').toString() : '';
       time = jsonMap.get('time') != null ? jsonMap.get('time') : 0;
-      userId = jsonMap.get('user') != null ? jsonMap.get('user').toString() : null;
+      userId =
+          jsonMap.get('user') != null ? jsonMap.get('user').toString() : null;
     } catch (e) {
       id = null;
       text = '';

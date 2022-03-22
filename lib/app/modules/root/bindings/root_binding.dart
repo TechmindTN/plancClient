@@ -26,8 +26,8 @@ class RootBinding extends Bindings {
     Get.lazyPut<AccountController>(
       () => AccountController(),
     );
-    Get.put<EServiceController>(EServiceController(),permanent: true);
-    
+    Get.put<EServiceController>(EServiceController(), permanent: true);
+
     Get.lazyPut<SearchController>(
       () => SearchController(),
     );

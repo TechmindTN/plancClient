@@ -30,7 +30,9 @@ class PaymentDetailsWidget extends StatelessWidget {
           Column(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
                 child: CachedNetworkImage(
                   height: 80,
                   width: 80,
@@ -42,7 +44,8 @@ class PaymentDetailsWidget extends StatelessWidget {
                     width: double.infinity,
                     height: 80,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
               if (_task.eService.eProvider.available)
@@ -51,14 +54,17 @@ class PaymentDetailsWidget extends StatelessWidget {
                   child: Text("Available".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2.merge(
-                        TextStyle(color: Colors.green, height: 1.4, fontSize: 10),
+                        TextStyle(
+                            color: Colors.green, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade),
                   decoration: BoxDecoration(
                     color: Colors.green.withOpacity(0.2),
-                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                 ),
@@ -68,14 +74,17 @@ class PaymentDetailsWidget extends StatelessWidget {
                   child: Text("Offline".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2.merge(
-                        TextStyle(color: Colors.grey, height: 1.4, fontSize: 10),
+                        TextStyle(
+                            color: Colors.grey, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade),
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10)),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                 ),
@@ -102,14 +111,16 @@ class PaymentDetailsWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Service Payment".tr),
-                    Ui.getPrice(_task.eService.minPrice, style: Get.textTheme.subtitle2),
+                    Ui.getPrice(_task.eService.minPrice,
+                        style: Get.textTheme.subtitle2),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Tax".tr),
-                    Ui.getPrice(_task.eService.minPrice, style: Get.textTheme.subtitle2),
+                    Ui.getPrice(_task.eService.minPrice,
+                        style: Get.textTheme.subtitle2),
                   ],
                 ),
                 Divider(height: 8, thickness: 1),
@@ -117,7 +128,8 @@ class PaymentDetailsWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text("Total".tr),
-                    Ui.getPrice(_task.eService.minPrice, style: Get.textTheme.headline6),
+                    Ui.getPrice(_task.eService.minPrice,
+                        style: Get.textTheme.headline6),
                   ],
                 ),
               ],

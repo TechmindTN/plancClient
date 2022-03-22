@@ -21,7 +21,8 @@ class FavoritesController extends GetxController {
   Future refreshFavorites({bool showMessage}) async {
     await getFavorites();
     if (showMessage == true) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "List of Services refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: "List of Services refreshed successfully".tr));
     }
   }
 

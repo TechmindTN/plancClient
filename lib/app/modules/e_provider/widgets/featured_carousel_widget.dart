@@ -28,11 +28,13 @@ class RecommendedCarouselWidget extends GetWidget<EProviderController> {
                 },
                 child: Container(
                   width: 160,
-                  margin: EdgeInsetsDirectional.only(end: 20, start: index == 0 ? 20 : 0, top: 20, bottom: 10),
+                  margin: EdgeInsetsDirectional.only(
+                      end: 20, start: index == 0 ? 20 : 0, top: 20, bottom: 10),
                   // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(color: Get.theme.focusColor.withOpacity(0.1)),
+                    border: Border.all(
+                        color: Get.theme.focusColor.withOpacity(0.1)),
                   ),
                   child: Column(
                     //alignment: AlignmentDirectional.topStart,
@@ -40,7 +42,9 @@ class RecommendedCarouselWidget extends GetWidget<EProviderController> {
                       Hero(
                         tag: _service.id,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10)),
                           child: CachedNetworkImage(
                             height: 140,
                             width: double.infinity,
@@ -52,17 +56,21 @@ class RecommendedCarouselWidget extends GetWidget<EProviderController> {
                               width: double.infinity,
                               height: 140,
                             ),
-                            errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error_outline),
                           ),
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 10),
                         height: 115,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Get.theme.primaryColor,
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +79,8 @@ class RecommendedCarouselWidget extends GetWidget<EProviderController> {
                             Text(
                               _service.title,
                               maxLines: 2,
-                              style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.hintColor)),
+                              style: Get.textTheme.bodyText2
+                                  .merge(TextStyle(color: Get.theme.hintColor)),
                             ),
                             Wrap(
                               children: Ui.getStarsList(_service.rate),
@@ -79,9 +88,11 @@ class RecommendedCarouselWidget extends GetWidget<EProviderController> {
                             SizedBox(height: 10),
                             Wrap(
                               children: [
-                                Text("\$" + _service.minPrice.toString(), style: Get.textTheme.bodyText1),
+                                Text("\$" + _service.minPrice.toString(),
+                                    style: Get.textTheme.bodyText1),
                                 Text(' - '),
-                                Text("\$" + _service.maxPrice.toString(), style: Get.textTheme.bodyText1),
+                                Text("\$" + _service.maxPrice.toString(),
+                                    style: Get.textTheme.bodyText1),
                               ],
                             )
                           ],

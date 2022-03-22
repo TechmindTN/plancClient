@@ -71,11 +71,15 @@ class Setting {
 
   Setting.fromJson(Map<String, dynamic> json) {
     appName = json['app_name'];
-    enableStripe = json['enable_stripe'] == null || json['enable_stripe'] == '0' ? false : true;
+    enableStripe = json['enable_stripe'] == null || json['enable_stripe'] == '0'
+        ? false
+        : true;
     defaultTax = json['default_tax'];
     defaultCurrency = json['default_currency'];
     fcmKey = json['fcm_key'];
-    enablePaypal = json['enable_paypal'] == null || json['enable_paypal'] == '0' ? false : true;
+    enablePaypal = json['enable_paypal'] == null || json['enable_paypal'] == '0'
+        ? false
+        : true;
     defaultTheme = json['default_theme'];
     mainColor = json['main_color'];
     mainDarkColor = json['main_dark_color'];
@@ -88,10 +92,20 @@ class Setting {
     googleMapsKey = json['google_maps_key'];
     mobileLanguage = json['mobile_language'];
     appVersion = json['app_version'];
-    enableVersion = json['enable_version'] == null || json['enable_version'] == '0' ? false : true;
-    currencyRight = json['currency_right'] == null || json['currency_right'] == '0' ? false : true;
-    defaultCurrencyDecimalDigits = int.tryParse(json['default_currency_decimal_digits'] ?? '2') ?? 2;
-    enableRazorpay = json['enable_razorpay'] == null || json['enable_razorpay'] == '0' ? false : true;
+    enableVersion =
+        json['enable_version'] == null || json['enable_version'] == '0'
+            ? false
+            : true;
+    currencyRight =
+        json['currency_right'] == null || json['currency_right'] == '0'
+            ? false
+            : true;
+    defaultCurrencyDecimalDigits =
+        int.tryParse(json['default_currency_decimal_digits'] ?? '2') ?? 2;
+    enableRazorpay =
+        json['enable_razorpay'] == null || json['enable_razorpay'] == '0'
+            ? false
+            : true;
     homeSection1 = json['home_section_1'];
     homeSection2 = json['home_section_2'];
     homeSection3 = json['home_section_3'];

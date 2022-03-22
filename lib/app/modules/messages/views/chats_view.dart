@@ -34,7 +34,8 @@ class ChatsView extends GetView<MessagesController> {
               primary: true,
               itemBuilder: (context, index) {
                 Chat _chat = controller.chats.elementAt(index);
-                _chat.user = _message.users.firstWhere((_user) => _user.id == _chat.userId);
+                _chat.user = _message.users
+                    .firstWhere((_user) => _user.id == _chat.userId);
                 return ChatMessageItem(
                   chat: _chat,
                 );
@@ -81,7 +82,12 @@ class ChatsView extends GetView<MessagesController> {
           Container(
             decoration: BoxDecoration(
               color: Get.theme.primaryColor,
-              boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, -4), blurRadius: 10)],
+              boxShadow: [
+                BoxShadow(
+                    color: Theme.of(context).hintColor.withOpacity(0.10),
+                    offset: Offset(0, -4),
+                    blurRadius: 10)
+              ],
             ),
             child: TextField(
               controller: controller.chatTextController,
@@ -89,11 +95,13 @@ class ChatsView extends GetView<MessagesController> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(20),
                 hintText: "Type to start chat".tr,
-                hintStyle: TextStyle(color: Get.theme.focusColor.withOpacity(0.8)),
+                hintStyle:
+                    TextStyle(color: Get.theme.focusColor.withOpacity(0.8)),
                 suffixIcon: IconButton(
                   padding: EdgeInsets.only(right: 30),
                   onPressed: () {
-                    controller.addMessage(_message, controller.chatTextController.text);
+                    controller.addMessage(
+                        _message, controller.chatTextController.text);
                     Timer(Duration(milliseconds: 100), () {
                       controller.chatTextController.clear();
                     });
@@ -105,8 +113,10 @@ class ChatsView extends GetView<MessagesController> {
                   ),
                 ),
                 border: UnderlineInputBorder(borderSide: BorderSide.none),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                enabledBorder:
+                    UnderlineInputBorder(borderSide: BorderSide.none),
+                focusedBorder:
+                    UnderlineInputBorder(borderSide: BorderSide.none),
               ),
             ),
           )

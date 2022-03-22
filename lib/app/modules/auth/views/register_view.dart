@@ -19,7 +19,8 @@ class RegisterView extends GetView<AuthController> {
       appBar: AppBar(
         title: Text(
           "Register".tr,
-          style: Get.textTheme.headline6.merge(TextStyle(color: context.theme.primaryColor)),
+          style: Get.textTheme.headline6
+              .merge(TextStyle(color: context.theme.primaryColor)),
         ),
         centerTitle: true,
         backgroundColor: Get.theme.accentColor,
@@ -37,9 +38,13 @@ class RegisterView extends GetView<AuthController> {
                 width: Get.width,
                 decoration: BoxDecoration(
                   color: Get.theme.accentColor,
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(10)),
                   boxShadow: [
-                    BoxShadow(color: Get.theme.focusColor.withOpacity(0.2), blurRadius: 10, offset: Offset(0, 5)),
+                    BoxShadow(
+                        color: Get.theme.focusColor.withOpacity(0.2),
+                        blurRadius: 10,
+                        offset: Offset(0, 5)),
                   ],
                 ),
                 margin: EdgeInsets.only(bottom: 50),
@@ -49,12 +54,14 @@ class RegisterView extends GetView<AuthController> {
                     children: [
                       Text(
                         _settings.appName,
-                        style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor, fontSize: 24)),
+                        style: Get.textTheme.headline6.merge(TextStyle(
+                            color: Get.theme.primaryColor, fontSize: 24)),
                       ),
                       SizedBox(height: 5),
                       Text(
                         "Welcome to the best service provider system!".tr,
-                        style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor)),
+                        style: Get.textTheme.caption
+                            .merge(TextStyle(color: Get.theme.primaryColor)),
                         textAlign: TextAlign.center,
                       ),
                       // Text("Fill the following credentials to login your account", style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
@@ -104,10 +111,13 @@ class RegisterView extends GetView<AuthController> {
               isFirst: false,
               suffixIcon: IconButton(
                 onPressed: () {
-                  controller.hidePassword.value = !controller.hidePassword.value;
+                  controller.hidePassword.value =
+                      !controller.hidePassword.value;
                 },
                 color: Theme.of(context).focusColor,
-                icon: Icon(controller.hidePassword.value ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                icon: Icon(controller.hidePassword.value
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined),
               ),
             );
           }),
@@ -140,7 +150,8 @@ class RegisterView extends GetView<AuthController> {
                   color: Get.theme.accentColor,
                   text: Text(
                     "Register".tr,
-                    style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                    style: Get.textTheme.headline6
+                        .merge(TextStyle(color: Get.theme.primaryColor)),
                   ),
                 ).paddingOnly(top: 15, bottom: 5, right: 20, left: 20),
               ),

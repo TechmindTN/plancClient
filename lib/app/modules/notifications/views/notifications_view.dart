@@ -30,8 +30,11 @@ class NotificationsView extends GetView<NotificationsController> {
         child: ListView(
           primary: true,
           children: <Widget>[
-            Text("Incoming Notifications".tr, style: Get.textTheme.headline5).paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
-            Text("Swipe item left to delete it.".tr, style: Get.textTheme.caption).paddingSymmetric(horizontal: 22, vertical: 5),
+            Text("Incoming Notifications".tr, style: Get.textTheme.headline5)
+                .paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
+            Text("Swipe item left to delete it.".tr,
+                    style: Get.textTheme.caption)
+                .paddingSymmetric(horizontal: 22, vertical: 5),
             notificationsList(),
           ],
         ),

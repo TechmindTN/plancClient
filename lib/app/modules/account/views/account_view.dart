@@ -18,7 +18,8 @@ class AccountView extends GetView<AccountController> {
         appBar: AppBar(
           title: Text(
             "Account".tr,
-            style: Get.textTheme.headline6.merge(TextStyle(color: context.theme.primaryColor)),
+            style: Get.textTheme.headline6
+                .merge(TextStyle(color: context.theme.primaryColor)),
           ),
           centerTitle: true,
           backgroundColor: Get.theme.accentColor,
@@ -46,9 +47,13 @@ class AccountView extends GetView<AccountController> {
                   width: Get.width,
                   decoration: BoxDecoration(
                     color: Get.theme.accentColor,
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(10)),
                     boxShadow: [
-                      BoxShadow(color: Get.theme.focusColor.withOpacity(0.2), blurRadius: 10, offset: Offset(0, 5)),
+                      BoxShadow(
+                          color: Get.theme.focusColor.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: Offset(0, 5)),
                     ],
                   ),
                   margin: EdgeInsets.only(bottom: 50),
@@ -58,10 +63,13 @@ class AccountView extends GetView<AccountController> {
                       children: [
                         Text(
                           _currentUser.value.email,
-                          style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                          style: Get.textTheme.headline6
+                              .merge(TextStyle(color: Get.theme.primaryColor)),
                         ),
                         SizedBox(height: 5),
-                        Text(_currentUser.value.email, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
+                        Text(_currentUser.value.email,
+                            style: Get.textTheme.caption.merge(
+                                TextStyle(color: Get.theme.primaryColor))),
                       ],
                     ),
                   ),
@@ -84,7 +92,8 @@ class AccountView extends GetView<AccountController> {
                         width: double.infinity,
                         height: 100,
                       ),
-                      errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                      errorWidget: (context, url, error) =>
+                          Icon(Icons.error_outline),
                     ),
                   ),
                 ),
@@ -97,28 +106,32 @@ class AccountView extends GetView<AccountController> {
               child: Column(
                 children: [
                   AccountLinkWidget(
-                    icon: Icon(Icons.person_outline, color: Get.theme.accentColor),
+                    icon: Icon(Icons.person_outline,
+                        color: Get.theme.accentColor),
                     text: Text("Profile".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.PROFILE);
                     },
                   ),
                   AccountLinkWidget(
-                    icon: Icon(Icons.assignment_outlined, color: Get.theme.accentColor),
+                    icon: Icon(Icons.assignment_outlined,
+                        color: Get.theme.accentColor),
                     text: Text("My Bookings".tr),
                     onTap: (e) {
                       Get.find<RootController>().changePageInRoot(1);
                     },
                   ),
                   AccountLinkWidget(
-                    icon: Icon(Icons.notifications_outlined, color: Get.theme.accentColor),
+                    icon: Icon(Icons.notifications_outlined,
+                        color: Get.theme.accentColor),
                     text: Text("Notifications".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.NOTIFICATIONS);
                     },
                   ),
                   AccountLinkWidget(
-                    icon: Icon(Icons.chat_outlined, color: Get.theme.accentColor),
+                    icon:
+                        Icon(Icons.chat_outlined, color: Get.theme.accentColor),
                     text: Text("Messages".tr),
                     onTap: (e) {
                       Get.find<RootController>().changePageInRoot(2);
@@ -134,21 +147,24 @@ class AccountView extends GetView<AccountController> {
               child: Column(
                 children: [
                   AccountLinkWidget(
-                    icon: Icon(Icons.settings_outlined, color: Get.theme.accentColor),
+                    icon: Icon(Icons.settings_outlined,
+                        color: Get.theme.accentColor),
                     text: Text("Settings".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.SETTINGS);
                     },
                   ),
                   AccountLinkWidget(
-                    icon: Icon(Icons.translate_outlined, color: Get.theme.accentColor),
+                    icon: Icon(Icons.translate_outlined,
+                        color: Get.theme.accentColor),
                     text: Text("Languages".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.SETTINGS_LANGUAGE);
                     },
                   ),
                   AccountLinkWidget(
-                    icon: Icon(Icons.brightness_6_outlined, color: Get.theme.accentColor),
+                    icon: Icon(Icons.brightness_6_outlined,
+                        color: Get.theme.accentColor),
                     text: Text("Theme Mode".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.SETTINGS_THEME_MODE);
@@ -164,7 +180,8 @@ class AccountView extends GetView<AccountController> {
               child: Column(
                 children: [
                   AccountLinkWidget(
-                    icon: Icon(Icons.support_outlined, color: Get.theme.accentColor),
+                    icon: Icon(Icons.support_outlined,
+                        color: Get.theme.accentColor),
                     text: Text("Help & FAQ".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.HELP);

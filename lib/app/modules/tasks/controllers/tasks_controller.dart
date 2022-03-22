@@ -29,14 +29,16 @@ class TasksController extends GetxController {
     await getCompletedTasks();
     await getArchivedTasks();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
+      Get.showSnackbar(
+          Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
     }
   }
 
   Future<void> getOngoingTasks({bool showMessage = false}) async {
     ongoingTasks.value = await _taskRepository.getOngoingTasks();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
+      Get.showSnackbar(
+          Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
     }
     //selectedOngoingTask.value = ongoingTasks.isNotEmpty ? ongoingTasks.first : new Task();
   }
@@ -44,7 +46,8 @@ class TasksController extends GetxController {
   Future<void> getCompletedTasks({bool showMessage = false}) async {
     completedTasks.value = await _taskRepository.getCompletedTasks();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
+      Get.showSnackbar(
+          Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
     }
     //selectedCompletedTask.value = completedTasks.isNotEmpty ? completedTasks.first : new Task();
   }
@@ -52,10 +55,12 @@ class TasksController extends GetxController {
   Future<void> getArchivedTasks({bool showMessage = false}) async {
     archivedTasks.value = await _taskRepository.getArchivedTasks();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
+      Get.showSnackbar(
+          Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
     }
     //selectedArchivedTask.value = archivedTasks.isNotEmpty ? archivedTasks.first : new Task();
   }
 
-  List<EService> get ongoingServices => ongoingTasks.map((e) => e.eService).toList();
+  List<EService> get ongoingServices =>
+      ongoingTasks.map((e) => e.eService).toList();
 }

@@ -11,7 +11,14 @@ class Address extends Model {
   bool isDefault;
   String userId;
 
-  Address({this.id, this.description, this.address, this.latitude, this.longitude, this.isDefault, this.userId});
+  Address(
+      {this.id,
+      this.description,
+      this.address,
+      this.latitude,
+      this.longitude,
+      this.isDefault,
+      this.userId});
 
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];

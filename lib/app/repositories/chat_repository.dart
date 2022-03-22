@@ -27,7 +27,8 @@ class ChatRepository {
 
   Future signUpWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       if (result.user != null) {
         return true;
       } else {
@@ -49,24 +50,38 @@ class ChatRepository {
   }
 
   Future<void> addUserInfo(userData) async {
-    FirebaseFirestore.instance.collection("users").add(userData).catchError((e) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .add(userData)
+        .catchError((e) {
       print(e.toString());
     });
   }
 
   getUserInfo(String token) async {
-    return FirebaseFirestore.instance.collection("users").where("token", isEqualTo: token).get().catchError((e) {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where("token", isEqualTo: token)
+        .get()
+        .catchError((e) {
       print(e.toString());
     });
   }
 
   searchByName(String searchField) {
-    return FirebaseFirestore.instance.collection("users").where('userName', isEqualTo: searchField).get();
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where('userName', isEqualTo: searchField)
+        .get();
   }
 
   // Create Message
   Future<void> createMessage(Message message) {
-    return FirebaseFirestore.instance.collection("messages").doc(message.id).set(message.toJson()).catchError((e) {
+    return FirebaseFirestore.instance
+        .collection("messages")
+        .doc(message.id)
+        .set(message.toJson())
+        .catchError((e) {
       print(e);
     });
   }
@@ -87,7 +102,13 @@ class ChatRepository {
   }
 
   Stream<List<Chat>> getChats(Message message) {
-    return FirebaseFirestore.instance.collection("messages").doc(message.id).collection("chats").orderBy('time', descending: true).snapshots().map((QuerySnapshot query) {
+    return FirebaseFirestore.instance
+        .collection("messages")
+        .doc(message.id)
+        .collection("chats")
+        .orderBy('time', descending: true)
+        .snapshots()
+        .map((QuerySnapshot query) {
       List<Chat> retVal = [];
       query.docs.forEach((element) {
         retVal.add(Chat.fromDocumentSnapshot(element));
@@ -100,7 +121,12 @@ class ChatRepository {
   }
 
   Future<void> addMessage(Message message, Chat chat) {
-    return FirebaseFirestore.instance.collection("messages").doc(message.id).collection("chats").add(chat.toJson()).whenComplete(() {
+    return FirebaseFirestore.instance
+        .collection("messages")
+        .doc(message.id)
+        .collection("chats")
+        .add(chat.toJson())
+        .whenComplete(() {
       updateMessage(message.id, message.toUpdatedMap());
     }).catchError((e) {
       print(e.toString());
@@ -108,7 +134,11 @@ class ChatRepository {
   }
 
   Future<void> updateMessage(String messageId, Map<String, dynamic> message) {
-    return FirebaseFirestore.instance.collection("messages").doc(messageId).update(message).catchError((e) {
+    return FirebaseFirestore.instance
+        .collection("messages")
+        .doc(messageId)
+        .update(message)
+        .catchError((e) {
       print(e.toString());
     });
   }

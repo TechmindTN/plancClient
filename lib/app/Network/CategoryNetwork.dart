@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:home_services/app/models/Category.dart';
+import '../models/Category.dart';
 
 class CategoryNetwork {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -47,15 +47,14 @@ class CategoryNetwork {
 
   // return category;
   Future<List<Category>> getCategoryList() async {
-    List<Category> categories=List();
+    List<Category> categories = List();
     Category category;
     QuerySnapshot snapshot = await categoryRef.get();
     snapshot.docs.forEach((element) {
       category = Category.fromFire(element.data());
-    category.id = element.id;
-    categories.add(category);
-     });
-    
+      category.id = element.id;
+      categories.add(category);
+    });
 
     return categories;
   }

@@ -28,7 +28,9 @@ class EServicesController extends GetxController {
     eProvider.value = Get.arguments as EProvider;
     selected.value = CategoryFilter.ALL;
     scrollController.addListener(() {
-      if (scrollController.position.pixels == scrollController.position.maxScrollExtent && !isDone.value) {
+      if (scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent &&
+          !isDone.value) {
         loadMoreEServicesOfCategory(filter: selected.value);
       }
     });
@@ -44,7 +46,8 @@ class EServicesController extends GetxController {
   Future refreshEServices({bool showMessage}) async {
     await getEServicesOfCategory(filter: selected.value);
     if (showMessage == true) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "List of services refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message: "List of services refreshed successfully".tr));
     }
   }
 
@@ -64,19 +67,24 @@ class EServicesController extends GetxController {
       switch (filter) {
         case CategoryFilter.ALL:
           this.page.value = 1;
-          eServices.value = await _eProviderRepository.getEServicesWithPagination(eProvider.value.id, page: 1);
+          eServices.value = await _eProviderRepository
+              .getEServicesWithPagination(eProvider.value.id, page: 1);
           break;
         case CategoryFilter.FEATURED:
-          eServices.value = await _eProviderRepository.getFeaturedEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getFeaturedEServices(eProvider.value.id);
           break;
         case CategoryFilter.POPULAR:
-          eServices.value = await _eProviderRepository.getPopularEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getPopularEServices(eProvider.value.id);
           break;
         case CategoryFilter.RATING:
-          eServices.value = await _eProviderRepository.getMostRatedEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getMostRatedEServices(eProvider.value.id);
           break;
         case CategoryFilter.AVAILABILITY:
-          eServices.value = await _eProviderRepository.getAvailableEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getAvailableEServices(eProvider.value.id);
           break;
         default:
           eServices.value = [];
@@ -92,7 +100,9 @@ class EServicesController extends GetxController {
       switch (filter) {
         case CategoryFilter.ALL:
           this.page.value++;
-          var _eServices = await await _eProviderRepository.getEServicesWithPagination(eProvider.value.id, page: this.page.value);
+          var _eServices = await await _eProviderRepository
+              .getEServicesWithPagination(eProvider.value.id,
+                  page: this.page.value);
           if (_eServices.isNotEmpty) {
             this.eServices.value += _eServices;
           } else {
@@ -100,16 +110,20 @@ class EServicesController extends GetxController {
           }
           break;
         case CategoryFilter.FEATURED:
-          eServices.value = await _eProviderRepository.getFeaturedEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getFeaturedEServices(eProvider.value.id);
           break;
         case CategoryFilter.POPULAR:
-          eServices.value = await _eProviderRepository.getPopularEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getPopularEServices(eProvider.value.id);
           break;
         case CategoryFilter.RATING:
-          eServices.value = await _eProviderRepository.getMostRatedEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getMostRatedEServices(eProvider.value.id);
           break;
         case CategoryFilter.AVAILABILITY:
-          eServices.value = await _eProviderRepository.getAvailableEServices(eProvider.value.id);
+          eServices.value = await _eProviderRepository
+              .getAvailableEServices(eProvider.value.id);
           break;
         default:
           eServices.value = [];

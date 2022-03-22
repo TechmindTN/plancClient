@@ -13,7 +13,8 @@ class Slide extends MediaModel {
   Slide.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     description = json['description'];
-    textColor = Ui.parseColor(json['textColor'] != null ? json['textColor'].toString() : '#000000');
+    textColor = Ui.parseColor(
+        json['textColor'] != null ? json['textColor'].toString() : '#000000');
     super.fromJson(json);
   }
 

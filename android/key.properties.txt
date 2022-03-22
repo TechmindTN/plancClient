@@ -1,4 +1,0 @@
-storePassword=home_ui123456
-keyPassword=home_ui123456
-keyAlias=key
-storeFile=cert/key.jks

@@ -19,9 +19,11 @@ class ProfileController extends GetxController {
     if (profileForm.currentState.validate()) {
       profileForm.currentState.save();
       user.refresh();
-      Get.showSnackbar(Ui.SuccessSnackBar(message: "Profile saved successfully".tr));
+      Get.showSnackbar(
+          Ui.SuccessSnackBar(message: "Profile saved successfully".tr));
     } else {
-      Get.showSnackbar(Ui.ErrorSnackBar(message: "There are errors in some fields please correct them!".tr));
+      Get.showSnackbar(Ui.ErrorSnackBar(
+          message: "There are errors in some fields please correct them!".tr));
     }
   }
 

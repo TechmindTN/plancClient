@@ -28,12 +28,14 @@ class EProviderEServicesView extends GetView<EServicesController> {
               iconTheme: IconThemeData(color: Get.theme.primaryColor),
               title: Text(
                 controller.eProvider.value.name,
-                style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                style: Get.textTheme.headline6
+                    .merge(TextStyle(color: Get.theme.primaryColor)),
               ),
               centerTitle: true,
               automaticallyImplyLeading: false,
               leading: new IconButton(
-                icon: new Icon(Icons.arrow_back_ios, color: Get.theme.primaryColor),
+                icon: new Icon(Icons.arrow_back_ios,
+                    color: Get.theme.primaryColor),
                 onPressed: () => {Get.back()},
               ),
               bottom: HomeSearchBarWidget(),
@@ -44,13 +46,18 @@ class EProviderEServicesView extends GetView<EServicesController> {
                     padding: EdgeInsets.symmetric(vertical: 75),
                     decoration: new BoxDecoration(
                       gradient: new LinearGradient(
-                          colors: [Get.theme.accentColor.withOpacity(1), Get.theme.accentColor.withOpacity(0.2)],
+                          colors: [
+                            Get.theme.accentColor.withOpacity(1),
+                            Get.theme.accentColor.withOpacity(0.2)
+                          ],
                           begin: AlignmentDirectional.topStart,
                           //const FractionalOffset(1, 0),
                           end: AlignmentDirectional.bottomEnd,
                           stops: [0.1, 0.9],
                           tileMode: TileMode.clamp),
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          topRight: Radius.circular(5)),
                     ),
                   )).marginOnly(bottom: 42),
             ),
@@ -63,25 +70,35 @@ class EProviderEServicesView extends GetView<EServicesController> {
                         primary: false,
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        children: List.generate(CategoryFilter.values.length, (index) {
+                        children: List.generate(CategoryFilter.values.length,
+                            (index) {
                           var _filter = CategoryFilter.values.elementAt(index);
                           return Obx(() {
                             return Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 20),
+                              padding:
+                                  const EdgeInsetsDirectional.only(start: 20),
                               child: RawChip(
                                 elevation: 0,
                                 label: Text(_filter.toString().tr),
-                                labelStyle: controller.isSelected(_filter) ? Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)) : Get.textTheme.bodyText2,
-                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-                                backgroundColor: Theme.of(context).focusColor.withOpacity(0.1),
+                                labelStyle: controller.isSelected(_filter)
+                                    ? Get.textTheme.bodyText2.merge(TextStyle(
+                                        color: Get.theme.primaryColor))
+                                    : Get.textTheme.bodyText2,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 15),
+                                backgroundColor: Theme.of(context)
+                                    .focusColor
+                                    .withOpacity(0.1),
                                 selectedColor: Get.theme.accentColor,
                                 selected: controller.isSelected(_filter),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
                                 showCheckmark: true,
                                 checkmarkColor: Get.theme.primaryColor,
                                 onSelected: (bool value) {
                                   controller.toggleSelected(_filter);
-                                  controller.getEServicesOfCategory(filter: controller.selected.value);
+                                  controller.getEServicesOfCategory(
+                                      filter: controller.selected.value);
                                 },
                               ),
                             );

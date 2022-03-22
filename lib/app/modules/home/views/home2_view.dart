@@ -69,19 +69,24 @@ class Home2View extends GetView<HomeController> {
                           }).toList(),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+                          margin: EdgeInsets.symmetric(
+                              vertical: 70, horizontal: 20),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: controller.slider.map((Slide slide) {
                               return Container(
                                 width: 20.0,
                                 height: 5.0,
-                                margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 2.0),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 2.0),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(10),
                                     ),
-                                    color: controller.currentSlide.value == controller.slider.indexOf(slide) ? Colors.black87 : Colors.black87.withOpacity(0.4)),
+                                    color: controller.currentSlide.value ==
+                                            controller.slider.indexOf(slide)
+                                        ? Colors.black87
+                                        : Colors.black87.withOpacity(0.4)),
                               );
                             }).toList(),
                           ),
@@ -97,13 +102,16 @@ class Home2View extends GetView<HomeController> {
                 child: Wrap(
                   children: [
                     AddressWidget(),
-                                        Image.asset("assets/img/banner.jpg"),
+                    Image.asset("assets/img/banner.jpg"),
 
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
-                          Expanded(child: Text("Categories".tr, style: Get.textTheme.headline5)),
+                          Expanded(
+                              child: Text("Categories".tr,
+                                  style: Get.textTheme.headline5)),
                           MaterialButton(
                             elevation: 0,
                             onPressed: () {
@@ -111,7 +119,8 @@ class Home2View extends GetView<HomeController> {
                             },
                             shape: StadiumBorder(),
                             color: Get.theme.accentColor.withOpacity(0.1),
-                            child: Text("View All".tr, style: Get.textTheme.subtitle1),
+                            child: Text("View All".tr,
+                                style: Get.textTheme.subtitle1),
                           ),
                         ],
                       ),
@@ -119,22 +128,26 @@ class Home2View extends GetView<HomeController> {
                     CategoriesCarouselWidget(),
                     Container(
                       color: Get.theme.primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       child: Row(
                         children: [
-                          Expanded(child: Text("Recommended for you".tr, style: Get.textTheme.headline5)),
+                          Expanded(
+                              child: Text("Recommended for you".tr,
+                                  style: Get.textTheme.headline5)),
                           MaterialButton(
                             elevation: 0,
                             onPressed: () {},
                             shape: StadiumBorder(),
                             color: Get.theme.accentColor.withOpacity(0.1),
-                            child: Text("View All".tr, style: Get.textTheme.subtitle1),
+                            child: Text("View All".tr,
+                                style: Get.textTheme.subtitle1),
                           ),
                         ],
                       ),
                     ),
                     RecommendedCarouselWidget(),
-                                        Image.asset("assets/img/banner.jpg"),
+                    Image.asset("assets/img/banner.jpg"),
 
                     // FeaturedCategoriesWidget(),
                   ],

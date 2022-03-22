@@ -35,7 +35,9 @@ class EProviderController extends GetxController {
     await getFeaturedEServices();
     await getReviews();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eProvider.value.name + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(
+          message:
+              eProvider.value.name + " " + "page refreshed successfully".tr));
     }
   }
 
@@ -49,7 +51,8 @@ class EProviderController extends GetxController {
 
   Future getFeaturedEServices() async {
     try {
-      featuredEServices.value = await _eProviderRepository.getFeaturedEServices(eProvider.value.id);
+      featuredEServices.value =
+          await _eProviderRepository.getFeaturedEServices(eProvider.value.id);
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }

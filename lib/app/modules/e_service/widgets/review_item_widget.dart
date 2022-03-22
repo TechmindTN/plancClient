@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:home_services/app/their_models/review_model.dart';
 
-
 class ReviewItemWidget extends StatelessWidget {
   final Review review;
 
@@ -33,7 +32,8 @@ class ReviewItemWidget extends StatelessWidget {
                     height: 65,
                     width: 65,
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                  errorWidget: (context, url, error) =>
+                      Icon(Icons.error_outline),
                 ),
               ),
               SizedBox(width: 15),
@@ -46,7 +46,10 @@ class ReviewItemWidget extends StatelessWidget {
                       overflow: TextOverflow.fade,
                       softWrap: false,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(color: Theme.of(context).hintColor)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .merge(TextStyle(color: Theme.of(context).hintColor)),
                     ),
                     Text(
                       review.user.bio,
@@ -63,7 +66,10 @@ class ReviewItemWidget extends StatelessWidget {
                   label: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(review.rate.toString(), style: Theme.of(context).textTheme.bodyText1.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                      Text(review.rate.toString(),
+                          style: Theme.of(context).textTheme.bodyText1.merge(
+                              TextStyle(
+                                  color: Theme.of(context).primaryColor))),
                       Icon(
                         Icons.star_border,
                         color: Theme.of(context).primaryColor,
@@ -71,7 +77,8 @@ class ReviewItemWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  backgroundColor: Theme.of(context).accentColor.withOpacity(0.9),
+                  backgroundColor:
+                      Theme.of(context).accentColor.withOpacity(0.9),
                   shape: StadiumBorder(),
                 ),
               ),
