@@ -5,6 +5,7 @@ import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
 
 import '../../../../common/ui.dart';
+import '../../../Network/CategoryNetwork.dart';
 
 import '../../../repositories/category_repository.dart';
 import '../../../repositories/e_service_repository.dart';
@@ -12,14 +13,14 @@ import '../../../repositories/slider_repository.dart';
 import '../../../repositories/user_repository.dart';
 import '../../../services/auth_service.dart';
 import '../../../models/Category.dart';
-import '../../../Network/CategoryNetwork.dart';
 
 class HomeController extends GetxController {
+  CategoryNetwork _categoryNetwork = CategoryNetwork();
   UserRepository _userRepo;
   SliderRepository _sliderRepo;
   CategoryRepository _categoryRepository;
   EServiceRepository _eServiceRepository;
-  CategoryNetwork _categoryNetwork = CategoryNetwork();
+  EServiceController eServiceController = Get.find<EServiceController>();
 
   final addresses = <Address>[].obs;
   final slider = <Slide>[].obs;
@@ -28,7 +29,6 @@ class HomeController extends GetxController {
   final eServices = <EService>[].obs;
   final categories = <Category>[].obs;
   final featured = <Category>[].obs;
-
   HomeController() {
     _userRepo = new UserRepository();
     _sliderRepo = new SliderRepository();
@@ -39,18 +39,27 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     Get.put<EServiceController>(EServiceController());
-    EServiceController eServiceController = Get.find<EServiceController>();
-    eServiceController.getProviders();
+    await eServiceController.getProviders();
     await refreshHome();
     super.onInit();
+  }
+
+  @override
+  Future onReady() async {
+    await refreshHome();
   }
 
   Future refreshHome({bool showMessage = false}) async {
     await getSlider();
     await getAddresses();
     await getRecommendedEServices();
+    EServiceController eServiceController = Get.find<EServiceController>();
+
+    await eServiceController.getProviders();
     await getCategories();
     await getFeatured();
+    update();
+
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Home page refreshed successfully".tr));
@@ -80,7 +89,6 @@ class HomeController extends GetxController {
   Future getCategories() async {
     try {
       categories.value = await _categoryNetwork.getCategoryList();
-
       // categories.value = await _categoryRepository.getAll();
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));

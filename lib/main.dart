@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
+import 'app/modules/e_service/controllers/e_service_controller.dart';
+import 'app/modules/home/controllers/home_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'app/services/auth_service.dart';
 import 'app/services/global_service.dart';
@@ -11,11 +13,16 @@ import 'app/services/translation_service.dart';
 
 void initServices() async {
   Get.log('starting services ...');
+  Firebase.initializeApp();
+
   await Get.putAsync(() => TranslationService().init());
   await Get.putAsync(() => GlobalService().init());
+
   await Get.putAsync(() => AuthService().init());
+
   await Get.putAsync(() => SettingsService().init());
-  Firebase.initializeApp();
+  await Get.putAsync(() => EServiceController().getProviders());
+
   Get.log('All services started...');
 }
 

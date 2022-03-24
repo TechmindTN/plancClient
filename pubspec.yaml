@@ -55,6 +55,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  image_picker: ^0.8.4+11
+  firebase_storage: ^8.0.0
 
 dependency_overrides:
   path_provider: 2.0.1
@@ -88,7 +90,7 @@ flutter:
     - assets/img/
     - assets/icon/
     - assets/locales/
-
+    - assets/banner_headers.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
