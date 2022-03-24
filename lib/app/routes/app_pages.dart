@@ -6,6 +6,7 @@ import '../modules/auth/views/forgot_password_view.dart';
 import '../modules/auth/views/login_view.dart';
 import '../modules/auth/views/phone_verification_view.dart';
 import '../modules/auth/views/register_view.dart';
+import '../modules/auth/views/register_view2.dart';
 import '../modules/book_e_service/bindings/book_e_service_binding.dart';
 import '../modules/book_e_service/views/book_e_service_view.dart';
 import '../modules/category/bindings/category_binding.dart';
@@ -80,6 +81,10 @@ class AppPages {
     GetPage(
         name: Routes.REGISTER,
         page: () => RegisterView(),
+        binding: AuthBinding()),
+    GetPage(
+        name: Routes.REGISTER2,
+        page: () => RegisterView2(),
         binding: AuthBinding()),
     GetPage(
         name: Routes.FORGOT_PASSWORD,

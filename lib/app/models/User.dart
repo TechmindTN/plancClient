@@ -6,17 +6,17 @@ class User {
   String id;
   final String password;
   final String username;
-   String email;
+  String email;
   final Timestamp creation_date;
   final Timestamp last_login;
   Role role;
 
   User(
-      { this.password,
-       this.username,
-       this.email,
-       this.creation_date,
-       this.last_login,
+      {this.password,
+      this.username,
+      this.email,
+      this.creation_date,
+      this.last_login,
       this.role,
       this.id});
 
@@ -35,7 +35,7 @@ class User {
     print(this.email);
     print(this.creation_date);
     print(this.last_login);
-    this.role.printRole();
+    // this.role.printRole();
   }
 
   Map<String, dynamic> tofire() => {
@@ -44,6 +44,5 @@ class User {
         'password': password,
         'creation_date': creation_date,
         'last_login': last_login,
-        
       };
 }

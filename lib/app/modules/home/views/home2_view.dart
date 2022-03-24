@@ -102,7 +102,7 @@ class Home2View extends GetView<HomeController> {
                 child: Wrap(
                   children: [
                     AddressWidget(),
-                    Image.asset("assets/img/banner.jpg"),
+                    Image.asset("assets/img/banner2.jpg"),
 
                     Padding(
                       padding:
@@ -147,7 +147,7 @@ class Home2View extends GetView<HomeController> {
                       ),
                     ),
                     RecommendedCarouselWidget(),
-                    Image.asset("assets/img/banner.jpg"),
+                    Image.asset("assets/img/banner3.png"),
 
                     // FeaturedCategoriesWidget(),
                   ],

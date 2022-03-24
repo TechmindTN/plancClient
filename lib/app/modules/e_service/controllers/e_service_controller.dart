@@ -21,7 +21,7 @@ class EServiceController extends GetxController {
     _eServiceRepository = new EServiceRepository();
   }
 
-  getProviders() async {
+  Future<List<ServiceProvider>> getProviders() async {
     // // ServiceProvider serviceProviders
     // List<ServiceProvider> serviceProviders=await providerServices.getProvidersList();
     // serviceProviders.forEach((element) {
@@ -30,11 +30,13 @@ class EServiceController extends GetxController {
     //   // providers.add(rxProvider);
     // });
     providers = await providerServices.getProvidersList();
+    List<ServiceProvider> sp = await providerServices.getProvidersList();
+
+    return sp;
   }
 
   @override
   void onInit() async {
-    await getProviders();
     eService.value = Get.arguments as EService;
     super.onInit();
   }

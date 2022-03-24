@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
@@ -13,8 +15,8 @@ import 'package:home_services/app/their_models/setting_model.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
 import 'package:home_services/app/their_models/task_model.dart';
 import 'package:meta/meta.dart';
-
 import '../their_models/address_model.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 import '../services/global_service.dart';
 
@@ -45,14 +47,11 @@ class MockApiClient {
   }
 
   Future<List<Slide>> getHomeSlider() async {
-    var response =
-        await httpClient.get(baseUrl + "slides/home.json", options: _options);
-    if (response.statusCode == 200) {
-      return response.data['results']
-          .map<Slide>((obj) => Slide.fromJson(obj))
-          .toList();
-    } else {
-      throw new Exception(response.statusMessage);
+    final String response =
+        await rootBundle.loadString('assets/banner_headers.json');
+    final data = await json.decode(response);
+    if (data != null) {
+      return data['results'].map<Slide>((obj) => Slide.fromJson(obj)).toList();
     }
   }
 
