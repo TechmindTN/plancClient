@@ -8,5 +8,6 @@ class EServiceBinding extends Bindings {
     Get.lazyPut<EServiceController>(
       () => EServiceController(),
     );
+    
   }
 }

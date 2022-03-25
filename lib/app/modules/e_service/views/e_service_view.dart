@@ -19,20 +19,23 @@ import '../widgets/e_service_title_bar_widget.dart';
 import '../widgets/review_item_widget.dart';
 
 class EServiceView extends GetView<EServiceController> {
+  
   @override
   Widget build(BuildContext context) {
-    List<String> images = [
-      'assets/img/1.png',
-      'assets/img/2.png',
-      'assets/img/3.png',
-      'assets/img/4.png',
-      'assets/img/5.png',
-      'assets/img/6.png',
-      'assets/img/7.png',
-      'assets/img/8.png',
-    ];
+    List<String> images =[];
+    // List<String> images = [
+    //   'assets/img/1.png',
+    //   'assets/img/2.png',
+    //   'assets/img/3.png',
+    //   'assets/img/4.png',
+    //   'assets/img/5.png',
+    //   'assets/img/6.png',
+    //   'assets/img/7.png',
+    //   'assets/img/8.png',
+    // ];
     return Obx(() {
       var provider = controller.serviceProvider;
+      List<dynamic> images =provider.value.media;
       // if (!provider.isBlank) {
       //   return Scaffold(
       //     body: CircularLoadingWidget(height: Get.height),
@@ -68,7 +71,7 @@ class EServiceView extends GetView<EServiceController> {
                     collapseMode: CollapseMode.parallax,
                     background: Obx(() {
                       return Stack(
-                        alignment: AlignmentDirectional.bottomCenter,
+                        alignment: AlignmentDirectional.center,
                         children: <Widget>[
                           Image.network(provider.value.profile_photo)
                           // buildCarouselSlider(provider),
@@ -85,11 +88,43 @@ class EServiceView extends GetView<EServiceController> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: 10),
+                     
                       // buildCategories(provider),
                       EServiceTilWidget(
                         title: Text("Description".tr,
                             style: Get.textTheme.subtitle2),
                         content: Text(provider.value.description,
+                            style: Get.textTheme.bodyText1),
+                      ),
+ EServiceTilWidget(
+                        title: Text("Contact".tr,
+                            style: Get.textTheme.subtitle2),
+                        content: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(provider.value.branches.first.phone.toString(),
+                                    style: Get.textTheme.bodyText1),
+                                    Icon(Icons.phone_outlined)
+                              ],
+                            ),
+                            SizedBox(height: 5,),
+                              Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(provider.value.user.email,
+                                    style: Get.textTheme.bodyText1),
+                                    Icon(Icons.email_outlined)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      EServiceTilWidget(
+                        title: Text("Address".tr,
+                            style: Get.textTheme.subtitle2),
+                        content: Text(provider.value.branches.first.address,
                             style: Get.textTheme.bodyText1),
                       ),
                       // EServiceTilWidget(
@@ -137,9 +172,10 @@ class EServiceView extends GetView<EServiceController> {
                                                 height: MediaQuery.of(context)
                                                         .size
                                                         .height *
-                                                    0.4,
-                                                child: Image.asset(
+                                                    0.7,
+                                                child: Image.network(
                                                   media,
+                                                  // scale: 20,
 
                                                   fit: BoxFit.fill,
                                                   // width: MediaQuery.of(context).size.width*0.9,
@@ -165,7 +201,7 @@ class EServiceView extends GetView<EServiceController> {
                                         ClipRRect(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10)),
-                                            child: Image.asset(
+                                            child: Image.network(
                                               images[index],
                                               height: 100,
                                               width: double.infinity,
@@ -213,6 +249,54 @@ class EServiceView extends GetView<EServiceController> {
                                 style: Get.textTheme.subtitle1),
                           ).paddingSymmetric(horizontal: 20),
                         ],
+                      ),
+
+                      EServiceTilWidget(
+                        title: Text("Social Media".tr,
+                            style: Get.textTheme.subtitle2),
+                        content: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Website".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(provider.value.website,
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                            SizedBox(height: 5,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Favebook".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(provider.value.branches.first.social_media['Facebook'],
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                             SizedBox(height: 5,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Instagram".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(provider.value.branches.first.social_media['Instagram'],
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                             SizedBox(height: 5,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("LinkedIn".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(provider.value.branches.first.social_media['LinkedIn'],
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                       EServiceTilWidget(
                         title: Text("Reviews & Ratings".tr,
@@ -339,10 +423,10 @@ class EServiceView extends GetView<EServiceController> {
                   style: Get.textTheme.headline5,
                 ),
               ),
-              Text(
-                "Start from".tr,
-                style: Get.textTheme.caption,
-              ),
+              // Text(
+              //   "Start from".tr,
+              //   style: Get.textTheme.caption,
+              // ),
             ],
           ),
           Row(
