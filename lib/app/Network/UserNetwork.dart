@@ -55,7 +55,20 @@ class UserNetwork {
     return user;
   }
 
-  getUserByEmailPassword(String email, String password) async {
+  Future<Client> getClientByUserRef(DocumentReference dr) async {
+    Client c = new Client();
+    try {
+      print('document :' + dr.toString());
+      QuerySnapshot snapshot =
+          await clientRef.where('user', isEqualTo: dr).limit(1).get();
+      c = Client.fromFire(snapshot.docs.first.data());
+      c.id = snapshot.docs.first.id;
+      print(c.first_name);
+      return c;
+    } catch (e) {}
+  }
+
+  Future<User> getUserByEmailPassword(String email, String password) async {
     User user;
     bool ok;
     try {
@@ -97,8 +110,9 @@ class UserNetwork {
     // await
   }
 
-  Future<DocumentReference> addClient(Client c, DocumentReference d) async {
+  Future<DocumentReference> addClient(c, DocumentReference d) async {
     var data = c.tofire();
+    print('Docum' + d.toString());
     data["user"] = d;
     print(data);
     DocumentReference added = await clientRef.add(data);

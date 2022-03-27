@@ -3,18 +3,18 @@ import 'package:home_services/app/models/User.dart';
 
 class Client {
   String id;
-  final String first_name;
-  final String last_name;
-  final int age;
-  final String gender;
-  final String home_address;
-  final String city;
-  final String country;
-  final String state;
-  final int zip_code;
-  final GeoPoint location;
-  final Map<String, dynamic> social_media;
-  final int phone;
+  String first_name;
+  String last_name;
+  int age;
+  String gender;
+  String home_address;
+  String city;
+  String country;
+  String state;
+  int zip_code;
+  GeoPoint location;
+  Map<String, dynamic> social_media;
+  int phone;
   String profile_photo;
   User user;
   Client(

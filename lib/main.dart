@@ -21,7 +21,6 @@ void initServices() async {
   await Get.putAsync(() => AuthService().init());
 
   await Get.putAsync(() => SettingsService().init());
-  await Get.putAsync(() => EServiceController().getProviders());
 
   Get.log('All services started...');
 }

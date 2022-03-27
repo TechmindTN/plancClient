@@ -123,7 +123,7 @@ class RegisterView2 extends GetView<AuthController> {
               SizedBox(
                 height: 50,
               ),
-              getImageHeaderWidget(controller),
+              getImageHeaderWidget(context),
               // _image != null
               //     ? SizedBox(width: 80, height: 80, child: Image.file(_image))
               //     : SizedBox(height: 80, width: 80),
@@ -350,6 +350,8 @@ class RegisterView2 extends GetView<AuthController> {
                           age: int.parse(age));
                       print(user);
                       var data = controller.registerClient(c, user);
+
+                      Get.offAllNamed(Routes.ROOT);
                     }
                   },
                   color: Get.theme.accentColor,
@@ -367,7 +369,7 @@ class RegisterView2 extends GetView<AuthController> {
     );
   }
 
-  Widget getImageHeaderWidget(AuthController control) {
+  Widget getImageHeaderWidget(context) {
     return Container(
       height: 350,
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
@@ -385,12 +387,19 @@ class RegisterView2 extends GetView<AuthController> {
             tileMode: TileMode.clamp),
       ),
       child: Column(children: [
-        control.im != null
+        controller.im != null
             ? Container(
-                constraints: BoxConstraints(maxHeight: 200), child: control.im)
+                constraints: BoxConstraints(maxHeight: 200),
+                child: controller.im)
             : Container(
                 constraints: BoxConstraints(maxHeight: 200),
-                child: Text('no photo')),
+                child: Image.asset(
+                  'assets/img/loading.gif',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 100,
+                ),
+              ),
         //
         //         Container(
         //         height: 150,
@@ -403,8 +412,9 @@ class RegisterView2 extends GetView<AuthController> {
         SizedBox(height: 20),
         FloatingActionButton(
             onPressed: () async {
-              control.changeImage();
-              control.update();
+              controller.changeImage();
+
+              controller.update();
 
               // storeimage.printInfo();
               //     final ImagePicker _picker = ImagePicker();

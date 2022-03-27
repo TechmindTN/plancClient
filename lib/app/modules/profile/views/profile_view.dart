@@ -8,7 +8,6 @@ import '../controllers/profile_controller.dart';
 class ProfileView extends GetView<ProfileController> {
   final bool hideAppBar;
   final GlobalKey<FormState> _profileForm = new GlobalKey<FormState>();
-
   ProfileView({this.hideAppBar = false}) {
     // controller.profileForm = new GlobalKey<FormState>();
   }
@@ -89,37 +88,48 @@ class ProfileView extends GetView<ProfileController> {
                       style: Get.textTheme.caption)
                   .paddingSymmetric(horizontal: 22, vertical: 5),
               TextFieldWidget(
-                onSaved: (input) => controller.user.value.email = input,
+                onSaved: (input) =>
+                    controller.currentProfile.first_name = input,
                 validator: (input) => input.length < 3
                     ? "Should be more than 3 letters".tr
                     : null,
-                initialValue: controller.user.value.email,
+                initialValue: controller.currentProfile.first_name,
                 hintText: "John Doe".tr,
-                labelText: "Full Name".tr,
+                labelText: "Firstname".tr,
                 iconData: Icons.person_outline,
               ),
               TextFieldWidget(
-                onSaved: (input) => controller.user.value.email = input,
+                onSaved: (input) => controller.currentProfile.last_name = input,
+                validator: (input) => input.length < 3
+                    ? "Should be more than 3 letters".tr
+                    : null,
+                initialValue: controller.currentProfile.last_name,
+                hintText: "John Doe".tr,
+                labelText: "Lastname".tr,
+                iconData: Icons.person_outline,
+              ),
+              TextFieldWidget(
+                onSaved: (input) => controller.currentuser.email = input,
                 validator: (input) =>
                     !input.contains('@') ? "Should be a valid email" : null,
-                initialValue: controller.user.value.email,
+                initialValue: controller.currentuser.email,
                 hintText: "johndoe@gmail.com",
                 labelText: "Email".tr,
                 iconData: Icons.alternate_email,
               ),
               // TextFieldWidget(
               //   keyboardType: TextInputType.phone,
-              //   onSaved: (input) => controller.user.value.phone = input,
+              //   onSaved: (input) => controller.currentuser.value.phone = input,
               //   validator: (input) => !input.startsWith('+') && !input.startsWith('00') ? "Phone number must start with country code!".tr : null,
-              //   initialValue: controller.user.value.phone,
+              //   initialValue: controller.currentuser.value.phone,
               //   hintText: "+1 565 6899 659",
               //   labelText: "Phone number".tr,
               //   iconData: Icons.phone_android_outlined,
               // ),
               // TextFieldWidget(
-              //   onSaved: (input) => controller.user.value.address = input,
+              //   onSaved: (input) => controller.currentuser.value.address = input,
               //   validator: (input) => input.length < 3 ? "Should be more than 3 letters".tr : null,
-              //   initialValue: controller.user.value.address,
+              //   initialValue: controller.currentuser.value.address,
               //   hintText: "123 Street, City 136, State, Country".tr,
               //   labelText: "Address".tr,
               //   iconData: Icons.map_outlined,
@@ -174,6 +184,29 @@ class ProfileView extends GetView<ProfileController> {
                   isLast: true,
                 );
               }),
+              Text("Change Profile photo".tr, style: Get.textTheme.headline5)
+                  .paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
+
+              controller.currentProfile.profile_photo != null
+                  ? Container(
+                      height: 300,
+                      child: Image.network(
+                          controller.currentProfile.profile_photo))
+                  : Container(
+                      height: 300,
+                      child: Image.asset(
+                        'assets/img/helmet.png',
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 100,
+                      ),
+                    ),
+              Container(
+                  child: FloatingActionButton(
+                      onPressed: () async {
+                        controller.changeImage();
+                      },
+                      child: Icon(Icons.camera_alt_outlined)))
             ],
           ),
         ));
