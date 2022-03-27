@@ -10,7 +10,7 @@ import '../../../repositories/e_service_repository.dart';
 
 class EServiceController extends GetxController {
   ServiceProviderNetwork providerServices = ServiceProviderNetwork();
-  List<ServiceProvider> providers = <ServiceProvider>[].obs;
+  List<ServiceProvider> providers = <ServiceProvider>[];
   final eService = EService().obs;
   final Rx<ServiceProvider> serviceProvider = ServiceProvider().obs;
   final reviews = <Review>[].obs;
