@@ -19,10 +19,14 @@ import '../widgets/e_service_title_bar_widget.dart';
 import '../widgets/review_item_widget.dart';
 
 class EServiceView extends GetView<EServiceController> {
+    final ServiceProvider prov;
+
+  EServiceView(this.prov);
+
   
   @override
   Widget build(BuildContext context) {
-    List<String> images =[];
+    List<dynamic> images =[];
     // List<String> images = [
     //   'assets/img/1.png',
     //   'assets/img/2.png',
@@ -33,16 +37,19 @@ class EServiceView extends GetView<EServiceController> {
     //   'assets/img/7.png',
     //   'assets/img/8.png',
     // ];
-    return Obx(() {
-      var provider = controller.serviceProvider;
-      List<dynamic> images =provider.value.media;
+     
+    // Obx(() {
+      // var provider = controller.serviceProvider;
+             images =prov.media;
+
+      // List<dynamic> images =prov.media;
       // if (!provider.isBlank) {
       //   return Scaffold(
       //     body: CircularLoadingWidget(height: Get.height),
       //   );
       // } else {
       return Scaffold(
-        bottomNavigationBar: buildBlockButtonWidget(provider.value),
+        bottomNavigationBar: buildBlockButtonWidget(prov),
         body: RefreshIndicator(
             onRefresh: () async {
               controller.refreshEService(showMessage: true);
@@ -66,19 +73,20 @@ class EServiceView extends GetView<EServiceController> {
                         color: Get.theme.hintColor),
                     onPressed: () => {Get.back()},
                   ),
-                  bottom: buildEServiceTitleBarWidget(provider.value),
+                  bottom: buildEServiceTitleBarWidget(prov),
                   flexibleSpace: FlexibleSpaceBar(
                     collapseMode: CollapseMode.parallax,
-                    background: Obx(() {
-                      return Stack(
+                    background: 
+                    // Obx(() {
+                       Stack(
                         alignment: AlignmentDirectional.center,
                         children: <Widget>[
-                          Image.network(provider.value.profile_photo)
+                          Image.network(prov.profile_photo)
                           // buildCarouselSlider(provider),
                           // buildCarouselBullets(provider),
                         ],
-                      );
-                    }),
+                      )
+                    // }),
                   ).marginOnly(bottom: 50),
                 ),
 
@@ -93,40 +101,47 @@ class EServiceView extends GetView<EServiceController> {
                       EServiceTilWidget(
                         title: Text("Description".tr,
                             style: Get.textTheme.subtitle2),
-                        content: Text(provider.value.description,
+                        content: Text(prov.description,
                             style: Get.textTheme.bodyText1),
                       ),
- EServiceTilWidget(
-                        title: Text("Contact".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(provider.value.branches.first.phone.toString(),
-                                    style: Get.textTheme.bodyText1),
-                                    Icon(Icons.phone_outlined)
-                              ],
-                            ),
-                            SizedBox(height: 5,),
-                              Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(provider.value.user.email,
-                                    style: Get.textTheme.bodyText1),
-                                    Icon(Icons.email_outlined)
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      EServiceTilWidget(
-                        title: Text("Address".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Text(provider.value.branches.first.address,
-                            style: Get.textTheme.bodyText1),
-                      ),
+//  EServiceTilWidget(
+//                         title: Text("Contact".tr,
+//                             style: Get.textTheme.subtitle2),
+//                         content: Column(
+//                           children: [
+//                             Row(
+//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                               children: [
+//                                 Text(prov.branches.first.phone.toString(),
+//                                     style: Get.textTheme.bodyText1),
+//                                     Icon(Icons.phone_outlined)
+//                               ],
+//                             ),
+//                             SizedBox(height: 5,),
+//                               Row(
+//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                               children: [
+//                                 Text(prov.user.email,
+//                                     style: Get.textTheme.bodyText1),
+//                                     Icon(Icons.email_outlined)
+//                               ],
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+
+
+
+                      // EServiceTilWidget(
+                      //   title: Text("Address".tr,
+                      //       style: Get.textTheme.subtitle2),
+                      //   content: Text(prov.branches.first.address,
+                      //       style: Get.textTheme.bodyText1),
+                      // ),
+
+
+
+
                       // EServiceTilWidget(
                       //   title: Text("Service Provider".tr, style: Get.textTheme.subtitle2),
                       //   content: EProviderItemWidget(provider: _eService.eProvider),
@@ -251,53 +266,53 @@ class EServiceView extends GetView<EServiceController> {
                         ],
                       ),
 
-                      EServiceTilWidget(
-                        title: Text("Social Media".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Website".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(provider.value.website,
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                            SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Favebook".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(provider.value.branches.first.social_media['Facebook'],
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                             SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Instagram".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(provider.value.branches.first.social_media['Instagram'],
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                             SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("LinkedIn".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(provider.value.branches.first.social_media['LinkedIn'],
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                      // EServiceTilWidget(
+                      //   title: Text("Social Media".tr,
+                      //       style: Get.textTheme.subtitle2),
+                      //   content: Column(
+                      //     children: [
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Text("Website".tr,
+                      //               style: Get.textTheme.bodyText1),
+                      //           Text(prov.website,
+                      //               style: Get.textTheme.bodyText1),
+                      //         ],
+                      //       ),
+                      //       SizedBox(height: 5,),
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Text("Favebook".tr,
+                      //               style: Get.textTheme.bodyText1),
+                      //           Text(prov.branches.first.social_media['Facebook'],
+                      //               style: Get.textTheme.bodyText1),
+                      //         ],
+                      //       ),
+                      //        SizedBox(height: 5,),
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Text("Instagram".tr,
+                      //               style: Get.textTheme.bodyText1),
+                      //           Text(prov.branches.first.social_media['Instagram'],
+                      //               style: Get.textTheme.bodyText1),
+                      //         ],
+                      //       ),
+                      //        SizedBox(height: 5,),
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Text("LinkedIn".tr,
+                      //               style: Get.textTheme.bodyText1),
+                      //           Text(prov.branches.first.social_media['LinkedIn'],
+                      //               style: Get.textTheme.bodyText1),
+                      //         ],
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       EServiceTilWidget(
                         title: Text("Reviews & Ratings".tr,
                             style: Get.textTheme.subtitle2),
@@ -350,7 +365,7 @@ class EServiceView extends GetView<EServiceController> {
             )),
       );
       // }
-    });
+    // });
   }
 
   // CarouselSlider buildCarouselSlider(ServiceProvider provider) {

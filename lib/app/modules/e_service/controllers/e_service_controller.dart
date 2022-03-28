@@ -4,7 +4,9 @@ import 'package:home_services/app/their_models/review_model.dart';
 
 import '../../../../common/ui.dart';
 
+import '../../../Network/BranchNetwork.dart';
 import '../../../Network/ServiceProviderNetwork.dart';
+import '../../../Network/UserNetwork.dart';
 import '../../../models/Provider.dart';
 import '../../../repositories/e_service_repository.dart';
 
@@ -16,6 +18,8 @@ class EServiceController extends GetxController {
   final reviews = <Review>[].obs;
   final currentSlide = 0.obs;
   EServiceRepository _eServiceRepository;
+  BranchNetwork branchServices=BranchNetwork();
+      UserNetwork userServices=UserNetwork();
 
   EServiceController() {
     _eServiceRepository = new EServiceRepository();
@@ -31,7 +35,7 @@ class EServiceController extends GetxController {
     // });
     providers = await providerServices.getProvidersList();
     List<ServiceProvider> sp = await providerServices.getProvidersList();
-
+      print("sp "+sp.toString());
     return sp;
   }
 
@@ -56,6 +60,17 @@ class EServiceController extends GetxController {
               eService.value.title + " " + "page refreshed successfully".tr));
     }
   }
+
+
+  getThisProvider(ServiceProvider provider,userId) async {
+    provider.branches=await branchServices.getBranchListByProvider(provider.id);
+   Future.delayed(Duration(seconds: 3),(){
+print("add "+provider.branches.first.address);
+   }) ;
+    provider.user=await userServices.getUserById(userId);
+    // serviceProvider.value=provider;
+  }
+
 
   Future getEService() async {
     try {
