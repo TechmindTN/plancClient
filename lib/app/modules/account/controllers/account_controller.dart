@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/ui.dart';
 import '../../../Network/UserNetwork.dart';
 import '../../../models/Client.dart';
 import '../../../models/User.dart';
@@ -22,6 +23,7 @@ class AccountController extends GetxController {
     currentProfile = _authController.currentProfile;
     print('user logged :' + currentuser.toString());
     print('client logged :' + currentProfile.toString());
+    
     super.onInit();
   }
 }

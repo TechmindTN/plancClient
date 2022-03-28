@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 
+import 'app/modules/auth/controllers/auth_controller.dart';
 import 'app/modules/e_service/controllers/e_service_controller.dart';
 import 'app/modules/home/controllers/home_controller.dart';
 import 'app/routes/app_pages.dart';
@@ -21,6 +22,8 @@ void initServices() async {
   await Get.putAsync(() => AuthService().init());
 
   await Get.putAsync(() => SettingsService().init());
+      Get.put<AuthController>(AuthController());
+
 
   Get.log('All services started...');
 }

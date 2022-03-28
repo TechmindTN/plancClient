@@ -22,6 +22,7 @@ class RegisterView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -178,7 +179,7 @@ class RegisterView extends GetView<AuthController> {
                           password: _pass,
                           username: _email,
                           creation_date: Timestamp.now());
-                      controller.data = controller.registerUser(u1);
+                        controller.registerUser(u1);
                       print(
                           'docccc after register' + controller.data.toString());
                       navigator.pushAndRemoveUntil<void>(

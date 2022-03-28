@@ -13,7 +13,7 @@ import '../../../Network/UserNetwork.dart';
 
 class AuthController extends GetxController {
   final hidePassword = true.obs;
-  Image im = Image.asset('assets/img/loading.gif');
+  Image im = Image.asset('assets/img/tools.png');
   File file;
   User currentuser;
   Client currentProfile;
@@ -22,7 +22,7 @@ class AuthController extends GetxController {
 
   Future<void> onInit() {
     file = File('');
-    im = Image.file(file);
+    // im = Image.file(file);
     currentuser = User();
     currentProfile = Client();
     super.onInit();
@@ -43,10 +43,11 @@ class AuthController extends GetxController {
     // return true;
   }
 
-  registerUser(User u) {
+  registerUser(User u) async {
     UserNetwork _userNetwork = UserNetwork();
 
-    return _userNetwork.addUser(u);
+    await _userNetwork.addUser(u).then((dr) => data=dr);
+
   }
 
   registerClient(Client c, DocumentReference d) async {

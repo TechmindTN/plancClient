@@ -15,7 +15,8 @@ class AccountView extends GetView<AccountController> {
   @override
   Widget build(BuildContext context) {
     var _currentUser = Get.find<AuthController>().currentuser;
-    return Scaffold(
+    
+   return Scaffold(
         appBar: AppBar(
           title: Text(
             "Account".tr,
@@ -113,6 +114,9 @@ class AccountView extends GetView<AccountController> {
                     text: Text("Profile".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.PROFILE);
+          
+          
+                      
                     },
                   ),
                   AccountLinkWidget(

@@ -388,19 +388,10 @@ class RegisterView2 extends GetView<AuthController> {
             tileMode: TileMode.clamp),
       ),
       child: Column(children: [
-        controller.im != null
-            ? Container(
+             Container(
                 constraints: BoxConstraints(maxHeight: 200),
-                child: controller.im)
-            : Container(
-                constraints: BoxConstraints(maxHeight: 200),
-                child: Image.asset(
-                  'assets/img/loading.gif',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 100,
-                ),
-              ),
+                child: controller.im),
+            
         //
         //         Container(
         //         height: 150,
