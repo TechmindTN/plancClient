@@ -10,7 +10,7 @@ import '../../profile/controllers/profile_controller.dart';
 class AccountController extends GetxController {
   AuthController _authController = Get.find<AuthController>();
 
-  UserNetwork _userNetwork = Get.find<UserNetwork>();
+  UserNetwork _userNetwork = UserNetwork();
   var currentuser = User();
   var currentProfile = Client();
   DocumentReference d;

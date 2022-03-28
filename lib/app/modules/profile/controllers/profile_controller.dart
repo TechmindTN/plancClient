@@ -55,11 +55,9 @@ class ProfileController extends GetxController {
   }
 
   updateClient() async {
+    print('Id profile ' + currentProfile.id);
     await clientRef.doc(currentProfile.id).set(
           currentProfile.tofire(),
-          SetOptions(
-            merge: true,
-          ),
         );
   }
 

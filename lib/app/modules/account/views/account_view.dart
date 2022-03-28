@@ -63,12 +63,12 @@ class AccountView extends GetView<AccountController> {
                     child: Column(
                       children: [
                         Text(
-                          _currentUser.email,
+                          _currentUser.email ?? 'user',
                           style: Get.textTheme.headline6
                               .merge(TextStyle(color: Get.theme.primaryColor)),
                         ),
                         SizedBox(height: 5),
-                        Text(_currentUser.email,
+                        Text(_currentUser.email ?? '',
                             style: Get.textTheme.caption.merge(
                                 TextStyle(color: Get.theme.primaryColor))),
                       ],
@@ -86,7 +86,8 @@ class AccountView extends GetView<AccountController> {
                       height: 100,
                       width: 100,
                       fit: BoxFit.cover,
-                      imageUrl: controller.currentProfile.profile_photo,
+                      imageUrl: controller.currentProfile.profile_photo ??
+                          'https://cdn1.vectorstock.com/i/1000x1000/23/70/man-avatar-icon-flat-vector-19152370.jpg',
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,

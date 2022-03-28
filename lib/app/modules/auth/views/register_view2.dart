@@ -31,8 +31,6 @@ class RegisterView2 extends GetView<AuthController> {
   String _state;
   String age;
   Map<String, String> _Social = {"facebook": '', "instagram": ''};
-  DocumentReference user = RegisterView().data;
-  String gender = 'Gender';
   final formGlobalKey = GlobalKey<FormState>();
   _getFromGallery() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -165,27 +163,29 @@ class RegisterView2 extends GetView<AuthController> {
                   return null;
                 },
               ),
-              DropdownButton<String>(
-                value: gender,
-                icon: const Icon(Icons.arrow_downward),
-                style: const TextStyle(color: Colors.orangeAccent),
-                underline: Container(
-                  height: 2,
-                  color: Colors.orangeAccent,
+              Obx(
+                () => DropdownButton<String>(
+                  value: controller.gender.value,
+                  icon: const Icon(Icons.arrow_downward),
+                  style: const TextStyle(color: Colors.orangeAccent),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.orangeAccent,
+                  ),
+                  onChanged: (String newValue) {
+                    controller.gender.value = newValue;
+                    controller.update();
+                  },
+                  items: <String>[
+                    'Male',
+                    'Female',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ),
-                onChanged: (String newValue) {
-                  gender = newValue;
-                },
-                items: <String>[
-                  'Gender',
-                  'Male',
-                  'Female',
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
               ),
               TextFieldWidget(
                 labelText: "Age".tr,
@@ -336,6 +336,8 @@ class RegisterView2 extends GetView<AuthController> {
                 child: BlockButtonWidget(
                   onPressed: () {
                     if (formGlobalKey.currentState.validate()) {
+                      DocumentReference user = controller.data;
+
                       Client c = Client(
                           first_name: _firstname,
                           last_name: _lastname,
@@ -345,10 +347,9 @@ class RegisterView2 extends GetView<AuthController> {
                           zip_code: int.parse(_zipcode),
                           home_address: _address,
                           social_media: _Social,
-                          gender: gender,
+                          gender: controller.gender.value,
                           state: _state,
                           age: int.parse(age));
-                      print(user);
                       var data = controller.registerClient(c, user);
 
                       Get.offAllNamed(Routes.ROOT);

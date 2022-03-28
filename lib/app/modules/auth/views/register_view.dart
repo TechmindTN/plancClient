@@ -10,15 +10,14 @@ import '../../../their_models/setting_model.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/settings_service.dart';
 import '../controllers/auth_controller.dart';
+import 'register_view2.dart';
 
 class RegisterView extends GetView<AuthController> {
   // final _currentUser = Get.find<AuthService>().user;
   final Setting _settings = Get.find<SettingsService>().setting.value;
-  AuthController _authController = AuthController();
   String _email = '';
   String _pass = '';
   bool confirm_pass = false;
-  DocumentReference data;
   final formGlobalKey = GlobalKey<FormState>();
 
   @override
@@ -179,8 +178,15 @@ class RegisterView extends GetView<AuthController> {
                           password: _pass,
                           username: _email,
                           creation_date: Timestamp.now());
-                      data = _authController.registerUser(u1);
-                      Get.offAllNamed(Routes.REGISTER2);
+                      controller.data = controller.registerUser(u1);
+                      print(
+                          'docccc after register' + controller.data.toString());
+                      navigator.pushAndRemoveUntil<void>(
+                        MaterialPageRoute<void>(
+                            builder: (BuildContext context) => RegisterView2()),
+                        ModalRoute.withName('/'),
+                      );
+                      // Get.offAllNamed(Routes.REGISTER2);
                     }
                   },
                   color: Get.theme.accentColor,
