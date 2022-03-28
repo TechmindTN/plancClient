@@ -6,6 +6,7 @@ import '../../../../common/ui.dart';
 import '../../../global_widgets/notifications_button_widget.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/auth_service.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../../root/controllers/root_controller.dart';
 import '../controllers/account_controller.dart';
 import '../widgets/account_link_widget.dart';
@@ -13,7 +14,7 @@ import '../widgets/account_link_widget.dart';
 class AccountView extends GetView<AccountController> {
   @override
   Widget build(BuildContext context) {
-    var _currentUser = Get.find<AuthService>().user;
+    var _currentUser = Get.find<AuthController>().currentuser;
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -62,12 +63,12 @@ class AccountView extends GetView<AccountController> {
                     child: Column(
                       children: [
                         Text(
-                          _currentUser.value.email,
+                          _currentUser.email,
                           style: Get.textTheme.headline6
                               .merge(TextStyle(color: Get.theme.primaryColor)),
                         ),
                         SizedBox(height: 5),
-                        Text(_currentUser.value.email,
+                        Text(_currentUser.email,
                             style: Get.textTheme.caption.merge(
                                 TextStyle(color: Get.theme.primaryColor))),
                       ],
@@ -85,7 +86,7 @@ class AccountView extends GetView<AccountController> {
                       height: 100,
                       width: 100,
                       fit: BoxFit.cover,
-                      // imageUrl: _currentUser.value.,
+                      imageUrl: controller.currentProfile.profile_photo,
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,
