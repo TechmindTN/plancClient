@@ -70,7 +70,7 @@ class Client {
       ..forEach((key, value) {
         print(key + ' : ' + value.toString());
       });
-    this.user.printUser();
+    // this.user.printUser();
   }
 
   Map<String, dynamic> tofire() => {

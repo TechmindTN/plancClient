@@ -13,13 +13,14 @@ import '../../../Network/UserNetwork.dart';
 
 class AuthController extends GetxController {
   final hidePassword = true.obs;
-  Image im;
+  Image im = Image.asset('assets/img/loading.gif');
   File file;
   User currentuser;
   Client currentProfile;
-  Future<void> onInit() {
-    Get.put<UserNetwork>(UserNetwork());
+  RxString gender = 'Male'.obs;
+  DocumentReference data;
 
+  Future<void> onInit() {
     file = File('');
     im = Image.file(file);
     currentuser = User();
@@ -28,7 +29,7 @@ class AuthController extends GetxController {
   }
 
   Future<bool> verifylogin(String email, String pass) async {
-    UserNetwork _userNetwork = Get.find<UserNetwork>();
+    UserNetwork _userNetwork = UserNetwork();
 
     bool ok = true;
     var data = await _userNetwork.getUserByEmailPassword(email, pass);
@@ -43,21 +44,19 @@ class AuthController extends GetxController {
   }
 
   registerUser(User u) {
-    UserNetwork _userNetwork = Get.find<UserNetwork>();
+    UserNetwork _userNetwork = UserNetwork();
 
-    var data = _userNetwork.addUser(u);
+    return _userNetwork.addUser(u);
   }
 
   registerClient(Client c, DocumentReference d) async {
-    UserNetwork _userNetwork = Get.find<UserNetwork>();
+    UserNetwork _userNetwork = UserNetwork();
 
     var url;
     await uploadFile().then((value) {
       url = value;
     });
     c.profile_photo = url;
-    print(url);
-    print(d);
     var data = _userNetwork.addClient(c, d);
   }
 

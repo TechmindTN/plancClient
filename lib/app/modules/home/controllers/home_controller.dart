@@ -47,6 +47,7 @@ class HomeController extends GetxController {
   Future<void> onInit() async {
     Get.put<EServiceController>(EServiceController());
     Get.put<AuthController>(AuthController());
+
     prov = await eServiceController.getProviders();
 
     await refreshHome();

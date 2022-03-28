@@ -24,8 +24,8 @@
           "name": "slide02"
         }],
         "_id": "5fedb1117315210022c2bec4",
-        "title": "Repair",
-        "description": "Fix the Broken Stuff by Asking for the Technicians",
+        "title": "Réparation",
+        "description": "Réparez les trucs cassés en demandant les techniciens ",
         "order": 2,
         "textColor": "#333333", 
         "createdAt": "2020-12-31T11:08:01.278Z",
