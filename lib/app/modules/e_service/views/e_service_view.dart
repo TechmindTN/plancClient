@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,9 @@ import '../widgets/review_item_widget.dart';
 
 class EServiceView extends GetView<EServiceController> {
     final ServiceProvider prov;
+    final   _service;
 
-  EServiceView(this.prov);
+  EServiceView(this.prov, this._service);
 
   
   @override
@@ -96,7 +98,7 @@ class EServiceView extends GetView<EServiceController> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: 10),
-                     
+
                       // buildCategories(provider),
                       EServiceTilWidget(
                         title: Text("Description".tr,
@@ -104,40 +106,41 @@ class EServiceView extends GetView<EServiceController> {
                         content: Text(prov.description,
                             style: Get.textTheme.bodyText1),
                       ),
-//  EServiceTilWidget(
-//                         title: Text("Contact".tr,
-//                             style: Get.textTheme.subtitle2),
-//                         content: Column(
-//                           children: [
-//                             Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: [
-//                                 Text(prov.branches.first.phone.toString(),
-//                                     style: Get.textTheme.bodyText1),
-//                                     Icon(Icons.phone_outlined)
-//                               ],
-//                             ),
-//                             SizedBox(height: 5,),
-//                               Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: [
-//                                 Text(prov.user.email,
-//                                     style: Get.textTheme.bodyText1),
-//                                     Icon(Icons.email_outlined)
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                       ),
+             if(_service.data().containsKey('phone'))         
+ EServiceTilWidget(
+                        title: Text("Contact".tr,
+                            style: Get.textTheme.subtitle2),
+                        content: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(_service['phone'].toString()??'12345678',
+                                    style: Get.textTheme.bodyText1),
+                                    Icon(Icons.phone_outlined)
+                              ],
+                            ),
+                            SizedBox(height: 5,),
+                            //   Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(prov.user.email,
+                            //         style: Get.textTheme.bodyText1),
+                            //         Icon(Icons.email_outlined)
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      ),
 
 
-
-                      // EServiceTilWidget(
-                      //   title: Text("Address".tr,
-                      //       style: Get.textTheme.subtitle2),
-                      //   content: Text(prov.branches.first.address,
-                      //       style: Get.textTheme.bodyText1),
-                      // ),
+if(_service.data().containsKey("address"))   
+                      EServiceTilWidget(
+                        title: Text("Address".tr,
+                            style: Get.textTheme.subtitle2),
+                        content: Text(_service['address']??'123 Centre Urbain Nord',
+                            style: Get.textTheme.bodyText1),
+                      ),
 
 
 
@@ -265,54 +268,54 @@ class EServiceView extends GetView<EServiceController> {
                           ).paddingSymmetric(horizontal: 20),
                         ],
                       ),
-
-                      // EServiceTilWidget(
-                      //   title: Text("Social Media".tr,
-                      //       style: Get.textTheme.subtitle2),
-                      //   content: Column(
-                      //     children: [
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text("Website".tr,
-                      //               style: Get.textTheme.bodyText1),
-                      //           Text(prov.website,
-                      //               style: Get.textTheme.bodyText1),
-                      //         ],
-                      //       ),
-                      //       SizedBox(height: 5,),
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text("Favebook".tr,
-                      //               style: Get.textTheme.bodyText1),
-                      //           Text(prov.branches.first.social_media['Facebook'],
-                      //               style: Get.textTheme.bodyText1),
-                      //         ],
-                      //       ),
-                      //        SizedBox(height: 5,),
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text("Instagram".tr,
-                      //               style: Get.textTheme.bodyText1),
-                      //           Text(prov.branches.first.social_media['Instagram'],
-                      //               style: Get.textTheme.bodyText1),
-                      //         ],
-                      //       ),
-                      //        SizedBox(height: 5,),
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text("LinkedIn".tr,
-                      //               style: Get.textTheme.bodyText1),
-                      //           Text(prov.branches.first.social_media['LinkedIn'],
-                      //               style: Get.textTheme.bodyText1),
-                      //         ],
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+if(_service.data().containsKey("social_media"))   
+                      EServiceTilWidget(
+                        title: Text("Social Media".tr,
+                            style: Get.textTheme.subtitle2),
+                        content: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Website".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(prov.website,
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                            SizedBox(height: 5,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Favebook".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(_service['social_media']['Facebook']??prov.name,
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                             SizedBox(height: 5,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Instagram".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(_service['social_media']['Instagram']??prov.name,
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                             SizedBox(height: 5,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("LinkedIn".tr,
+                                    style: Get.textTheme.bodyText1),
+                                Text(_service['social_media']['LinkedIn']??prov.name,
+                                    style: Get.textTheme.bodyText1),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       EServiceTilWidget(
                         title: Text("Reviews & Ratings".tr,
                             style: Get.textTheme.subtitle2),

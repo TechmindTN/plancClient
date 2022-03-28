@@ -29,7 +29,8 @@ Widget RecWidget(_service,eServiceController)  {
                 onTap: () {
                   eServiceController.serviceProvider.value = provider;
                   // Get.toNamed(Routes.E_SERVICE, arguments: provider);
-                  Get.to(EServiceView(provider));
+                  Get.to(EServiceView(provider,_service));
+                  
                 },
                 child: Container(
                   width: 160,

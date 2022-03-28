@@ -145,7 +145,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isLast: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _firstname = text;
                   return null;
@@ -159,7 +159,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _lastname = text;
                   return null;
@@ -196,7 +196,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   age = text;
                   return null;
@@ -211,7 +211,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _phone = text;
                   return null;
@@ -226,7 +226,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _country = text;
                   return null;
@@ -241,7 +241,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _city = text;
                   return null;
@@ -256,7 +256,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _address = text;
                   return null;
@@ -271,7 +271,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _state = text;
                   return null;
@@ -286,7 +286,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _zipcode = text;
                   return null;
@@ -301,7 +301,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _Social["facebook"] = text;
                   return null;
@@ -316,7 +316,7 @@ class RegisterView2 extends GetView<AuthController> {
                 isFirst: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _Social["instagram"] = text;
                   return null;
