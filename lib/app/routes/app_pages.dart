@@ -96,7 +96,7 @@ class AppPages {
         binding: AuthBinding()),
     GetPage(
         name: Routes.E_SERVICE,
-        page: () => EServiceView(),
+        // page: () => EServiceView(),
         binding: EServiceBinding(),
         transition: Transition.downToUp),
     GetPage(

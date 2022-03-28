@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,10 +20,15 @@ import '../widgets/e_service_title_bar_widget.dart';
 import '../widgets/review_item_widget.dart';
 
 class EServiceView extends GetView<EServiceController> {
+    final ServiceProvider prov;
+    final   _service;
+
+  EServiceView(this.prov, this._service);
+
   
   @override
   Widget build(BuildContext context) {
-    List<String> images =[];
+    List<dynamic> images =[];
     // List<String> images = [
     //   'assets/img/1.png',
     //   'assets/img/2.png',
@@ -33,16 +39,19 @@ class EServiceView extends GetView<EServiceController> {
     //   'assets/img/7.png',
     //   'assets/img/8.png',
     // ];
-    return Obx(() {
-      var provider = controller.serviceProvider;
-      List<dynamic> images =provider.value.media;
+     
+    // Obx(() {
+      // var provider = controller.serviceProvider;
+             images =prov.media;
+
+      // List<dynamic> images =prov.media;
       // if (!provider.isBlank) {
       //   return Scaffold(
       //     body: CircularLoadingWidget(height: Get.height),
       //   );
       // } else {
       return Scaffold(
-        bottomNavigationBar: buildBlockButtonWidget(provider.value),
+        bottomNavigationBar: buildBlockButtonWidget(prov),
         body: RefreshIndicator(
             onRefresh: () async {
               controller.refreshEService(showMessage: true);
@@ -66,19 +75,20 @@ class EServiceView extends GetView<EServiceController> {
                         color: Get.theme.hintColor),
                     onPressed: () => {Get.back()},
                   ),
-                  bottom: buildEServiceTitleBarWidget(provider.value),
+                  bottom: buildEServiceTitleBarWidget(prov),
                   flexibleSpace: FlexibleSpaceBar(
                     collapseMode: CollapseMode.parallax,
-                    background: Obx(() {
-                      return Stack(
+                    background: 
+                    // Obx(() {
+                       Stack(
                         alignment: AlignmentDirectional.center,
                         children: <Widget>[
-                          Image.network(provider.value.profile_photo)
+                          Image.network(prov.profile_photo)
                           // buildCarouselSlider(provider),
                           // buildCarouselBullets(provider),
                         ],
-                      );
-                    }),
+                      )
+                    // }),
                   ).marginOnly(bottom: 50),
                 ),
 
@@ -88,14 +98,15 @@ class EServiceView extends GetView<EServiceController> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: 10),
-                     
+
                       // buildCategories(provider),
                       EServiceTilWidget(
                         title: Text("Description".tr,
                             style: Get.textTheme.subtitle2),
-                        content: Text(provider.value.description,
+                        content: Text(prov.description,
                             style: Get.textTheme.bodyText1),
                       ),
+             if(_service.data().containsKey('phone'))         
  EServiceTilWidget(
                         title: Text("Contact".tr,
                             style: Get.textTheme.subtitle2),
@@ -104,29 +115,36 @@ class EServiceView extends GetView<EServiceController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(provider.value.branches.first.phone.toString(),
+                                Text(_service['phone'].toString()??'12345678',
                                     style: Get.textTheme.bodyText1),
                                     Icon(Icons.phone_outlined)
                               ],
                             ),
                             SizedBox(height: 5,),
-                              Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(provider.value.user.email,
-                                    style: Get.textTheme.bodyText1),
-                                    Icon(Icons.email_outlined)
-                              ],
-                            ),
+                            //   Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(prov.user.email,
+                            //         style: Get.textTheme.bodyText1),
+                            //         Icon(Icons.email_outlined)
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
+
+
+if(_service.data().containsKey("address"))   
                       EServiceTilWidget(
                         title: Text("Address".tr,
                             style: Get.textTheme.subtitle2),
-                        content: Text(provider.value.branches.first.address,
+                        content: Text(_service['address']??'123 Centre Urbain Nord',
                             style: Get.textTheme.bodyText1),
                       ),
+
+
+
+
                       // EServiceTilWidget(
                       //   title: Text("Service Provider".tr, style: Get.textTheme.subtitle2),
                       //   content: EProviderItemWidget(provider: _eService.eProvider),
@@ -250,7 +268,7 @@ class EServiceView extends GetView<EServiceController> {
                           ).paddingSymmetric(horizontal: 20),
                         ],
                       ),
-
+if(_service.data().containsKey("social_media"))   
                       EServiceTilWidget(
                         title: Text("Social Media".tr,
                             style: Get.textTheme.subtitle2),
@@ -261,7 +279,7 @@ class EServiceView extends GetView<EServiceController> {
                               children: [
                                 Text("Website".tr,
                                     style: Get.textTheme.bodyText1),
-                                Text(provider.value.website,
+                                Text(prov.website,
                                     style: Get.textTheme.bodyText1),
                               ],
                             ),
@@ -271,7 +289,7 @@ class EServiceView extends GetView<EServiceController> {
                               children: [
                                 Text("Favebook".tr,
                                     style: Get.textTheme.bodyText1),
-                                Text(provider.value.branches.first.social_media['Facebook'],
+                                Text(_service['social_media']['Facebook']??prov.name,
                                     style: Get.textTheme.bodyText1),
                               ],
                             ),
@@ -281,7 +299,7 @@ class EServiceView extends GetView<EServiceController> {
                               children: [
                                 Text("Instagram".tr,
                                     style: Get.textTheme.bodyText1),
-                                Text(provider.value.branches.first.social_media['Instagram'],
+                                Text(_service['social_media']['Instagram']??prov.name,
                                     style: Get.textTheme.bodyText1),
                               ],
                             ),
@@ -291,7 +309,7 @@ class EServiceView extends GetView<EServiceController> {
                               children: [
                                 Text("LinkedIn".tr,
                                     style: Get.textTheme.bodyText1),
-                                Text(provider.value.branches.first.social_media['LinkedIn'],
+                                Text(_service['social_media']['LinkedIn']??prov.name,
                                     style: Get.textTheme.bodyText1),
                               ],
                             ),
@@ -350,7 +368,7 @@ class EServiceView extends GetView<EServiceController> {
             )),
       );
       // }
-    });
+    // });
   }
 
   // CarouselSlider buildCarouselSlider(ServiceProvider provider) {

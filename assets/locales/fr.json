@@ -9,6 +9,8 @@
     "Can I help you something?": "Puis-je vous aider quelque chose?",
     "Categories": "Categories",
     "Chat": "Chat", 
+    "password too short":"mot de passe courte",
+    "field is empty":"le champ est vide",
     "Chats": "Chats",
     "Service Providers":"Fournisseurs",
     "Completed": "Terminé",

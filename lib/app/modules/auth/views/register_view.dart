@@ -103,7 +103,7 @@ class RegisterView extends GetView<AuthController> {
                 isLast: false,
                 validator: (text) {
                   if (text == null || text.isEmpty) {
-                    return 'Field is empty';
+                    return 'field is empty'.tr;
                   }
                   _email = text;
                   return null;
@@ -120,10 +120,10 @@ class RegisterView extends GetView<AuthController> {
                   isFirst: false,
                   validator: (text) {
                     if (text == null || text.isEmpty) {
-                      return 'Field is empty';
+                      return 'field is empty'.tr;
                     } else {
                       if (text.length < 8) {
-                        return 'Password too short !';
+                        return 'Password too short'.tr+' !';
                       }
                     }
                     _pass = text;
@@ -152,7 +152,7 @@ class RegisterView extends GetView<AuthController> {
                   isFirst: false,
                   validator: (text) {
                     if (text == null || text.isEmpty) {
-                      return 'Field is empty';
+                      return 'field is empty'.tr;
                     }
                     _pass = text;
                     return null;

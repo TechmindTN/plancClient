@@ -6,6 +6,9 @@ import 'package:home_services/app/models/Category.dart';
 import 'package:home_services/app/models/Provider.dart';
 import 'package:home_services/app/models/User.dart';
 
+
+List<ServiceProvider> futprov;
+
 class ServiceProviderNetwork {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference providersRef =
@@ -17,7 +20,7 @@ class ServiceProviderNetwork {
 
   Future<List<ServiceProvider>> getProvidersList() async {
     try {
-      int index = 0;
+      // int index = 0;
       List<ServiceProvider> providers = [];
 
 // if(providers.isNotEmpty){
@@ -26,11 +29,12 @@ class ServiceProviderNetwork {
 
       QuerySnapshot snapshot = await providersRef.get();
       print('snapshot length ' + snapshot.docs.length.toString());
-      var list = snapshot.docs.map((e) => e.data()).toList();
+      // var list = snapshot.docs.map((e) => e.data()).toList();
       snapshot.docs.forEach((element) async {
         ServiceProvider serviceProvider = ServiceProvider.fromFire(element);
         // providers.add(serviceProvider);
         serviceProvider.id = element.id;
+        print('element '+serviceProvider.description);
         // serviceProvider.id = element.id;
 
         //get Branches
@@ -64,11 +68,12 @@ class ServiceProviderNetwork {
 
         serviceProvider.categories = categories;
         providers.add(serviceProvider);
-
-        index++;
+      
+        // index++;
       });
       print('providers done');
       print('providers documents length ' + providers.length.toString());
+      print('providers '+providers.toString());
       return providers;
     } catch (e) {
       print(e);

@@ -98,7 +98,7 @@ class LoginView extends GetView<AuthController> {
                     iconData: Icons.alternate_email,
                     validator: (text) {
                       if (text == null || text.isEmpty) {
-                        return 'Field is empty';
+                        return 'field is empty'.tr;
                       } else {
                         if (!text.isEmail) {
                           return 'Email Format not valid';
@@ -117,7 +117,7 @@ class LoginView extends GetView<AuthController> {
                       keyboardType: TextInputType.visiblePassword,
                       validator: (text) {
                         if (text == null || text.isEmpty) {
-                          return 'Field is empty';
+                          return 'field is empty'.tr;
                         }
                         _pass = text;
                         return null;
