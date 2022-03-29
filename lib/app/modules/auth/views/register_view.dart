@@ -123,7 +123,7 @@ class RegisterView extends GetView<AuthController> {
                       return 'field is empty'.tr;
                     } else {
                       if (text.length < 8) {
-                        return 'Password too short'.tr+' !';
+                        return 'Password too short'.tr + ' !';
                       }
                     }
                     _pass = text;
@@ -188,6 +188,10 @@ class RegisterView extends GetView<AuthController> {
                       );
                       // Get.offAllNamed(Routes.REGISTER2);
                     }
+                    navigator.pushAndRemoveUntil<void>(
+                        MaterialPageRoute<void>(
+                            builder: (BuildContext context) => RegisterView2()),
+                        ModalRoute.withName('/'));
                   },
                   color: Get.theme.accentColor,
                   text: Text(

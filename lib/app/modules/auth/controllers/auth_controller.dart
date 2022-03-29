@@ -13,7 +13,8 @@ import '../../../Network/UserNetwork.dart';
 
 class AuthController extends GetxController {
   final hidePassword = true.obs;
-  Image im = Image.asset('assets/img/loading.gif');
+  Image im = Image.network(
+      'https://icon-library.com/images/no-photo-available-icon/no-photo-available-icon-20.jpg');
   File file;
   User currentuser;
   Client currentProfile;

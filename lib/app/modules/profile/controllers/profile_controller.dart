@@ -33,7 +33,6 @@ class ProfileController extends GetxController {
     currentuser = _authController.currentuser;
     currentProfile = _authController.currentProfile;
     print('user logged :' + currentuser.toString());
-    print('client logged :' + currentProfile.printClient());
     super.onInit();
   }
 

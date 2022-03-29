@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../global_widgets/text_field_widget.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -14,6 +15,7 @@ class ProfileView extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
+    var _currentProfile = Get.find<AuthController>().currentProfile;
     return Scaffold(
         appBar: hideAppBar
             ? null
@@ -186,18 +188,17 @@ class ProfileView extends GetView<ProfileController> {
                   );
                 }),
 
-                if (controller.currentProfile != null &&
-                    controller.currentProfile.isBlank)
+                if (_currentProfile != null && _currentProfile.isBlank)
                   Column(
                     children: [
                       Text("Change Profile photo".tr,
                               style: Get.textTheme.headline5)
                           .paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
-                      controller.currentProfile.profile_photo != null
+                      _currentProfile.profile_photo != null
                           ? Container(
                               height: 300,
-                              child: Image.network(
-                                  controller.currentProfile.profile_photo))
+                              child:
+                                  Image.network(_currentProfile.profile_photo))
                           : Container(
                               height: 300,
                               child: Image.asset(
