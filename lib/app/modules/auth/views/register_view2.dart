@@ -39,7 +39,7 @@ class RegisterView2 extends GetView<AuthController> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      controller.im = Image.file(File(pickedFile.path));
+      controller.im.value = Image.file(File(pickedFile.path));
       controller.update();
     }
   }
@@ -334,7 +334,7 @@ class RegisterView2 extends GetView<AuthController> {
               SizedBox(
                 width: Get.width,
                 child: BlockButtonWidget(
-                  onPressed: () {
+                  onPressed: () async {
                     if (formGlobalKey.currentState.validate()) {
                       DocumentReference user = controller.data;
 
@@ -351,8 +351,17 @@ class RegisterView2 extends GetView<AuthController> {
                           state: _state,
                           age: int.parse(age));
                       var data = controller.registerClient(c, user);
-
-                      Get.offAllNamed(Routes.ROOT);
+                      if (await controller.verifylogin(
+                              controller.u1.email, controller.u1.password) ==
+                          true) {
+                        Get.offAllNamed(Routes.ROOT);
+                      } else {
+                        final snack = SnackBar(
+                          content: Text('Problem while registering !'),
+                          backgroundColor: Colors.orangeAccent,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snack);
+                      }
                     }
                   },
                   color: Get.theme.accentColor,
@@ -387,55 +396,48 @@ class RegisterView2 extends GetView<AuthController> {
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
-      child: Column(children: [
-        controller.im != null
-            ? Container(
-                constraints: BoxConstraints(maxHeight: 200),
-                child: controller.im)
-            : Container(
-                constraints: BoxConstraints(maxHeight: 200),
-                child: Image.asset(
-                  'assets/img/loading.gif',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: 100,
-                ),
-              ),
-        //
-        //         Container(
-        //         height: 150,
-        //         child: Image(
-        //   image: NetworkImage(store.image,
+      child: GetBuilder<AuthController>(
+          init: AuthController(),
+          builder: (value) => Column(children: [
+                Container(
+                    constraints: BoxConstraints(maxHeight: 200),
+                    child: controller.im.value),
 
-        //   ),
-        // ),
-        //       ),
-        SizedBox(height: 20),
-        FloatingActionButton(
-            onPressed: () async {
-              controller.changeImage();
+                //
+                //         Container(
+                //         height: 150,
+                //         child: Image(
+                //   image: NetworkImage(store.image,
 
-              controller.update();
+                //   ),
+                // ),
+                //       ),
+                SizedBox(height: 20),
+                FloatingActionButton(
+                    onPressed: () async {
+                      controller.changeImage();
 
-              // storeimage.printInfo();
-              //     final ImagePicker _picker = ImagePicker();
+                      controller.update();
 
-              //     final XFile image = await _picker.pickImage(source: ImageSource.gallery);
-              //     File im=File(image.path);
-              //     storeimage=Image.file(im);
-              //       storeimage=Container(
-              //         height: 150,
-              //         child: Image(
-              //   image: FileImage(im,
+                      // storeimage.printInfo();
+                      //     final ImagePicker _picker = ImagePicker();
 
-              //   ),
-              // ),
-              //       );
-              //    print(storeimage);
-              //   storecontrol.update();
-            },
-            child: Icon(Icons.camera))
-      ]),
+                      //     final XFile image = await _picker.pickImage(source: ImageSource.gallery);
+                      //     File im=File(image.path);
+                      //     storeimage=Image.file(im);
+                      //       storeimage=Container(
+                      //         height: 150,
+                      //         child: Image(
+                      //   image: FileImage(im,
+
+                      //   ),
+                      // ),
+                      //       );
+                      //    print(storeimage);
+                      //   storecontrol.update();
+                    },
+                    child: Icon(Icons.camera))
+              ])),
     );
   }
 

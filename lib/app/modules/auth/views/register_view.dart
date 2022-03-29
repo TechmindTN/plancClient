@@ -173,14 +173,13 @@ class RegisterView extends GetView<AuthController> {
                 child: BlockButtonWidget(
                   onPressed: () {
                     if (formGlobalKey.currentState.validate()) {
-                      User u1 = User(
+                      controller.u1 = User(
                           email: _email,
                           password: _pass,
                           username: _email,
                           creation_date: Timestamp.now());
-                      controller.data = controller.registerUser(u1);
-                      print(
-                          'docccc after register' + controller.data.toString());
+                      controller.registerUser(controller.u1);
+
                       navigator.pushAndRemoveUntil<void>(
                         MaterialPageRoute<void>(
                             builder: (BuildContext context) => RegisterView2()),

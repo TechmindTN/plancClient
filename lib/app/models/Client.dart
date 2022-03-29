@@ -61,9 +61,9 @@ class Client {
     print(this.country);
     print(this.state);
     print(this.zip_code);
-    print(this.location.latitude.toString() +
-        ' : ' +
-        this.location.longitude.toString());
+    // print(this.location.latitude.toString() +
+    //     ' : ' +
+    //     this.location.longitude.toString());
     print(this.phone);
     print(this.profile_photo);
     this.social_media
@@ -87,6 +87,6 @@ class Client {
         'home_address': home_address,
         'age': age,
         'city': city,
-        'user': user
+        
       };
 }

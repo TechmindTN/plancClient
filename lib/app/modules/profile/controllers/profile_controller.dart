@@ -20,6 +20,7 @@ class ProfileController extends GetxController {
   AuthController _authController = Get.find<AuthController>();
   CollectionReference clientRef =
       FirebaseFirestore.instance.collection('Client');
+  CollectionReference userRef = FirebaseFirestore.instance.collection('User');
   var currentuser = User();
   var currentProfile = Client();
   Image im;
@@ -43,6 +44,7 @@ class ProfileController extends GetxController {
       updateClient();
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Profile saved successfully".tr));
+      update();
     } else {
       Get.showSnackbar(Ui.ErrorSnackBar(
           message: "There are errors in some fields please correct them!".tr));
@@ -55,9 +57,11 @@ class ProfileController extends GetxController {
 
   updateClient() async {
     print('Id profile ' + currentProfile.id);
-    await clientRef.doc(currentProfile.id).set(
+    await clientRef.doc(currentProfile.id).update(
           currentProfile.tofire(),
         );
+    print('id ' + currentuser.id);
+    await userRef.doc(currentuser.id).update(currentuser.tofire());
   }
 
   Future<String> uploadFile() async {
@@ -72,6 +76,7 @@ class ProfileController extends GetxController {
     final urlDownload = await snapshot.ref.getDownloadURL();
     //var url = dowurl.toString();
     print(urlDownload);
+    update();
     return urlDownload;
   }
 

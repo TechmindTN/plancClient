@@ -28,10 +28,12 @@ class ProfileView extends GetView<ProfileController> {
                 backgroundColor: Colors.transparent,
                 automaticallyImplyLeading: false,
                 leading: new IconButton(
-                  icon: new Icon(Icons.arrow_back_ios,
-                      color: Get.theme.hintColor),
-                  onPressed: () => Get.back(),
-                ),
+                    icon: new Icon(Icons.arrow_back_ios,
+                        color: Get.theme.hintColor),
+                    onPressed: () {
+                      controller.update();
+                      Get.back();
+                    }),
                 elevation: 0,
               ),
         bottomNavigationBar: Container(
@@ -120,6 +122,61 @@ class ProfileView extends GetView<ProfileController> {
                   labelText: "Email".tr,
                   iconData: Icons.alternate_email,
                 ),
+                TextFieldWidget(
+                  onSaved: (input) => controller.currentProfile.country = input,
+                  validator: (input) => input.length < 3
+                      ? "Should be more than 3 letters".tr
+                      : null,
+                  initialValue: controller.currentProfile.country,
+                  hintText: "Tunisie".tr,
+                  labelText: "Country".tr,
+                  iconData: Icons.person_outline,
+                ),
+                TextFieldWidget(
+                  onSaved: (input) =>
+                      controller.currentProfile.home_address = input,
+                  validator: (input) => input.length < 3
+                      ? "Should be more than 3 letters".tr
+                      : null,
+                  initialValue: controller.currentProfile.home_address,
+                  hintText: "home address".tr,
+                  labelText: "Home address".tr,
+                  iconData: Icons.person_outline,
+                ),
+                TextFieldWidget(
+                  onSaved: (input) => controller
+                      .currentProfile.social_media['facebook'] = input,
+                  validator: (input) => input.length < 3
+                      ? "Should be more than 3 chars".tr
+                      : null,
+                  initialValue:
+                      controller.currentProfile.social_media['facebook'],
+                  hintText: "Facebook Account Username".tr,
+                  labelText: "Facebook Account".tr,
+                  iconData: Icons.facebook,
+                ),
+                TextFieldWidget(
+                  onSaved: (input) => controller
+                      .currentProfile.social_media['instagram'] = input,
+                  validator: (input) => input.length < 3
+                      ? "Should be more than 3 chars".tr
+                      : null,
+                  initialValue:
+                      controller.currentProfile.social_media['instagram'],
+                  hintText: "Instagram Account Username".tr,
+                  labelText: "Instagram Account".tr,
+                  iconData: Icons.message_rounded,
+                ),
+                TextFieldWidget(
+                    onSaved: (input) =>
+                        controller.currentProfile.phone = int.parse(input),
+                    validator: (input) =>
+                        input.length < 3 ? "Should  8 numbers".tr : null,
+                    initialValue: controller.currentProfile.phone.toString(),
+                    hintText: "Phone number".tr,
+                    labelText: "Phone number".tr,
+                    iconData: Icons.phone),
+
                 // TextFieldWidget(
                 //   keyboardType: TextInputType.phone,
                 //   onSaved: (input) => controller.currentuser.value.phone = input,
@@ -187,35 +244,44 @@ class ProfileView extends GetView<ProfileController> {
                     isLast: true,
                   );
                 }),
-
-                if (_currentProfile != null && _currentProfile.isBlank)
-                  Column(
-                    children: [
-                      Text("Change Profile photo".tr,
-                              style: Get.textTheme.headline5)
-                          .paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
-                      _currentProfile.profile_photo != null
-                          ? Container(
-                              height: 300,
-                              child:
-                                  Image.network(_currentProfile.profile_photo))
-                          : Container(
-                              height: 300,
-                              child: Image.asset(
-                                'assets/img/helmet.png',
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 100,
-                              ),
-                            ),
-                      Container(
-                          child: FloatingActionButton(
-                              onPressed: () async {
-                                controller.changeImage();
-                              },
-                              child: Icon(Icons.camera_alt_outlined)))
-                    ],
-                  ),
+                GetBuilder<ProfileController>(
+                    init: ProfileController(),
+                    builder: (value) {
+                      if (_currentProfile != null) {
+                        return Column(
+                          children: [
+                            Text("Change Profile photo".tr,
+                                    style: Get.textTheme.headline5)
+                                .paddingOnly(
+                                    top: 25, bottom: 0, right: 22, left: 22),
+                            _currentProfile.profile_photo != null
+                                ? Container(
+                                    height: 300,
+                                    child: Image.network(
+                                        _currentProfile.profile_photo))
+                                : Container(
+                                    height: 300,
+                                    child: Image.asset(
+                                      'assets/img/helmet.png',
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 100,
+                                    ),
+                                  ),
+                            Container(
+                                child: FloatingActionButton(
+                                    onPressed: () async {
+                                      controller.changeImage();
+                                    },
+                                    child: Icon(Icons.camera_alt_outlined)))
+                          ],
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 50,
+                        );
+                      }
+                    }),
               ],
             )));
   }
