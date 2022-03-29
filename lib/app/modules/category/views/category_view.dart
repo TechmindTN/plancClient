@@ -130,7 +130,9 @@ class CategoryView extends GetView<CategoryController> {
                           });
                         })),
                   ),
-                  ServicesListWidget(),
+                  Container(
+                    height: 445,
+                    child: ServicesListWidget()),
                 ],
               ),
             ),

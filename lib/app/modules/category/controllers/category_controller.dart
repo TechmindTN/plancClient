@@ -10,6 +10,7 @@ import '../../../Network/CategoryNetwork.dart';
 import '../../../Network/ServiceProviderNetwork.dart';
 import '../../../models/Provider.dart';
 import '../../../repositories/e_service_repository.dart';
+import '../../home/controllers/home_controller.dart';
 
 enum CategoryFilter { ALL, AVAILABILITY, RATING, FEATURED, POPULAR }
 
@@ -18,7 +19,7 @@ class CategoryController extends GetxController {
   final selected = Rx<CategoryFilter>();
   final eServices = <EService>[].obs;
   final page = 1.obs;
-  final services = <ServiceProvider>[].obs;
+   RxList<ServiceProvider> services = <ServiceProvider>[].obs;
   final isLoading = true.obs;
   final isDone = false.obs;
   EServiceRepository _eServiceRepository;
@@ -32,6 +33,8 @@ class CategoryController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    Get.put<HomeController>(HomeController());
+    services.value=Get.find<HomeController>().prov;
     category.value = Get.arguments as Category;
     print('cattt' + category.value.name);
 

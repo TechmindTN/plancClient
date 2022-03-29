@@ -45,9 +45,15 @@ class ServiceProviderNetwork {
 
         // get category
         // List<dynamic> drList = element['categories'];
-        List<Category> categories = [];
+        // List<Category> categories = [];
         // serviceProvider.categories = categories;
-
+List<Category> categories=[];
+      List<dynamic> drList = snapshot.docs.first['categories'];
+      drList.forEach((element) async {
+        Category category =await categoryServices.getCategoryById(element.id);
+        categories.add(category);
+       });
+serviceProvider.categories=categories;
         // drList.forEach((value) async {
         //   Category category = Category(name: '', parent: null, id: value.id);
         //   category = await categoryServices.getCategoryById(category.id ?? '');
