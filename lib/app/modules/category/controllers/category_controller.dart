@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/models/Category.dart';
@@ -5,6 +6,9 @@ import 'package:home_services/app/their_models/e_service_model.dart';
 
 import '../../../../common/ui.dart';
 
+import '../../../Network/CategoryNetwork.dart';
+import '../../../Network/ServiceProviderNetwork.dart';
+import '../../../models/Provider.dart';
 import '../../../repositories/e_service_repository.dart';
 
 enum CategoryFilter { ALL, AVAILABILITY, RATING, FEATURED, POPULAR }
@@ -14,10 +18,13 @@ class CategoryController extends GetxController {
   final selected = Rx<CategoryFilter>();
   final eServices = <EService>[].obs;
   final page = 1.obs;
+  final services = <ServiceProvider>[].obs;
   final isLoading = true.obs;
   final isDone = false.obs;
   EServiceRepository _eServiceRepository;
   ScrollController scrollController = ScrollController();
+  String categ_id = '';
+  DocumentReference ref;
 
   CategoryController() {
     _eServiceRepository = new EServiceRepository();
@@ -26,6 +33,8 @@ class CategoryController extends GetxController {
   @override
   Future<void> onInit() async {
     category.value = Get.arguments as Category;
+    print('cattt' + category.value.name);
+
     selected.value = CategoryFilter.ALL;
     scrollController.addListener(() {
       if (scrollController.position.pixels ==

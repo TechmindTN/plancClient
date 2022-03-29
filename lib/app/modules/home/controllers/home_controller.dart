@@ -17,6 +17,7 @@ import '../../../services/auth_service.dart';
 import '../../../models/Category.dart';
 import '../../account/controllers/account_controller.dart';
 import '../../auth/controllers/auth_controller.dart';
+import '../../category/controllers/category_controller.dart';
 import '../../profile/controllers/profile_controller.dart';
 import '../../profile/views/profile_view.dart';
 
@@ -46,9 +47,9 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     Get.put<EServiceController>(EServiceController());
-    Get.put<AuthController>(AuthController());
 
     prov = await eServiceController.getProviders();
+    Get.put<AuthController>(AuthController());
 
     await refreshHome();
     super.onInit();

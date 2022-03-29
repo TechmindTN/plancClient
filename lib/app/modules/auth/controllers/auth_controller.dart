@@ -13,12 +13,15 @@ import '../../../Network/UserNetwork.dart';
 
 class AuthController extends GetxController {
   final hidePassword = true.obs;
-  Image im = Image.asset('assets/img/tools.png');
+  Rx<Image> im = Image.network(
+          'https://icon-library.com/images/no-photo-available-icon/no-photo-available-icon-20.jpg')
+      .obs;
   File file;
   User currentuser;
   Client currentProfile;
   RxString gender = 'Male'.obs;
   DocumentReference data;
+  User u1 = User();
 
   Future<void> onInit() {
     file = File('');
@@ -46,8 +49,7 @@ class AuthController extends GetxController {
   registerUser(User u) async {
     UserNetwork _userNetwork = UserNetwork();
 
-    await _userNetwork.addUser(u).then((dr) => data=dr);
-
+    await _userNetwork.addUser(u).then((dr) => data = dr);
   }
 
   registerClient(Client c, DocumentReference d) async {
@@ -82,7 +84,7 @@ class AuthController extends GetxController {
     final XFile pickedimage =
         await _picker.pickImage(source: ImageSource.gallery);
     file = File(pickedimage.path);
-    im = Image.file(file);
+    im.value = Image.file(file);
     update();
     print("this");
     print(im);

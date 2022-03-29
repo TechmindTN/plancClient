@@ -20,15 +20,15 @@ import '../widgets/e_service_title_bar_widget.dart';
 import '../widgets/review_item_widget.dart';
 
 class EServiceView extends GetView<EServiceController> {
-    final ServiceProvider prov;
-    final   _service;
+  final ServiceProvider prov;
 
-  EServiceView(this.prov, this._service);
+  EServiceView(
+    this.prov,
+  );
 
-  
   @override
   Widget build(BuildContext context) {
-    List<dynamic> images =[];
+    List<dynamic> images = [];
     // List<String> images = [
     //   'assets/img/1.png',
     //   'assets/img/2.png',
@@ -39,335 +39,333 @@ class EServiceView extends GetView<EServiceController> {
     //   'assets/img/7.png',
     //   'assets/img/8.png',
     // ];
-     
+
     // Obx(() {
-      // var provider = controller.serviceProvider;
-             images =prov.media;
+    // var provider = controller.serviceProvider;
+    images = prov.media;
 
-      // List<dynamic> images =prov.media;
-      // if (!provider.isBlank) {
-      //   return Scaffold(
-      //     body: CircularLoadingWidget(height: Get.height),
-      //   );
-      // } else {
-      return Scaffold(
-        bottomNavigationBar: buildBlockButtonWidget(prov),
-        body: RefreshIndicator(
-            onRefresh: () async {
-              controller.refreshEService(showMessage: true);
-            },
-            child: CustomScrollView(
-              primary: true,
-              shrinkWrap: false,
-              slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  expandedHeight: 320,
-                  elevation: 0,
-                  // pinned: true,
-                  floating: true,
-                  iconTheme:
-                      IconThemeData(color: Theme.of(context).primaryColor),
-                  centerTitle: true,
-                  automaticallyImplyLeading: false,
-                  leading: new IconButton(
-                    icon: new Icon(Icons.arrow_back_ios,
-                        color: Get.theme.hintColor),
-                    onPressed: () => {Get.back()},
-                  ),
-                  bottom: buildEServiceTitleBarWidget(prov),
-                  flexibleSpace: FlexibleSpaceBar(
-                    collapseMode: CollapseMode.parallax,
-                    background: 
-                    // Obx(() {
-                       Stack(
-                        alignment: AlignmentDirectional.center,
-                        children: <Widget>[
-                          Image.network(prov.profile_photo)
-                          // buildCarouselSlider(provider),
-                          // buildCarouselBullets(provider),
-                        ],
-                      )
-                    // }),
-                  ).marginOnly(bottom: 50),
+    // List<dynamic> images =prov.media;
+    // if (!provider.isBlank) {
+    //   return Scaffold(
+    //     body: CircularLoadingWidget(height: Get.height),
+    //   );
+    // } else {
+    return Scaffold(
+      bottomNavigationBar: buildBlockButtonWidget(prov),
+      body: RefreshIndicator(
+          onRefresh: () async {
+            controller.refreshEService(showMessage: true);
+          },
+          child: CustomScrollView(
+            primary: true,
+            shrinkWrap: false,
+            slivers: <Widget>[
+              SliverAppBar(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                expandedHeight: 320,
+                elevation: 0,
+                // pinned: true,
+                floating: true,
+                iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+                centerTitle: true,
+                automaticallyImplyLeading: false,
+                leading: new IconButton(
+                  icon: new Icon(Icons.arrow_back_ios,
+                      color: Get.theme.hintColor),
+                  onPressed: () => {Get.back()},
                 ),
+                bottom: buildEServiceTitleBarWidget(prov),
+                flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.parallax,
+                    background:
+                        // Obx(() {
+                        Stack(
+                      alignment: AlignmentDirectional.center,
+                      children: <Widget>[
+                        Image.network(prov.profile_photo)
+                        // buildCarouselSlider(provider),
+                        // buildCarouselBullets(provider),
+                      ],
+                    )
+                    // }),
+                    ).marginOnly(bottom: 50),
+              ),
 
-                // WelcomeWidget(),
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 10),
+              // WelcomeWidget(),
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 10),
 
-                      // buildCategories(provider),
-                      EServiceTilWidget(
-                        title: Text("Description".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Text(prov.description,
-                            style: Get.textTheme.bodyText1),
-                      ),
-             if(_service.data().containsKey('phone'))         
- EServiceTilWidget(
-                        title: Text("Contact".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(_service['phone'].toString()??'12345678',
-                                    style: Get.textTheme.bodyText1),
-                                    Icon(Icons.phone_outlined)
-                              ],
-                            ),
-                            SizedBox(height: 5,),
-                            //   Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     Text(prov.user.email,
-                            //         style: Get.textTheme.bodyText1),
-                            //         Icon(Icons.email_outlined)
-                            //   ],
-                            // ),
-                          ],
-                        ),
-                      ),
+                    // buildCategories(provider),
+                    EServiceTilWidget(
+                      title: Text("Description".tr,
+                          style: Get.textTheme.subtitle2),
+                      content: Text(prov.description,
+                          style: Get.textTheme.bodyText1),
+                    ),
 
-
-if(_service.data().containsKey("address"))   
-                      EServiceTilWidget(
-                        title: Text("Address".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Text(_service['address']??'123 Centre Urbain Nord',
-                            style: Get.textTheme.bodyText1),
-                      ),
-
-
-
-
-                      // EServiceTilWidget(
-                      //   title: Text("Service Provider".tr, style: Get.textTheme.subtitle2),
-                      //   content: EProviderItemWidget(provider: _eService.eProvider),
-                      //   actions: [
-                      //     GestureDetector(
-                      //       onTap: () {
-                      //         Get.toNamed(Routes.E_PROVIDER, arguments: _eService.eProvider);
-                      //       },
-                      //       child: Text("View More".tr, style: Get.textTheme.subtitle1),
-                      //     ),
-                      //   ],
-                      // ),
-                      EServiceTilWidget(
-                        horizontalPadding: 0,
-                        title:
-                            Text("Galleries".tr, style: Get.textTheme.subtitle2)
-                                .paddingSymmetric(horizontal: 20),
-                        content: Container(
-                          height: 120,
-                          child: ListView.builder(
-                              primary: false,
-                              shrinkWrap: false,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: images.length,
-                              itemBuilder: (_, index) {
-                                // var _media = _eService.media.elementAt(index);
-                                var media = images[index];
-                                return InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Dialog(
-                                              insetPadding: EdgeInsets.all(0),
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              child: Container(
-                                                color: Colors.transparent
-                                                    .withOpacity(0.3),
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.7,
-                                                child: Image.network(
-                                                  media,
-                                                  // scale: 20,
-
-                                                  fit: BoxFit.fill,
-                                                  // width: MediaQuery.of(context).size.width*0.9,
-                                                  // height: MediaQuery.of(context).size.height*0.8,
-
-                                                  // scale: 0.1,
-                                                ),
-                                              ));
-                                        });
-                                    //Get.toNamed(Routes.CATEGORY, arguments: _category);
-                                  },
-                                  child: Container(
-                                    width: 100,
-                                    height: 100,
-                                    margin: EdgeInsetsDirectional.only(
-                                        end: 20,
-                                        start: index == 0 ? 20 : 0,
-                                        top: 10,
-                                        bottom: 10),
-                                    child: Stack(
-                                      alignment: AlignmentDirectional.topStart,
-                                      children: [
-                                        ClipRRect(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                            child: Image.network(
-                                              images[index],
-                                              height: 100,
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
-                                            )
-                                            // child: CachedNetworkImage(
-                                            //   height: 100,
-                                            //   width: double.infinity,
-                                            //   fit: BoxFit.cover,
-                                            //   imageUrl: media,
-                                            //   placeholder: (context, url) => Image.asset(
-                                            //     'assets/img/loading.gif',
-                                            //     fit: BoxFit.cover,
-                                            //     width: double.infinity,
-                                            //     height: 100,
-                                            //   ),
-                                            //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                                            // ),
-                                            ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.only(
-                                                  start: 12, top: 8),
-                                          child: Text(
-                                            'Item' ?? '',
-                                            maxLines: 2,
-                                            style: Get.textTheme.bodyText2
-                                                .merge(TextStyle(
-                                                    color: Get
-                                                        .theme.primaryColor)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }),
-                        ),
-                        actions: [
-                          InkWell(
-                            onTap: () {
-                              // Get.offAllNamed(Routes.REGISTER);
-                            },
-                            child: Text("View All".tr,
-                                style: Get.textTheme.subtitle1),
-                          ).paddingSymmetric(horizontal: 20),
+                    EServiceTilWidget(
+                      title: Text("Contact".tr, style: Get.textTheme.subtitle2),
+                      content: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(prov.phone.toString() ?? '12345678',
+                                  style: Get.textTheme.bodyText1),
+                              Icon(Icons.phone_outlined)
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          //   Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Text(prov.user.email,
+                          //         style: Get.textTheme.bodyText1),
+                          //         Icon(Icons.email_outlined)
+                          //   ],
+                          // ),
                         ],
                       ),
-if(_service.data().containsKey("social_media"))   
-                      EServiceTilWidget(
-                        title: Text("Social Media".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Website".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(prov.website,
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                            SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Favebook".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(_service['social_media']['Facebook']??prov.name,
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                             SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Instagram".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(_service['social_media']['Instagram']??prov.name,
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                             SizedBox(height: 5,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("LinkedIn".tr,
-                                    style: Get.textTheme.bodyText1),
-                                Text(_service['social_media']['LinkedIn']??prov.name,
-                                    style: Get.textTheme.bodyText1),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      EServiceTilWidget(
-                        title: Text("Reviews & Ratings".tr,
-                            style: Get.textTheme.subtitle2),
-                        content: Column(
-                          children: [
-                            Text(4.toString(), style: Get.textTheme.headline1),
-                            Wrap(
-                              children: Ui.getStarsList(4, size: 32),
-                            ),
-                            Text(
-                              "Reviews (%s)".trArgs([20.toString()]),
-                              style: Get.textTheme.caption,
-                            ).paddingOnly(top: 10),
-                            Divider(height: 35, thickness: 1.3),
-                            Obx(() {
-                              if (controller.reviews.isEmpty) {
-                                return CircularLoadingWidget(height: 100);
-                              }
-                              return ListView.separated(
-                                padding: EdgeInsets.all(0),
-                                itemBuilder: (context, index) {
-                                  return ReviewItemWidget(
-                                      review:
-                                          controller.reviews.elementAt(index));
+                    ),
+
+                    EServiceTilWidget(
+                      title: Text("Address".tr, style: Get.textTheme.subtitle2),
+                      content: Text(prov.address ?? '123 Centre Urbain Nord',
+                          style: Get.textTheme.bodyText1),
+                    ),
+
+                    // EServiceTilWidget(
+                    //   title: Text("Service Provider".tr, style: Get.textTheme.subtitle2),
+                    //   content: EProviderItemWidget(provider: _eService.eProvider),
+                    //   actions: [
+                    //     GestureDetector(
+                    //       onTap: () {
+                    //         Get.toNamed(Routes.E_PROVIDER, arguments: _eService.eProvider);
+                    //       },
+                    //       child: Text("View More".tr, style: Get.textTheme.subtitle1),
+                    //     ),
+                    //   ],
+                    // ),
+                    EServiceTilWidget(
+                      horizontalPadding: 0,
+                      title:
+                          Text("Galleries".tr, style: Get.textTheme.subtitle2)
+                              .paddingSymmetric(horizontal: 20),
+                      content: Container(
+                        height: 120,
+                        child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: false,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: images.length,
+                            itemBuilder: (_, index) {
+                              // var _media = _eService.media.elementAt(index);
+                              var media = images[index];
+                              return InkWell(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                            insetPadding: EdgeInsets.all(0),
+                                            backgroundColor: Colors.transparent,
+                                            child: Container(
+                                              color: Colors.transparent
+                                                  .withOpacity(0.3),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.7,
+                                              child: Image.network(
+                                                media,
+                                                // scale: 20,
+
+                                                fit: BoxFit.fill,
+                                                // width: MediaQuery.of(context).size.width*0.9,
+                                                // height: MediaQuery.of(context).size.height*0.8,
+
+                                                // scale: 0.1,
+                                              ),
+                                            ));
+                                      });
+                                  //Get.toNamed(Routes.CATEGORY, arguments: _category);
                                 },
-                                separatorBuilder: (context, index) {
-                                  return Divider(height: 35, thickness: 1.3);
-                                },
-                                itemCount: controller.reviews.length,
-                                primary: false,
-                                shrinkWrap: true,
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  margin: EdgeInsetsDirectional.only(
+                                      end: 20,
+                                      start: index == 0 ? 20 : 0,
+                                      top: 10,
+                                      bottom: 10),
+                                  child: Stack(
+                                    alignment: AlignmentDirectional.topStart,
+                                    children: [
+                                      ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          child: Image.network(
+                                            images[index],
+                                            height: 100,
+                                            width: double.infinity,
+                                            fit: BoxFit.cover,
+                                          )
+                                          // child: CachedNetworkImage(
+                                          //   height: 100,
+                                          //   width: double.infinity,
+                                          //   fit: BoxFit.cover,
+                                          //   imageUrl: media,
+                                          //   placeholder: (context, url) => Image.asset(
+                                          //     'assets/img/loading.gif',
+                                          //     fit: BoxFit.cover,
+                                          //     width: double.infinity,
+                                          //     height: 100,
+                                          //   ),
+                                          //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                                          // ),
+                                          ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.only(
+                                                start: 12, top: 8),
+                                        child: Text(
+                                          'Item' ?? '',
+                                          maxLines: 2,
+                                          style: Get.textTheme.bodyText2.merge(
+                                              TextStyle(
+                                                  color:
+                                                      Get.theme.primaryColor)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               );
                             }),
-                          ],
-                        ),
-                        actions: [
-                          InkWell(
-                            onTap: () {
-                              // Get.offAllNamed(Routes.REGISTER);
-                            },
-                            child: Text("View All".tr,
-                                style: Get.textTheme.subtitle1),
+                      ),
+                      actions: [
+                        InkWell(
+                          onTap: () {
+                            // Get.offAllNamed(Routes.REGISTER);
+                          },
+                          child: Text("View All".tr,
+                              style: Get.textTheme.subtitle1),
+                        ).paddingSymmetric(horizontal: 20),
+                      ],
+                    ),
+                    EServiceTilWidget(
+                      title: Text("Social Media".tr,
+                          style: Get.textTheme.subtitle2),
+                      content: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Website".tr,
+                                  style: Get.textTheme.bodyText1),
+                              Text(prov.website,
+                                  style: Get.textTheme.bodyText1),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Favebook".tr,
+                                  style: Get.textTheme.bodyText1),
+                              Text(prov.social_media['Facebook'] ?? prov.name,
+                                  style: Get.textTheme.bodyText1),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Instagram".tr,
+                                  style: Get.textTheme.bodyText1),
+                              Text(prov.social_media['Instagram'] ?? prov.name,
+                                  style: Get.textTheme.bodyText1),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("LinkedIn".tr,
+                                  style: Get.textTheme.bodyText1),
+                              Text(prov.social_media['LinkedIn'] ?? prov.name,
+                                  style: Get.textTheme.bodyText1),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    EServiceTilWidget(
+                      title: Text("Reviews & Ratings".tr,
+                          style: Get.textTheme.subtitle2),
+                      content: Column(
+                        children: [
+                          Text(4.toString(), style: Get.textTheme.headline1),
+                          Wrap(
+                            children: Ui.getStarsList(4, size: 32),
+                          ),
+                          Text(
+                            "Reviews (%s)".trArgs([20.toString()]),
+                            style: Get.textTheme.caption,
+                          ).paddingOnly(top: 10),
+                          Divider(height: 35, thickness: 1.3),
+                          Obx(() {
+                            if (controller.reviews.isEmpty) {
+                              return CircularLoadingWidget(height: 100);
+                            }
+                            return ListView.separated(
+                              padding: EdgeInsets.all(0),
+                              itemBuilder: (context, index) {
+                                return ReviewItemWidget(
+                                    review:
+                                        controller.reviews.elementAt(index));
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider(height: 35, thickness: 1.3);
+                              },
+                              itemCount: controller.reviews.length,
+                              primary: false,
+                              shrinkWrap: true,
+                            );
+                          }),
+                        ],
+                      ),
+                      actions: [
+                        InkWell(
+                          onTap: () {
+                            // Get.offAllNamed(Routes.REGISTER);
+                          },
+                          child: Text("View All".tr,
+                              style: Get.textTheme.subtitle1),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            )),
-      );
-      // }
+              ),
+            ],
+          )),
+    );
+    // }
     // });
   }
 

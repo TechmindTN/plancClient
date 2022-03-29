@@ -67,4 +67,9 @@ class CategoryNetwork {
 
     return category;
   }
+
+  getCategoryRef(String id) {
+    DocumentReference ref = categoryRef.doc('Category/' + id);
+    return ref;
+  }
 }
