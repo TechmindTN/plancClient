@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:home_services/app/Network/BranchNetwork.dart';
 import 'package:home_services/app/Network/CategoryNetwork.dart';
 import 'package:home_services/app/Network/UserNetwork.dart';
@@ -6,6 +7,7 @@ import 'package:home_services/app/models/Category.dart';
 import 'package:home_services/app/models/Provider.dart';
 import 'package:home_services/app/models/User.dart';
 
+import '../modules/home/controllers/home_controller.dart';
 
 List<ServiceProvider> futprov;
 
@@ -34,12 +36,12 @@ class ServiceProviderNetwork {
         ServiceProvider serviceProvider = ServiceProvider.fromFire(element);
         // providers.add(serviceProvider);
         serviceProvider.id = element.id;
-        print('element '+serviceProvider.description);
+        print('element ' + serviceProvider.description);
         // serviceProvider.id = element.id;
 
         //get Branches
-        serviceProvider.branches =
-            await branchServices.getBranchListByProvider(serviceProvider.id);
+        // serviceProvider.branches =
+        //     await branchServices.getBranchListByProvider(serviceProvider.id);
 
         // get category
         // List<dynamic> drList = element['categories'];
@@ -68,12 +70,12 @@ class ServiceProviderNetwork {
 
         serviceProvider.categories = categories;
         providers.add(serviceProvider);
-      
+
         // index++;
       });
       print('providers done');
       print('providers documents length ' + providers.length.toString());
-      print('providers '+providers.toString());
+      print('providers ' + providers.toString());
       return providers;
     } catch (e) {
       print(e);
@@ -87,7 +89,7 @@ class ServiceProviderNetwork {
     mapdata['user'] = UserNetwork.dr;
     providersRef.add(mapdata).then((value) {
       print('provider added');
-      branchServices.addBranch(serviceProvider.branches.first, value.id);
+      // branchServices.addBranch(serviceProvider.branches.first, value.id);
     });
   }
 
@@ -106,8 +108,8 @@ class ServiceProviderNetwork {
       serviceProvider.id = snapshot.docs.first.id;
 
       //get Branches
-      serviceProvider.branches =
-          await branchServices.getBranchListByProvider(snapshot.docs.first.id);
+      // serviceProvider.branches =
+      //     await branchServices.getBranchListByProvider(snapshot.docs.first.id);
       print('branches done');
       // get category
       List<dynamic> drList = snapshot.docs.first['categories'];
@@ -159,8 +161,8 @@ class ServiceProviderNetwork {
     });
 
     //get Branches
-    serviceProvider.branches =
-        await branchServices.getBranchListByProvider(serviceProvider.id);
+    // serviceProvider.branches =
+    //     await branchServices.getBranchListByProvider(serviceProvider.id);
 
     //get user
     DocumentReference dr = snapshot['user'];

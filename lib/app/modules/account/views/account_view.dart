@@ -15,8 +15,8 @@ class AccountView extends GetView<AccountController> {
   @override
   Widget build(BuildContext context) {
     var _currentUser = Get.find<AuthController>().currentuser;
-    
-   return Scaffold(
+    var _currentProfile = Get.find<AuthController>().currentProfile;
+    return Scaffold(
         appBar: AppBar(
           title: Text(
             "Account".tr,
@@ -87,7 +87,7 @@ class AccountView extends GetView<AccountController> {
                       height: 100,
                       width: 100,
                       fit: BoxFit.cover,
-                      imageUrl: controller.currentProfile.profile_photo ??
+                      imageUrl: _currentProfile.profile_photo ??
                           'https://cdn1.vectorstock.com/i/1000x1000/23/70/man-avatar-icon-flat-vector-19152370.jpg',
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
@@ -114,9 +114,6 @@ class AccountView extends GetView<AccountController> {
                     text: Text("Profile".tr),
                     onTap: (e) {
                       Get.toNamed(Routes.PROFILE);
-          
-          
-                      
                     },
                   ),
                   AccountLinkWidget(

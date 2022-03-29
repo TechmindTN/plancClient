@@ -22,7 +22,6 @@ class RegisterView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -124,7 +123,7 @@ class RegisterView extends GetView<AuthController> {
                       return 'field is empty'.tr;
                     } else {
                       if (text.length < 8) {
-                        return 'Password too short'.tr+' !';
+                        return 'Password too short'.tr + ' !';
                       }
                     }
                     _pass = text;
@@ -174,14 +173,13 @@ class RegisterView extends GetView<AuthController> {
                 child: BlockButtonWidget(
                   onPressed: () {
                     if (formGlobalKey.currentState.validate()) {
-                      User u1 = User(
+                      controller.u1 = User(
                           email: _email,
                           password: _pass,
                           username: _email,
                           creation_date: Timestamp.now());
-                        controller.registerUser(u1);
-                      print(
-                          'docccc after register' + controller.data.toString());
+                      controller.registerUser(controller.u1);
+
                       navigator.pushAndRemoveUntil<void>(
                         MaterialPageRoute<void>(
                             builder: (BuildContext context) => RegisterView2()),
@@ -189,6 +187,10 @@ class RegisterView extends GetView<AuthController> {
                       );
                       // Get.offAllNamed(Routes.REGISTER2);
                     }
+                    navigator.pushAndRemoveUntil<void>(
+                        MaterialPageRoute<void>(
+                            builder: (BuildContext context) => RegisterView2()),
+                        ModalRoute.withName('/'));
                   },
                   color: Get.theme.accentColor,
                   text: Text(
