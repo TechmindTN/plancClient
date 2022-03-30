@@ -350,7 +350,7 @@ class RegisterView2 extends GetView<AuthController> {
                           gender: controller.gender.value,
                           state: _state,
                           age: int.parse(age));
-                      var data = controller.registerClient(c, user);
+                      var data = await controller.registerClient(c, user);
                       if (await controller.verifylogin(
                               controller.u1.email, controller.u1.password) ==
                           true) {
