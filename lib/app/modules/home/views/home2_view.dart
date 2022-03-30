@@ -163,8 +163,13 @@ List<Widget> recWidgets=[];
                             onPressed: () {},
                             shape: StadiumBorder(),
                             color: Get.theme.accentColor.withOpacity(0.1),
-                            child: Text("View All".tr,
-                                style: Get.textTheme.subtitle1),
+                            child: InkWell(
+                              onTap: () {
+                                print(controller.prov.first.categories.first.name);
+                              },
+                              child: Text("View All".tr,
+                                  style: Get.textTheme.subtitle1),
+                            ),
                           ),
                         ],
                       ),
