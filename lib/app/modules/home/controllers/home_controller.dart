@@ -49,6 +49,7 @@ class HomeController extends GetxController {
     Get.put<EServiceController>(EServiceController());
 
     prov = await eServiceController.getProviders();
+    // print(prov.first.categories.first.name);
     Get.put<AuthController>(AuthController());
 
     await refreshHome();

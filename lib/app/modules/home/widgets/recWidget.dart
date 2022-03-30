@@ -8,7 +8,7 @@ import '../../../Network/BranchNetwork.dart';
 import '../../../Network/UserNetwork.dart';
 import '../../e_service/views/e_service_view.dart';
 
-Widget RecWidget(_service, eServiceController) {
+Widget RecWidget(_service, eServiceController,{String id}) {
   //  var _service = controller.prov.elementAt(index);
   ServiceProvider provider = ServiceProvider.fromFire(_service);
   // eServiceController.getThisProvider(provider,_service['user'].id);
@@ -18,7 +18,11 @@ Widget RecWidget(_service, eServiceController) {
   // provider.user=await userServices.getUserById(_service.id);
 
   // print(provider.branches.first.address);
-  provider.id = _service.id;
+  if(id==null){
+  provider.id = _service.id;}
+  else{
+    provider.id=id;
+  }
   return GestureDetector(
     onTap: () {
       eServiceController.serviceProvider.value = provider;
@@ -43,7 +47,7 @@ Widget RecWidget(_service, eServiceController) {
         //alignment: AlignmentDirectional.topStart,
         children: [
           Hero(
-            tag: _service.id,
+            tag: provider.id,
             child: ClipRRect(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
