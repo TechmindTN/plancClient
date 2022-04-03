@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../../../../common/ui.dart';
 import '../../../global_widgets/notifications_button_widget.dart';
+import '../../../models/Client.dart';
+import '../../../models/User.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/auth_service.dart';
 import '../../auth/controllers/auth_controller.dart';
@@ -194,7 +196,10 @@ class AccountView extends GetView<AccountController> {
                     icon: Icon(Icons.logout, color: Get.theme.accentColor),
                     text: Text("Logout".tr),
                     onTap: (e) {
-                      Get.offAllNamed(Routes.LOGIN);
+                      Get.find<AuthController>().currentuser = User();
+                      Get.find<AuthController>().currentProfile = Client();
+                      controller.update();
+                      Get.offAllNamed(Routes.ROOT);
                     },
                   ),
                 ],

@@ -38,7 +38,7 @@ class TasksListWidget extends StatelessWidget {
                     height: 70,
                     width: 70,
                     fit: BoxFit.cover,
-                    imageUrl: _task.eService?.firstMediaThumb,
+                    imageUrl: _task.eService?.profile_photo,
                     placeholder: (context, url) => Image.asset(
                       'assets/img/loading.gif',
                       fit: BoxFit.cover,
@@ -58,7 +58,7 @@ class TasksListWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            _task.eService?.title ?? '',
+                            _task.eService?.name ?? '',
                             style: Get.textTheme.bodyText2,
                             maxLines: 3,
                             // textAlign: TextAlign.end,
@@ -75,11 +75,11 @@ class TasksListWidget extends StatelessWidget {
                               style: Get.textTheme.bodyText1,
                             ),
                           ),
-                          Wrap(
-                            spacing: 0,
-                            children: Ui.getStarsList(
-                                (_task.rate != null) ? _task.rate : 0.0),
-                          ),
+                          // Wrap(
+                          //   spacing: 0,
+                          //   children: Ui.getStarsList(
+                          //       (_task.rate != null) ? _task.rate : 0.0),
+                          // ),
                         ],
                       ),
                       Row(
@@ -91,7 +91,7 @@ class TasksListWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${DateFormat('HH:mm | yyyy-MM-dd').format(_task.dateTime)}',
+                            '${_task.dateTime}',
                             style: Get.textTheme.caption,
                           ),
                         ],
@@ -104,7 +104,7 @@ class TasksListWidget extends StatelessWidget {
                               style: Get.textTheme.bodyText1,
                             ),
                           ),
-                          Ui.getPrice(_task.total,
+                          Ui.getPrice(_task.bill.total_price,
                               style: Get.textTheme.headline6),
                         ],
                       ),

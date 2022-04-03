@@ -9,9 +9,23 @@ class UserNetwork {
   static DocumentReference dr;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference usersRef = FirebaseFirestore.instance.collection('User');
+  CollectionReference rolesRef = FirebaseFirestore.instance.collection('Role');
   CollectionReference clientRef =
       FirebaseFirestore.instance.collection('Client');
   RoleNetwork roleServices = RoleNetwork();
+
+  getClientRoleByName(String name) async {
+    Role r;
+    QuerySnapshot q =
+        await rolesRef.where('name', isEqualTo: name).limit(1).get();
+    r = Role.fromFire(q.docs.first.data());
+    r.id = q.docs.first.id;
+    return r;
+  }
+
+  getRoleRef(String id) {
+    return firestore.doc('Role/' + id);
+  }
 
   Future<List<User>> getUsersList() async {
     List<User> users = [];
@@ -47,10 +61,10 @@ class UserNetwork {
     user.id = snapshot.id;
 
     //get user role
-    DocumentReference dr = snapshot['role'];
-    Role role = Role(name: '', id: dr.id);
-    role = await roleServices.getRoleById(role.id ?? '');
-    user.role = role;
+    // DocumentReference dr = snapshot['role'];
+    // Role role = Role(name: '', id: dr.id);
+    // role = await roleServices.getRoleById(role.id ?? '');
+    // user.role = role;
 
     return user;
   }
@@ -79,13 +93,14 @@ class UserNetwork {
           .get();
 
       print(snapshot.size);
+      if (snapshot.size == 0) return null;
       user = User.fromFire(snapshot.docs.first.data());
       user.id = snapshot.docs.first.id;
       //get user role
-      // DocumentReference dr = snapshot.docs.first['role'];
-      // Role role = Role(name: '', id: dr.id);
-      // role = await roleServices.getRoleById(role.id ?? '');
-      // user.role = role;
+      DocumentReference dr = snapshot.docs.first['role'];
+      Role role = Role(name: '', id: dr.id);
+      role = await roleServices.getRoleById(role.id ?? '');
+      user.role = role;
       print(user.printUser());
       return user;
     } catch (e) {
@@ -97,6 +112,9 @@ class UserNetwork {
   Future<DocumentReference> addUser(User u) async {
     // var added=await usersRef.add(data).then((value) { print('User Added: '+value.id);
     var data = u.tofire();
+    Role r = await getClientRoleByName("Client");
+    DocumentReference rf = await getRoleRef(r.id);
+    data['role'] = rf;
     DocumentReference added = await usersRef.add(data);
     print('User Added: ' + added.id);
     print(added);

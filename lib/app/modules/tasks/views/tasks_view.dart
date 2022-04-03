@@ -105,7 +105,7 @@ class TasksView extends GetView<TasksController> {
                   await controller.getOngoingTasks(showMessage: true);
                 },
                 child: SingleChildScrollView(
-                  child: TasksCarouselWidget(tasks: controller.ongoingTasks),
+                  child: TasksCarouselWidget(),
                 ),
               ),
               RefreshIndicator(

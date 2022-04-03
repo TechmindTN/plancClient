@@ -281,7 +281,7 @@ class EServiceView extends GetView<EServiceController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Favebook".tr,
+                              Text("Facebook".tr,
                                   style: Get.textTheme.bodyText1),
                               Text(prov.social_media['Facebook'] ?? prov.name,
                                   style: Get.textTheme.bodyText1),

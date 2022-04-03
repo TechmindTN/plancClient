@@ -37,7 +37,7 @@ class PaymentDetailsWidget extends StatelessWidget {
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
-                  imageUrl: _task.eService.firstMediaUrl,
+                  imageUrl: _task.eService.profile_photo,
                   placeholder: (context, url) => Image.asset(
                     'assets/img/loading.gif',
                     fit: BoxFit.cover,
@@ -48,46 +48,46 @@ class PaymentDetailsWidget extends StatelessWidget {
                       Icon(Icons.error_outline),
                 ),
               ),
-              if (_task.eService.eProvider.available)
-                Container(
-                  width: 80,
-                  child: Text("Available".tr,
-                      maxLines: 1,
-                      style: Get.textTheme.bodyText2.merge(
-                        TextStyle(
-                            color: Colors.green, height: 1.4, fontSize: 10),
-                      ),
-                      softWrap: false,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.fade),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.2),
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
-                ),
-              if (!_task.eService.eProvider.available)
-                Container(
-                  width: 80,
-                  child: Text("Offline".tr,
-                      maxLines: 1,
-                      style: Get.textTheme.bodyText2.merge(
-                        TextStyle(
-                            color: Colors.grey, height: 1.4, fontSize: 10),
-                      ),
-                      softWrap: false,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.fade),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
-                ),
+              // if (_task.eService.eProvider.available)
+              //   Container(
+              //     width: 80,
+              //     child: Text("Available".tr,
+              //         maxLines: 1,
+              //         style: Get.textTheme.bodyText2.merge(
+              //           TextStyle(
+              //               color: Colors.green, height: 1.4, fontSize: 10),
+              //         ),
+              //         softWrap: false,
+              //         textAlign: TextAlign.center,
+              //         overflow: TextOverflow.fade),
+              //     decoration: BoxDecoration(
+              //       color: Colors.green.withOpacity(0.2),
+              //       borderRadius: BorderRadius.only(
+              //           bottomRight: Radius.circular(10),
+              //           bottomLeft: Radius.circular(10)),
+              //     ),
+              //     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+              //   ),
+              // if (!_task.eService.eProvider.available)
+              //   Container(
+              //     width: 80,
+              //     child: Text("Offline".tr,
+              //         maxLines: 1,
+              //         style: Get.textTheme.bodyText2.merge(
+              //           TextStyle(
+              //               color: Colors.grey, height: 1.4, fontSize: 10),
+              //         ),
+              //         softWrap: false,
+              //         textAlign: TextAlign.center,
+              //         overflow: TextOverflow.fade),
+              //     decoration: BoxDecoration(
+              //       color: Colors.grey.withOpacity(0.2),
+              //       borderRadius: BorderRadius.only(
+              //           bottomRight: Radius.circular(10),
+              //           bottomLeft: Radius.circular(10)),
+              //     ),
+              //     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+              //   ),
             ],
           ),
           SizedBox(width: 12),
@@ -99,7 +99,7 @@ class PaymentDetailsWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      _task.eService.title ?? '',
+                      _task.eService.name ?? '',
                       style: Get.textTheme.bodyText2,
                       maxLines: 3,
                       // textAlign: TextAlign.end,
@@ -107,31 +107,31 @@ class PaymentDetailsWidget extends StatelessWidget {
                   ],
                 ),
                 Divider(height: 8, thickness: 1),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Service Payment".tr),
-                    Ui.getPrice(_task.eService.minPrice,
-                        style: Get.textTheme.subtitle2),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Tax".tr),
-                    Ui.getPrice(_task.eService.minPrice,
-                        style: Get.textTheme.subtitle2),
-                  ],
-                ),
-                Divider(height: 8, thickness: 1),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Total".tr),
-                    Ui.getPrice(_task.eService.minPrice,
-                        style: Get.textTheme.headline6),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text("Service Payment".tr),
+                //     Ui.getPrice(_task.eService.pr,
+                //         style: Get.textTheme.subtitle2),
+                //   ],
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text("Tax".tr),
+                //     Ui.getPrice(_task.eService.minPrice,
+                //         style: Get.textTheme.subtitle2),
+                //   ],
+                // ),
+                // Divider(height: 8, thickness: 1),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text("Total".tr),
+                //     Ui.getPrice(_task.eService.minPrice,
+                //         style: Get.textTheme.headline6),
+                //   ],
+                // ),
               ],
             ),
           ),

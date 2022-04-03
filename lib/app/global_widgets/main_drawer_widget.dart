@@ -5,6 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../models/Client.dart';
+import '../models/User.dart';
+import '../modules/auth/controllers/auth_controller.dart';
 import '../modules/root/controllers/root_controller.dart' show RootController;
 import '../routes/app_pages.dart';
 import '../services/settings_service.dart';
@@ -13,6 +16,9 @@ import 'drawer_link_widget.dart';
 class MainDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AuthController _authController = Get.find<AuthController>();
+    _authController.update();
+    User user = _authController.currentuser;
     return Drawer(
       child: ListView(
         children: [
@@ -32,60 +38,98 @@ class MainDrawerWidget extends StatelessWidget {
                       style: Get.textTheme.headline5.merge(
                           TextStyle(color: Theme.of(context).accentColor))),
                   SizedBox(height: 5),
-                  Text("Login account or create new one for free".tr,
-                      style: Get.textTheme.bodyText1),
+                  user.email == null
+                      ? Text("Login account or create new one for free".tr,
+                          style: Get.textTheme.bodyText1)
+                      : Text("Want to Logout ?".tr,
+                          style: Get.textTheme.bodyText1),
                   SizedBox(height: 15),
-                  Wrap(
-                    spacing: 10,
-                    children: <Widget>[
-                      MaterialButton(
-                        elevation: 0,
-                        onPressed: () {
-                          Get.offAndToNamed(Routes.LOGIN);
-                        },
-                        color: Get.theme.accentColor,
-                        height: 40,
-                        child: Wrap(
-                          runAlignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 9,
-                          children: [
-                            Icon(Icons.exit_to_app_outlined,
-                                color: Get.theme.primaryColor, size: 24),
-                            Text(
-                              "Login".tr,
-                              style: Get.textTheme.subtitle1.merge(
-                                  TextStyle(color: Get.theme.primaryColor)),
+                  user.email == null
+                      ? Wrap(
+                          spacing: 10,
+                          children: <Widget>[
+                            MaterialButton(
+                              elevation: 0,
+                              onPressed: () {
+                                Get.offAndToNamed(Routes.LOGIN);
+                              },
+                              color: Get.theme.accentColor,
+                              height: 40,
+                              child: Wrap(
+                                runAlignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: 9,
+                                children: [
+                                  Icon(Icons.exit_to_app_outlined,
+                                      color: Get.theme.primaryColor, size: 24),
+                                  Text(
+                                    "Login".tr,
+                                    style: Get.textTheme.subtitle1.merge(
+                                        TextStyle(
+                                            color: Get.theme.primaryColor)),
+                                  ),
+                                ],
+                              ),
+                              shape: StadiumBorder(),
+                            ),
+                            MaterialButton(
+                              elevation: 0,
+                              color: Get.theme.focusColor.withOpacity(0.2),
+                              height: 40,
+                              onPressed: () {
+                                Get.offAllNamed(Routes.REGISTER);
+                              },
+                              child: Wrap(
+                                runAlignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: 9,
+                                children: [
+                                  Icon(Icons.person_add_outlined,
+                                      color: Get.theme.hintColor, size: 24),
+                                  Text(
+                                    "Register".tr,
+                                    style: Get.textTheme.subtitle1.merge(
+                                        TextStyle(color: Get.theme.hintColor)),
+                                  ),
+                                ],
+                              ),
+                              shape: StadiumBorder(),
                             ),
                           ],
-                        ),
-                        shape: StadiumBorder(),
-                      ),
-                      MaterialButton(
-                        elevation: 0,
-                        color: Get.theme.focusColor.withOpacity(0.2),
-                        height: 40,
-                        onPressed: () {
-                          Get.offAllNamed(Routes.REGISTER);
-                        },
-                        child: Wrap(
-                          runAlignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 9,
-                          children: [
-                            Icon(Icons.person_add_outlined,
-                                color: Get.theme.hintColor, size: 24),
-                            Text(
-                              "Register".tr,
-                              style: Get.textTheme.subtitle1
-                                  .merge(TextStyle(color: Get.theme.hintColor)),
+                        )
+                      : Wrap(
+                          spacing: 10,
+                          children: <Widget>[
+                            MaterialButton(
+                              elevation: 0,
+                              onPressed: () {
+                                Get.find<AuthController>().currentuser = User();
+                                Get.find<AuthController>().currentProfile =
+                                    Client();
+                                _authController.update();
+                                Get.offAllNamed(Routes.ROOT);
+                              },
+                              color: Get.theme.accentColor,
+                              height: 40,
+                              child: Wrap(
+                                runAlignment: WrapAlignment.center,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: 9,
+                                children: [
+                                  Icon(Icons.exit_to_app_outlined,
+                                      color: Get.theme.primaryColor, size: 24),
+                                  Text(
+                                    "Logout".tr,
+                                    style: Get.textTheme.subtitle1.merge(
+                                        TextStyle(
+                                            color: Get.theme.primaryColor)),
+                                  ),
+                                ],
+                              ),
+                              shape: StadiumBorder(),
                             ),
                           ],
-                        ),
-                        shape: StadiumBorder(),
-                      ),
-                    ],
-                  ),
+                        )
                 ],
               ),
             ),
