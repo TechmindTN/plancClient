@@ -150,7 +150,7 @@ class ProfileView extends GetView<ProfileController> {
                       ? "Should be more than 3 chars".tr
                       : null,
                   initialValue:
-                      controller.currentProfile.social_media['facebook'],
+                      controller.currentProfile.social_media['facebook'] ?? '',
                   hintText: "Facebook Account Username".tr,
                   labelText: "Facebook Account".tr,
                   iconData: Icons.facebook,

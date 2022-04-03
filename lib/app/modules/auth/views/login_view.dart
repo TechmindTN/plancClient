@@ -153,11 +153,8 @@ class LoginView extends GetView<AuthController> {
                           print('user logged');
                           Get.offAllNamed(Routes.ROOT);
                         } else {
-                          final snack = SnackBar(
-                            content: Text('No user with these credentials !'),
-                            backgroundColor: Colors.orangeAccent,
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snack);
+                          Get.showSnackbar(Ui.ErrorSnackBar(
+                              message: 'No user with these credentials !'));
                         }
                       }
                     },

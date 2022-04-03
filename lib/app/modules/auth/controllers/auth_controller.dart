@@ -37,6 +37,11 @@ class AuthController extends GetxController {
     bool ok = true;
     var data = await _userNetwork.getUserByEmailPassword(email, pass);
     data != null ? currentuser = data : ok = false;
+    print(currentuser);
+    print(ok);
+    if (currentuser == null || currentuser.email == null) {
+      return false;
+    }
     var d = _userNetwork.getUserRef(currentuser.id);
     await _userNetwork
         .getClientByUserRef(d)

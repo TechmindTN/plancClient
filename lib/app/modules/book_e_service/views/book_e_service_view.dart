@@ -4,11 +4,17 @@ import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../common/ui.dart';
 import '../../../global_widgets/block_button_widget.dart';
+import '../../../global_widgets/text_field_widget.dart';
 import '../../../their_models/task_model.dart';
 import '../../../routes/app_pages.dart';
+import '../../auth/bindings/auth_binding.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../controllers/book_e_service_controller.dart';
 
 class BookEServiceView extends GetView<BookEServiceController> {
+  AuthController _authController = Get.find<AuthController>();
+  final formGlobalKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,17 +35,96 @@ class BookEServiceView extends GetView<BookEServiceController> {
         bottomNavigationBar: buildBlockButtonWidget(controller.task.value),
         body: ListView(
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-              decoration: Ui.getBoxDecoration(),
+            Form(
+              key: formGlobalKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Your Address".tr, style: Get.textTheme.caption),
-                  SizedBox(height: 8),
-                  Text(controller.currentAddress.address,
-                      style: Get.textTheme.bodyText2),
+                  TextFieldWidget(
+                    labelText: "title".tr,
+                    iconData: Icons.title,
+                    keyboardType: TextInputType.text,
+                    isLast: false,
+                    isFirst: true,
+                    validator: (text) {
+                      if (text == null || text.isEmpty) {
+                        return 'field is empty'.tr;
+                      }
+                      controller.title = text;
+                      return null;
+                    },
+                  ),
+                  TextFieldWidget(
+                    labelText: "description".tr,
+                    iconData: Icons.description,
+                    keyboardType: TextInputType.text,
+                    isLast: false,
+                    isFirst: false,
+                    validator: (text) {
+                      if (text == null || text.isEmpty) {
+                        return 'field is empty'.tr;
+                      }
+                      controller.description = text;
+                      return null;
+                    },
+                  ),
+                  TextFieldWidget(
+                    labelText: "Your address".tr,
+                    initialValue: _authController.currentProfile.home_address,
+                    iconData: Icons.home,
+                    keyboardType: TextInputType.streetAddress,
+                    isLast: false,
+                    isFirst: false,
+                    validator: (text) {
+                      if (text == null || text.isEmpty) {
+                        return 'field is empty'.tr;
+                      }
+                      controller.address = text;
+                      return null;
+                    },
+                  ),
+                  Obx(
+                    () => Container(
+                        padding: EdgeInsets.only(
+                            top: 20, bottom: 14, left: 20, right: 20),
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, top: 0, bottom: 10),
+                        decoration: BoxDecoration(
+                            color: Get.theme.primaryColor,
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Get.theme.focusColor.withOpacity(0.1),
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)),
+                            ],
+                            border: Border.all(
+                                color: Get.theme.focusColor.withOpacity(0.05))),
+                        child: Center(
+                          child: DropdownButton<String>(
+                            value: controller.selectedCategory.value,
+                            icon: const Icon(Icons.arrow_downward),
+                            style: const TextStyle(color: Colors.orangeAccent),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.orangeAccent,
+                            ),
+                            onChanged: (String newValue) {
+                              controller.selectedCategory.value = newValue;
+                              controller.update();
+                              print(controller.selectedCategory.value);
+                            },
+                            items: controller.catnames
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        )),
+                  )
                 ],
               ),
             ),
@@ -162,10 +247,16 @@ class BookEServiceView extends GetView<BookEServiceController> {
                       Text("Requested Service on".tr)
                           .paddingSymmetric(vertical: 20),
                       Text(
-                          '${DateFormat.yMMMMEEEEd().format(controller.task.value.dateTime)}',
+                          '${controller.d.value.toDate().year}' +
+                              '-' +
+                              '${controller.d.value.toDate().month}' +
+                              '-' +
+                              '${controller.d.value.toDate().day}',
                           style: Get.textTheme.headline5),
                       Text(
-                          'At ${DateFormat('HH:mm').format(controller.task.value.dateTime)}',
+                          'At ${controller.d.value.toDate().hour}' +
+                              ':' +
+                              '${controller.d.value.toDate().minute}',
                           style: Get.textTheme.headline3),
                     ],
                   );
@@ -209,7 +300,10 @@ class BookEServiceView extends GetView<BookEServiceController> {
           ),
           color: Get.theme.accentColor,
           onPressed: () {
-            Get.toNamed(Routes.CHECKOUT, arguments: _task);
+            if (formGlobalKey.currentState.validate()) {
+              controller.addIntervention();
+              Get.toNamed(Routes.CHECKOUT, arguments: _task);
+            }
           }).paddingOnly(right: 20, left: 20),
     );
   }

@@ -13,108 +13,97 @@ class InterventionNetwork {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference InterventionsRef =
       FirebaseFirestore.instance.collection('Intervention');
+
+  CollectionReference providers =
+      FirebaseFirestore.instance.collection('Provider');
+  CollectionReference categories =
+      FirebaseFirestore.instance.collection('Category');
+  CollectionReference clients = FirebaseFirestore.instance.collection('Client');
   UserNetwork userServices = UserNetwork();
-    ClientNetwork clientServices = ClientNetwork();
-    BillNetwork billServices = BillNetwork();
+  ClientNetwork clientServices = ClientNetwork();
+  BillNetwork billServices = BillNetwork();
 
   CategoryNetwork categoryServices = CategoryNetwork();
-    ServiceProviderNetwork providerServices = ServiceProviderNetwork();
+  ServiceProviderNetwork providerServices = ServiceProviderNetwork();
 
+  Future<DocumentReference> addIntervention(data) async {
+    var d = await InterventionsRef.add(data);
+    return d;
+  }
 
   Future<List<Intervention>> getInterventionsList() async {
-    int index=0;
     List<Intervention> interventions = [];
-
 
 // if(Interventions.isNotEmpty){
 //   Interventions.clear();
 // }
 
     QuerySnapshot snapshot = await InterventionsRef.get();
-    var list = snapshot.docs.map((e) => e.data()).toList();
     snapshot.docs.forEach((element) async {
-            DocumentReference dr=element['provider'];
+      print(element.data());
+      DocumentReference dr = element['provider'];
 
       Intervention intervention = Intervention.fromFire(element);
       // interventions.add(intervention);
-intervention.id=element.id;
+      intervention.id = element.id;
       // intervention.id = element.id;
 
-
       //get Branches
-      intervention.provider=await providerServices.getProviderById(dr.id);
+      intervention.provider = await providerServices.getProviderById(dr.id);
 
- // get category
-       dr=element['category'];
-      Category category=await categoryServices.getCategoryById(dr.id);
-      intervention.category=category;
-
-     
+      // get category
+      dr = element['category'];
+      Category category = await categoryServices.getCategoryById(dr.id);
+      intervention.category = category;
 
       //get client
-       dr = element['client'];
-      
+      dr = element['client'];
+
       Client client = await clientServices.getClientById(dr.id);
-      intervention.client=client;
+      intervention.client = client;
 
+      //get bill
+      dr = element['bill'];
 
-
-      //get bill  
-             dr = element['bill'];
-
-      Bill bill=await billServices.getBillById(dr.id);   
-      intervention.bill=bill;
-interventions.add(intervention);
-print(intervention.description);
-index++;
-      
-      
+      // Bill bill = await billServices.getBillById(dr.id);
+      // intervention.bill = bill;
+      interventions.add(intervention);
+      print(interventions.length);
     });
 
     return interventions;
   }
 
+  Future<Intervention> getInterventionById(String id) async {
+    DocumentSnapshot snapshot = await InterventionsRef.doc(id).get();
 
+    DocumentReference dr = snapshot['provider'];
 
+    Intervention intervention = Intervention.fromFire(snapshot);
+    // interventions.add(intervention);
+    intervention.id = snapshot.id;
+    // intervention.id = element.id;
 
-   Future<Intervention> getInterventionById(String id) async {
-         DocumentSnapshot snapshot = await InterventionsRef.doc(id).get();
+    //get Branches
+    intervention.provider = await providerServices.getProviderById(dr.id);
 
-         DocumentReference dr=snapshot['provider'];
+    // get category
+    dr = snapshot['category'];
+    Category category = await categoryServices.getCategoryById(dr.id);
+    intervention.category = category;
 
-      Intervention intervention = Intervention.fromFire(snapshot);
-      // interventions.add(intervention);
-intervention.id=snapshot.id;
-      // intervention.id = element.id;
+    //get client
+    dr = snapshot['client'];
 
+    Client client = await clientServices.getClientById(dr.id);
+    intervention.client = client;
 
-      //get Branches
-      intervention.provider=await providerServices.getProviderById(dr.id);
+    //get bill
+    dr = snapshot['bill'];
 
- // get category
-       dr=snapshot['category'];
-      Category category=await categoryServices.getCategoryById(dr.id);
-      intervention.category=category;
-
-     
-
-      //get client
-       dr = snapshot['client'];
-      
-      Client client = await clientServices.getClientById(dr.id);
-      intervention.client=client;
-
-
-
-      //get bill  
-             dr = snapshot['bill'];
-
-      Bill bill=await billServices.getBillById(dr.id);   
-      intervention.bill=bill;
-print(intervention.description);
-return intervention;
+    Bill bill = await billServices.getBillById(dr.id);
+    intervention.bill = bill;
+    print(intervention.description);
+    return intervention;
   }
-
-
-
 }
