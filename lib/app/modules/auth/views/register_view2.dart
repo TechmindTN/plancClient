@@ -436,7 +436,7 @@ class RegisterView2 extends GetView<AuthController> {
                       //    print(storeimage);
                       //   storecontrol.update();
                     },
-                    child: Icon(Icons.camera))
+                    child: Icon(Icons.add))
               ])),
     );
   }

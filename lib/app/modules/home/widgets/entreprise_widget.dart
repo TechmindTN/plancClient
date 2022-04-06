@@ -65,6 +65,7 @@ class EntrepriseWidget extends GetWidget<HomeController> {
                           'No Data...',
                         );
                       } else {
+                        controller.list.clear();
                         print('before ' + snapshot.data.docs.length.toString());
 
                         for (var i = 0; i < snapshot.data.docs.length; i++) {

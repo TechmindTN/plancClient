@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../../../Network/ServiceProviderNetwork.dart';
 import '../../../global_widgets/home_search_bar_widget.dart';
 import '../../../global_widgets/notifications_button_widget.dart';
+import '../../../global_widgets/text_field_widget.dart';
 import '../../../models/Provider.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/settings_service.dart';
@@ -132,6 +134,119 @@ class Home2View extends GetView<HomeController> {
                           EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: _tabSection(context),
                     ),
+
+                    Container(
+                        child: Center(
+                            child: ElevatedButton(
+                                child: Text('Request an intervention '),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => AlertDialog(
+                                            title: Text(
+                                                'Need an intervention ? Submit this form '),
+                                            content: Form(
+                                                child: Column(
+                                              children: [
+                                                TextFieldWidget(
+                                                  labelText: "title".tr,
+                                                  iconData: Icons.description,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  isLast: false,
+                                                  isFirst: false,
+                                                  validator: (text) {
+                                                    if (text == null ||
+                                                        text.isEmpty) {
+                                                      return 'field is empty'
+                                                          .tr;
+                                                    }
+                                                    // controller.description =
+                                                    //     text;
+                                                    return null;
+                                                  },
+                                                ),
+                                                TextFieldWidget(
+                                                  labelText: "description".tr,
+                                                  iconData: Icons.description,
+                                                  keyboardType:
+                                                      TextInputType.text,
+                                                  isLast: false,
+                                                  isFirst: false,
+                                                  validator: (text) {
+                                                    if (text == null ||
+                                                        text.isEmpty) {
+                                                      return 'field is empty'
+                                                          .tr;
+                                                    }
+                                                    // controller.description =
+                                                    //     text;
+                                                    return null;
+                                                  },
+                                                ),
+                                                Center(
+                                                  child: DropdownButton<String>(
+                                                      value: 'Electricité',
+                                                      icon: const Icon(
+                                                          Icons.arrow_downward),
+                                                      style: const TextStyle(
+                                                          color: Colors
+                                                              .orangeAccent),
+                                                      underline: Container(
+                                                        height: 2,
+                                                        color:
+                                                            Colors.orangeAccent,
+                                                      ),
+                                                      onChanged:
+                                                          (String newValue) {
+                                                        // controller.selectedCategory.value = newValue;
+                                                        // controller.update();
+                                                        print(newValue);
+                                                      },
+                                                      items: [
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              'Informatique'),
+                                                          value: 'Informatique',
+                                                        ),
+                                                        DropdownMenuItem(
+                                                          child: Text(
+                                                              'Electricité'),
+                                                          value: 'Electricité',
+                                                        )
+                                                      ]),
+                                                ),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      DatePicker.showDatePicker(
+                                                          context,
+                                                          showTitleActions:
+                                                              true,
+                                                          minTime:
+                                                              DateTime.now(),
+                                                          onChanged: (date) {
+                                                        print('change $date');
+                                                      }, onConfirm: (date) {
+                                                        print('confirm $date');
+                                                      },
+                                                          currentTime:
+                                                              DateTime.now());
+                                                    },
+                                                    child: Text(
+                                                      'Choose Date / Time',
+                                                      style: TextStyle(
+                                                          color: Colors.orange),
+                                                    )),
+                                                Text('Media :'),
+                                                SizedBox(width: 15),
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon:
+                                                        Icon(Icons.add_a_photo))
+                                              ],
+                                            )),
+                                          ));
+                                }))),
                     // Padding(
                     //   padding:
                     //       EdgeInsets.symmetric(horizontal: 20, vertical: 5),
