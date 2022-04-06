@@ -137,4 +137,20 @@ class UserNetwork {
     print('Client added :' + added.id);
     return added;
   }
+
+  Future<List<User>> getUsersByRole(String role_name) async {
+    List<User> users = [];
+    User user;
+    var id;
+    await roleServices.getRoleIdByName(role_name).then((val) => id = val);
+    var ref = roleServices.getRoleRef(id);
+    QuerySnapshot q = await usersRef.where('role', isEqualTo: ref).get();
+    q.docs.forEach((element) {
+      user = User.fromFire(element.data());
+      user.id = element.id;
+      users.add(user);
+    });
+
+    return users;
+  }
 }

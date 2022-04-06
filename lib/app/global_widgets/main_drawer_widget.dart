@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/ui.dart';
 import '../models/Client.dart';
 import '../models/User.dart';
 import '../modules/auth/controllers/auth_controller.dart';
@@ -154,30 +155,54 @@ class MainDrawerWidget extends StatelessWidget {
             icon: Icons.assignment_outlined,
             text: "Bookings",
             onTap: (e) {
-              Get.back();
-              Get.find<RootController>().changePage(1);
+              if (user.email == null) {
+                Get.showSnackbar(
+                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                return null;
+              } else {
+                Get.back();
+                Get.find<RootController>().changePage(1);
+              }
             },
           ),
           DrawerLinkWidget(
             icon: Icons.notifications_none_outlined,
             text: "Notifications",
             onTap: (e) {
-              Get.offAndToNamed(Routes.NOTIFICATIONS);
+              if (user.email == null) {
+                Get.showSnackbar(
+                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                return null;
+              } else {
+                Get.offAndToNamed(Routes.NOTIFICATIONS);
+              }
             },
           ),
           DrawerLinkWidget(
             icon: Icons.favorite_outline,
             text: "Favorites",
             onTap: (e) {
-              Get.offAndToNamed(Routes.FAVORITES);
+              if (user.email == null) {
+                Get.showSnackbar(
+                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                return null;
+              } else {
+                Get.offAndToNamed(Routes.FAVORITES);
+              }
             },
           ),
           DrawerLinkWidget(
             icon: Icons.chat_outlined,
             text: "Messages",
             onTap: (e) {
-              Get.back();
-              Get.find<RootController>().changePage(2);
+              if (user.email == null) {
+                Get.showSnackbar(
+                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                return null;
+              } else {
+                Get.back();
+                Get.find<RootController>().changePage(2);
+              }
             },
           ),
           ListTile(
@@ -195,8 +220,14 @@ class MainDrawerWidget extends StatelessWidget {
             icon: Icons.person_outline,
             text: "Account",
             onTap: (e) {
-              Get.back();
-              Get.find<RootController>().changePage(3);
+              if (user.email == null) {
+                Get.showSnackbar(
+                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                return null;
+              } else {
+                Get.back();
+                Get.find<RootController>().changePage(3);
+              }
             },
           ),
           DrawerLinkWidget(
@@ -245,13 +276,15 @@ class MainDrawerWidget extends StatelessWidget {
               Get.offAndToNamed(Routes.PRIVACY);
             },
           ),
-          DrawerLinkWidget(
-            icon: Icons.logout,
-            text: "Logout",
-            onTap: (e) {
-              Get.offAllNamed(Routes.LOGIN);
-            },
-          ),
+          user.email != null
+              ? DrawerLinkWidget(
+                  icon: Icons.logout,
+                  text: "Logout",
+                  onTap: (e) {
+                    Get.offAllNamed(Routes.LOGIN);
+                  },
+                )
+              : SizedBox(),
           if (Get.find<SettingsService>().setting.value.enableVersion)
             ListTile(
               dense: true,

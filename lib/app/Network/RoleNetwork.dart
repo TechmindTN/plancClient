@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/Role.dart';
 
-class RoleNetwork{
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
+class RoleNetwork {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference rolesRef = FirebaseFirestore.instance.collection('Role');
-
 
   Future<Role> getRoleById(String id) async {
     Role role;
@@ -17,14 +16,20 @@ class RoleNetwork{
 
     return role;
   }
-getAllRoles() async {
-  List<Role> roles = [];
+
+  Future<String> getRoleIdByName(String name) async {
+    QuerySnapshot snap =
+        await rolesRef.where('name', isEqualTo: name).limit(1).get();
+    return snap.docs.first.id;
+  }
+
+  getAllRoles() async {
+    List<Role> roles = [];
 
     QuerySnapshot snapshot = await rolesRef.get();
     var list = snapshot.docs.map((e) => e.data()).toList();
-    Future.delayed(Duration(seconds: 2),(){
-          print(snapshot.size);
-
+    Future.delayed(Duration(seconds: 2), () {
+      print(snapshot.size);
     });
     snapshot.docs.forEach((element) async {
       Role role = Role.fromFire(element);
@@ -35,10 +40,10 @@ getAllRoles() async {
       print(role.name);
     });
     return roles;
-}
-  getRoleRef(String id)  {
-    DocumentReference ref= firestore.doc('Role/'+ id);
-    return ref;
   }
 
+  getRoleRef(String id) {
+    DocumentReference ref = firestore.doc('Role/' + id);
+    return ref;
+  }
 }

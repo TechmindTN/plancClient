@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../account/controllers/account_controller.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../../e_service/controllers/e_service_controller.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../messages/controllers/messages_controller.dart';
@@ -27,7 +28,7 @@ class RootBinding extends Bindings {
       () => AccountController(),
     );
     Get.put<EServiceController>(EServiceController(), permanent: true);
-
+    Get.put<AuthController>(AuthController(), permanent: true);
     Get.lazyPut<SearchController>(
       () => SearchController(),
     );

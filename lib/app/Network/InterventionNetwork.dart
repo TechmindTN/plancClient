@@ -31,14 +31,20 @@ class InterventionNetwork {
     return d;
   }
 
-  Future<List<Intervention>> getInterventionsList() async {
+  DocumentReference getClientRef(String id) {
+    return firestore.doc('Client/' + id);
+  }
+
+  Future<List<Intervention>> getInterventionsList(String id) async {
     List<Intervention> interventions = [];
 
 // if(Interventions.isNotEmpty){
 //   Interventions.clear();
 // }
-
-    QuerySnapshot snapshot = await InterventionsRef.get();
+    var ref = getClientRef(id);
+    print(ref);
+    QuerySnapshot snapshot =
+        await InterventionsRef.where('client', isEqualTo: ref).get();
     snapshot.docs.forEach((element) async {
       print(element.data());
       DocumentReference dr = element['provider'];
@@ -68,9 +74,8 @@ class InterventionNetwork {
       // Bill bill = await billServices.getBillById(dr.id);
       // intervention.bill = bill;
       interventions.add(intervention);
-      print(interventions.length);
     });
-
+    print('leeen' + interventions.length.toString());
     return interventions;
   }
 
