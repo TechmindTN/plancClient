@@ -21,6 +21,7 @@ class ServiceProvider {
   GeoPoint location;
   Map<String, dynamic> social_media;
   int phone;
+  double rate;
 
   ServiceProvider({
     this.id,
@@ -55,7 +56,9 @@ class ServiceProvider {
         // zip_code = fire['zip_code'],
         // location = fire['location'],
         social_media = fire['social_media'],
-        phone = fire['phone'];
+        phone = fire['phone'],
+        rate = fire['rate'];
+
   printProvider() {
     print(this.id);
     print(this.name);

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/media_model.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import '../../../../common/ui.dart';
 import '../../../global_widgets/block_button_widget.dart';
@@ -319,14 +320,26 @@ class EServiceView extends GetView<EServiceController> {
                           style: Get.textTheme.subtitle2),
                       content: Column(
                         children: [
-                          Text(4.toString(), style: Get.textTheme.headline1),
-                          Wrap(
-                            children: Ui.getStarsList(4, size: 32),
-                          ),
-                          Text(
-                            "Reviews (%s)".trArgs([20.toString()]),
-                            style: Get.textTheme.caption,
-                          ).paddingOnly(top: 10),
+                          Text(prov.rate.toString(),
+                              style: Get.textTheme.headline1),
+                          Wrap(children: [
+                            SmoothStarRating(
+                              rating: prov.rate,
+                              isReadOnly: false,
+                              size: 20,
+                              filledIconData: Icons.star,
+                              halfFilledIconData: Icons.star_half,
+                              defaultIconData: Icons.star_border,
+                              starCount: 5,
+                              allowHalfRating: true,
+                              spacing: 2.0,
+                              color: Colors.orange,
+                              onRated: (value) {
+                                print("rating value -> $value");
+                                // print("rating value dd -> ${value.truncate()}");
+                              },
+                            ),
+                          ]),
                           Divider(height: 35, thickness: 1.3),
                           Obx(() {
                             if (controller.reviews.isEmpty) {
@@ -448,18 +461,23 @@ class EServiceView extends GetView<EServiceController> {
           Row(
             children: [
               Expanded(
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.end,
-                  children: List.from(Ui.getStarsList(4))
-                    ..addAll([
-                      SizedBox(width: 5),
-                      Text(
-                        "Reviews (%s)".trArgs([4.toString()]),
-                        style: Get.textTheme.caption,
-                      ),
-                    ]),
-                ),
-              ),
+                  child: SmoothStarRating(
+                rating: provider.rate,
+                isReadOnly: true,
+                size: 20,
+                filledIconData: Icons.star,
+                halfFilledIconData: Icons.star_half,
+                defaultIconData: Icons.star_border,
+                starCount: 5,
+                allowHalfRating: true,
+                spacing: 2.0,
+                color: Colors.orange,
+                onRated: (value) {
+                  print("rating value -> $value");
+                  // print("rating value dd -> ${value.truncate()}");
+                },
+              )),
+
               // Ui.getPrice(
               //   _eService.minPrice,
               //   style: Get.textTheme.headline3.merge(TextStyle(color: Get.theme.accentColor)),

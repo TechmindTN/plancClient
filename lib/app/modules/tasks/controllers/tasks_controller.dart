@@ -5,28 +5,36 @@ import 'package:home_services/app/their_models/task_model.dart';
 
 import '../../../../common/ui.dart';
 
+import '../../../Network/ClientNetwork.dart';
 import '../../../Network/InterventionNetwork.dart';
 import '../../../models/Category.dart';
 import '../../../models/Client.dart';
 import '../../../models/Intervention.dart';
 import '../../../models/Provider.dart';
 import '../../../repositories/task_repository.dart';
+import '../../auth/controllers/auth_controller.dart';
+import '../../home/controllers/home_controller.dart';
 
 class TasksController extends GetxController {
   TaskRepository _taskRepository;
   InterventionNetwork interventionNetwork = InterventionNetwork();
-  Stream<List<Intervention>> bookings;
+  RxList<Intervention> bookings = <Intervention>[].obs;
   var completedTasks = <Task>[].obs;
   var archivedTasks = <Task>[].obs;
+  var client = Client().obs;
+  ClientNetwork _clientNetwork = ClientNetwork();
   Rx<Intervention> selectedTask = Intervention().obs;
+  // Rx<Client> client = Client().obs;
+  // ClientNetwork _clientNetwork = ClientNetwork();
   // final selectedOngoingTask = Task().obs;
   // final selectedCompletedTask = Task().obs;
   // final selectedArchivedTask = Task().obs;
 
   @override
   void onInit() async {
-    bookings = Stream.fromFuture(interventionNetwork.getInterventionsList());
-    update();
+    print('bookings');
+
+    bookings.value = Get.find<HomeController>().interventions;
     super.onInit();
   }
 
@@ -40,7 +48,7 @@ class TasksController extends GetxController {
     }
   }
 
-  Future<void> getOngoingTasks({bool showMessage = false}) async {
+  Future getOngoingTasks({bool showMessage = false}) async {
     // QuerySnapshot snaps = await _interventionNetwork.InterventionsRef.get();
     // Intervention i;
     // snaps.docs.forEach((element) async {
@@ -56,6 +64,8 @@ class TasksController extends GetxController {
     // _interventionNetwork
     //   bookings.value.add(i);
     // });
+    bookings.value = Get.find<HomeController>().interventions;
+
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));

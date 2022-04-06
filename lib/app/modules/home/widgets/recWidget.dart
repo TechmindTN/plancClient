@@ -7,8 +7,9 @@ import 'package:home_services/app/routes/app_pages.dart';
 import '../../../Network/BranchNetwork.dart';
 import '../../../Network/UserNetwork.dart';
 import '../../e_service/views/e_service_view.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-Widget RecWidget(_service, eServiceController,{String id}) {
+Widget RecWidget(_service, eServiceController, {String id}) {
   //  var _service = controller.prov.elementAt(index);
   ServiceProvider provider = ServiceProvider.fromFire(_service);
   // eServiceController.getThisProvider(provider,_service['user'].id);
@@ -18,10 +19,10 @@ Widget RecWidget(_service, eServiceController,{String id}) {
   // provider.user=await userServices.getUserById(_service.id);
 
   // print(provider.branches.first.address);
-  if(id==null){
-  provider.id = _service.id;}
-  else{
-    provider.id=id;
+  if (id == null) {
+    provider.id = _service.id;
+  } else {
+    provider.id = id;
   }
   return GestureDetector(
     onTap: () {
@@ -96,6 +97,24 @@ Widget RecWidget(_service, eServiceController,{String id}) {
                     Text(provider.description, style: Get.textTheme.bodyText1),
                     // Text(' - '),
                     // Text("\$" + _service.maxPrice.toString(), style: Get.textTheme.bodyText1),
+                    SizedBox(height: 20),
+
+                    SmoothStarRating(
+                      rating: provider.rate,
+                      isReadOnly: true,
+                      size: 20,
+                      filledIconData: Icons.star,
+                      halfFilledIconData: Icons.star_half,
+                      defaultIconData: Icons.star_border,
+                      starCount: 5,
+                      allowHalfRating: true,
+                      spacing: 2.0,
+                      color: Colors.orange,
+                      onRated: (value) {
+                        print("rating value -> $value");
+                        // print("rating value dd -> ${value.truncate()}");
+                      },
+                    )
                   ],
                 )
               ],

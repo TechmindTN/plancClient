@@ -10,6 +10,7 @@ import 'package:path/path.dart';
 import '../../../models/Client.dart';
 import '../../../models/User.dart';
 import '../../../Network/UserNetwork.dart';
+import '../../home/controllers/home_controller.dart';
 
 class AuthController extends GetxController {
   final hidePassword = true.obs;
@@ -46,6 +47,8 @@ class AuthController extends GetxController {
     await _userNetwork
         .getClientByUserRef(d)
         .then((value) => currentProfile = value);
+
+    Get.find<HomeController>().onInit();
     return ok;
     // if (data == null) return false;
     // return true;

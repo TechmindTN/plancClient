@@ -80,7 +80,8 @@ class Intervention {
         'creation_date': creation_date,
         'city': city,
         'provider': provider,
-        'description': description
+        'description': description,
+        'price': price
       };
 
   printIntervention() {

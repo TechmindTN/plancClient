@@ -32,7 +32,7 @@ class BookEServiceController extends GetxController {
   int zip_code;
   Rx<Timestamp> d = Timestamp.now().obs;
   List<Category> categlist = <Category>[].obs;
-  RxString selectedCategory = 'Construction'.obs;
+  RxString selectedCategory = ''.obs;
   @override
   void onInit() {
     country = currentclient.country;
@@ -127,6 +127,7 @@ class BookEServiceController extends GetxController {
         zip_code: zip_code,
         state: state,
         bill: null,
+        price: null,
         states: 'en cours');
     var data = intervention.value.tofire();
 
@@ -140,6 +141,8 @@ class BookEServiceController extends GetxController {
     });
     data["category"] = firestore.doc('Category/' + cat);
     print(data);
-    await _interventionNetwork.addIntervention(data);
+    await _interventionNetwork
+        .addIntervention(data)
+        .then((value) => Get.find<HomeController>().onInit());
   }
 }

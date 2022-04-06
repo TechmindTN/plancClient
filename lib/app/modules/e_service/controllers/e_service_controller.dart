@@ -45,11 +45,11 @@ class EServiceController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() async {
-    await refreshEService();
-    super.onReady();
-  }
+  // @override
+  // void onReady() async {
+  //   await refreshEService();
+  //   super.onReady();
+  // }
 
   Future refreshEService({bool showMessage = false}) async {
     await getEService();

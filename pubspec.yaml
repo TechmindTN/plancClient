@@ -47,6 +47,8 @@ dependencies:
   firebase_core: 1.0.1
   # GOOGLE MAPS
   google_maps_flutter: 2.0.1
+  smooth_star_rating: ^1.1.1
+
   # permission_handler: ^9.2.0
   # google_maps_place_picker: any
     # git:

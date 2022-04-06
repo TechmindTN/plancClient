@@ -5,8 +5,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/ui.dart';
+import '../../../models/User.dart';
 import '../../../routes/app_pages.dart';
 import '../../account/views/account_view.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../../home/views/home2_view.dart';
 import '../../messages/views/messages_view.dart';
 import '../../tasks/views/tasks_view.dart';
@@ -37,7 +40,16 @@ class RootController extends GetxController {
    * change page in route
    * */
   void changePageInRoot(int _index) {
-    currentIndex.value = _index;
+    if (_index != 0) {
+      if (Get.find<AuthController>().currentuser.email == null) {
+        Get.showSnackbar(Ui.ErrorSnackBar(message: 'You must login before !'));
+        return null;
+      } else {
+        currentIndex.value = _index;
+      }
+    } else {
+      currentIndex.value = _index;
+    }
   }
 
   void changePageOutRoot(int _index) {
