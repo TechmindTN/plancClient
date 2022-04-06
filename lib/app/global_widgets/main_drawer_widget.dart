@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../common/ui.dart';
 import '../models/Client.dart';
@@ -20,6 +21,7 @@ class MainDrawerWidget extends StatelessWidget {
     AuthController _authController = Get.find<AuthController>();
     _authController.update();
     User user = _authController.currentuser;
+    Client client = _authController.currentProfile;
     return Drawer(
       child: ListView(
         children: [
@@ -35,10 +37,36 @@ class MainDrawerWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Welcome".tr,
-                      style: Get.textTheme.headline5.merge(
-                          TextStyle(color: Theme.of(context).accentColor))),
-                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Text("Welcome".tr,
+                          style: Get.textTheme.headline5.merge(
+                              TextStyle(color: Theme.of(context).accentColor))),
+                      SizedBox(width: 50),
+                      user.email == null
+                          ? SizedBox(width: 5)
+                          : ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50)),
+                              child: CachedNetworkImage(
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                                imageUrl: client.profile_photo ??
+                                    'https://cdn1.vectorstock.com/i/1000x1000/23/70/man-avatar-icon-flat-vector-19152370.jpg',
+                                placeholder: (context, url) => Image.asset(
+                                  'assets/img/loading.gif',
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: 100,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error_outline),
+                              ),
+                            ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
                   user.email == null
                       ? Text("Login account or create new one for free".tr,
                           style: Get.textTheme.bodyText1)

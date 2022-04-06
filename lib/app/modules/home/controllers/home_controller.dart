@@ -47,6 +47,7 @@ class HomeController extends GetxController {
   final featured = <Category>[].obs;
   var client = Client().obs;
   final RxList list = [].obs;
+
   HomeController() {
     _userRepo = new UserRepository();
     _sliderRepo = new SliderRepository();
@@ -60,6 +61,7 @@ class HomeController extends GetxController {
     if (Get.find<AuthController>().currentProfile.first_name != null) {
       print('there is client connected !');
       client.value = Get.find<AuthController>().currentProfile;
+      interventions.value.clear();
       interventions.value =
           await _interventionNetwork.getInterventionsList(client.value.id);
     }
