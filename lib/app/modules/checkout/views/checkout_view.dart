@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../global_widgets/block_button_widget.dart';
+import '../../../models/Provider.dart';
 import '../../../their_models/task_model.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/checkout_controller.dart';
@@ -63,11 +64,11 @@ class CheckoutView extends GetView<CheckoutController> {
             ),
         ]),
       ),
-      bottomNavigationBar: buildBottomWidget(Get.arguments as Task),
+      bottomNavigationBar: buildBottomWidget(Get.arguments as ServiceProvider),
     );
   }
 
-  Widget buildBottomWidget(Task _task) {
+  Widget buildBottomWidget(ServiceProvider _task) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(

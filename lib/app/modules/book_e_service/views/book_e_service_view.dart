@@ -32,7 +32,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
           ),
           elevation: 0,
         ),
-        bottomNavigationBar: buildBlockButtonWidget(controller.task.value),
+        bottomNavigationBar: buildBlockButtonWidget(),
         body: ListView(
           children: [
             Form(
@@ -129,6 +129,34 @@ class BookEServiceView extends GetView<BookEServiceController> {
               ),
             ),
             SizedBox(height: 20),
+            Column(children: [
+              Text(
+                "Media".tr,
+                style: context.textTheme.headline6,
+              ),
+              IconButton(
+                  onPressed: () {
+                    controller.changeImage();
+                    controller.update();
+                  },
+                  icon: Icon(Icons.add_a_photo_outlined)),
+              SizedBox(
+                height: 15,
+              ),
+              GetBuilder<BookEServiceController>(
+                  init: BookEServiceController(),
+                  builder: (ctrl) => Container(
+                      height: 200,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.imlist?.value.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                                constraints: BoxConstraints(
+                                    maxHeight: 150, maxWidth: 150),
+                                child: controller.imlist?.value[index]);
+                          }))),
+            ]),
             Obx(() {
               return Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -262,12 +290,12 @@ class BookEServiceView extends GetView<BookEServiceController> {
                   );
                 }),
               );
-            })
+            }),
           ],
         ));
   }
 
-  Widget buildBlockButtonWidget(Task _task) {
+  Widget buildBlockButtonWidget() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(
@@ -280,31 +308,57 @@ class BookEServiceView extends GetView<BookEServiceController> {
               offset: Offset(0, -5)),
         ],
       ),
-      child: BlockButtonWidget(
-          text: Stack(
-            alignment: AlignmentDirectional.centerEnd,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Text(
-                  "Continue".tr,
-                  textAlign: TextAlign.center,
-                  style: Get.textTheme.headline6.merge(
-                    TextStyle(color: Get.theme.primaryColor),
+      child: controller.service != null
+          ? BlockButtonWidget(
+              text: Stack(
+                alignment: AlignmentDirectional.centerEnd,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      "Continue".tr,
+                      textAlign: TextAlign.center,
+                      style: Get.textTheme.headline6.merge(
+                        TextStyle(color: Get.theme.primaryColor),
+                      ),
+                    ),
                   ),
-                ),
+                  Icon(Icons.arrow_forward_ios,
+                      color: Get.theme.primaryColor, size: 20)
+                ],
               ),
-              Icon(Icons.arrow_forward_ios,
-                  color: Get.theme.primaryColor, size: 20)
-            ],
-          ),
-          color: Get.theme.accentColor,
-          onPressed: () {
-            if (formGlobalKey.currentState.validate()) {
-              controller.addIntervention();
-              Get.toNamed(Routes.CHECKOUT, arguments: _task);
-            }
-          }).paddingOnly(right: 20, left: 20),
+              color: Get.theme.accentColor,
+              onPressed: () {
+                if (formGlobalKey.currentState.validate()) {
+                  controller.addIntervention();
+                  Get.toNamed(Routes.CHECKOUT, arguments: controller.service);
+                }
+              }).paddingOnly(right: 20, left: 20)
+          : BlockButtonWidget(
+              text: Stack(
+                alignment: AlignmentDirectional.centerEnd,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      "Submit".tr,
+                      textAlign: TextAlign.center,
+                      style: Get.textTheme.headline6.merge(
+                        TextStyle(color: Get.theme.primaryColor),
+                      ),
+                    ),
+                  ),
+                  Icon(Icons.arrow_forward_ios,
+                      color: Get.theme.primaryColor, size: 20)
+                ],
+              ),
+              color: Get.theme.accentColor,
+              onPressed: () {
+                if (formGlobalKey.currentState.validate()) {
+                  controller.addIntervention();
+                  Get.toNamed(Routes.ROOT);
+                }
+              }).paddingOnly(right: 20, left: 20),
     );
   }
 }

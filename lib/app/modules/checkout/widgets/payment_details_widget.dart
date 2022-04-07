@@ -7,16 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/ui.dart';
+import '../../../models/Provider.dart';
 import '../../../their_models/task_model.dart';
 
 class PaymentDetailsWidget extends StatelessWidget {
   const PaymentDetailsWidget({
     Key key,
-    @required Task task,
+    @required ServiceProvider task,
   })  : _task = task,
         super(key: key);
 
-  final Task _task;
+  final ServiceProvider _task;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class PaymentDetailsWidget extends StatelessWidget {
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
-                  imageUrl: _task.eService.profile_photo,
+                  imageUrl: _task.profile_photo,
                   placeholder: (context, url) => Image.asset(
                     'assets/img/loading.gif',
                     fit: BoxFit.cover,
@@ -99,7 +100,7 @@ class PaymentDetailsWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      _task.eService.name ?? '',
+                      _task.name ?? '',
                       style: Get.textTheme.bodyText2,
                       maxLines: 3,
                       // textAlign: TextAlign.end,

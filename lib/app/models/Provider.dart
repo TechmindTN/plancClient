@@ -57,7 +57,7 @@ class ServiceProvider {
         // location = fire['location'],
         social_media = fire['social_media'],
         phone = fire['phone'],
-        rate = fire['rate'];
+        rate = double.parse(fire['rate'].toString());
 
   printProvider() {
     print(this.id);

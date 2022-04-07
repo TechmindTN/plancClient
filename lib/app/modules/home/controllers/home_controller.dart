@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/modules/e_service/controllers/e_service_controller.dart';
 import 'package:home_services/app/their_models/address_model.dart';
@@ -6,6 +7,7 @@ import 'package:home_services/app/their_models/slide_model.dart';
 
 import '../../../../common/ui.dart';
 import '../../../Network/CategoryNetwork.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 import '../../../Network/InterventionNetwork.dart';
 import '../../../Network/UserNetwork.dart';
@@ -47,7 +49,7 @@ class HomeController extends GetxController {
   final featured = <Category>[].obs;
   var client = Client().obs;
   final RxList list = [].obs;
-
+  RxList<Asset> images = <Asset>[].obs;
   HomeController() {
     _userRepo = new UserRepository();
     _sliderRepo = new SliderRepository();
@@ -83,6 +85,33 @@ class HomeController extends GetxController {
 
     await refreshHome();
     super.onInit();
+  }
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = <Asset>[];
+
+    resultList = await MultiImagePicker.pickImages(
+      maxImages: 5,
+      enableCamera: false,
+      selectedAssets: images.value,
+      cupertinoOptions: CupertinoOptions(
+        takePhotoIcon: "chat",
+        doneButtonTitle: "Fatto",
+      ),
+      materialOptions: MaterialOptions(
+        actionBarColor: "#abcdef",
+        actionBarTitle: "Example App",
+        allViewTitle: "All Photos",
+        useDetailsView: false,
+        selectCircleStrokeColor: "#000000",
+      ),
+    );
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+
+    images.value = resultList;
   }
 
   Future refreshHome({bool showMessage = false}) async {

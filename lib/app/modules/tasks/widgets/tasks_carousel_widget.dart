@@ -76,7 +76,8 @@ class TasksCarouselWidget extends StatelessWidget {
                               height: 100,
                               width: double.infinity,
                               fit: BoxFit.cover,
-                              imageUrl: _service.profile_photo,
+                              imageUrl: _service?.profile_photo ??
+                                  'https://previews.123rf.com/images/chekman/chekman1911/chekman191100489/133662631-vector-service-icon-isolated-black-web-service-icon-in-flat-design-service-concept.jpg',
                               placeholder: (context, url) => Image.asset(
                                 'assets/img/loading.gif',
                                 fit: BoxFit.cover,
@@ -108,7 +109,7 @@ class TasksCarouselWidget extends StatelessWidget {
                                 runAlignment: WrapAlignment.start,
                                 children: [
                                   Text(
-                                    _service.name,
+                                    _service?.name ?? 'Service',
                                     maxLines: 1,
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
@@ -184,8 +185,9 @@ class TasksCarouselWidget extends StatelessWidget {
                               height: 70,
                               width: 70,
                               fit: BoxFit.cover,
-                              imageUrl: val
-                                  .selectedTask.value.provider?.profile_photo,
+                              imageUrl: val.selectedTask.value.provider
+                                      ?.profile_photo ??
+                                  'https://previews.123rf.com/images/chekman/chekman1911/chekman191100489/133662631-vector-service-icon-isolated-black-web-service-icon-in-flat-design-service-concept.jpg',
                               placeholder: (context, url) => Image.asset(
                                 'assets/img/loading.gif',
                                 fit: BoxFit.cover,
@@ -203,7 +205,8 @@ class TasksCarouselWidget extends StatelessWidget {
                               direction: Axis.vertical,
                               children: [
                                 Text(
-                                  val.selectedTask.value.provider?.name,
+                                  val.selectedTask.value.provider?.name ??
+                                      'Service',
                                   style: Get.textTheme.bodyText2,
                                   maxLines: 3,
                                   // textAlign: TextAlign.end,
