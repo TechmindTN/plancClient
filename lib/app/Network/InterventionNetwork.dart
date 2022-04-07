@@ -55,8 +55,11 @@ class InterventionNetwork {
       // intervention.id = element.id;
 
       //get Branches
-      intervention.provider = await providerServices.getProviderById(dr.id);
-
+      if (dr != null) {
+        intervention.provider = await providerServices.getProviderById(dr.id);
+      } else {
+        intervention.provider = null;
+      }
       // get category
       dr = element['category'];
       Category category = await categoryServices.getCategoryById(dr.id);

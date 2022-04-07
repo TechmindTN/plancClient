@@ -14,7 +14,7 @@ class Intervention {
   final String title;
   final String description;
   final double price;
-  final List<dynamic> media;
+  List<dynamic> media;
   final Timestamp creation_date;
   final String state;
   final GeoPoint location;
@@ -58,7 +58,6 @@ class Intervention {
         country = fire['country'],
         state = fire['state'],
         id = null,
-        media = fire['media'],
         datetime = fire['date_time'];
   // provider = fire['provider'],
   // category = fire['category'],
@@ -72,7 +71,6 @@ class Intervention {
         'country': country,
         'zip_code': zip_code,
         'states': states,
-        'media': media,
         'state': state,
         'date_time': datetime,
         'location': location,

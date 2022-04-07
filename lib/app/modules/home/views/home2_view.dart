@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
+import '../../../../common/ui.dart';
 import '../../../Network/ServiceProviderNetwork.dart';
 import '../../../global_widgets/home_search_bar_widget.dart';
 import '../../../global_widgets/notifications_button_widget.dart';
@@ -13,6 +15,7 @@ import '../../../global_widgets/text_field_widget.dart';
 import '../../../models/Provider.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/settings_service.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../../e_service/controllers/e_service_controller.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/address_widget.dart';
@@ -30,6 +33,7 @@ class Home2View extends GetView<HomeController> {
       FirebaseFirestore.instance.collection('Provider');
   EServiceController eServiceController = Get.find<EServiceController>();
   List<Widget> recWidgets = [];
+  AuthController _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     // eServiceController.providers.forEach(((element) {
@@ -140,112 +144,14 @@ class Home2View extends GetView<HomeController> {
                             child: ElevatedButton(
                                 child: Text('Request an intervention '),
                                 onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                            title: Text(
-                                                'Need an intervention ? Submit this form '),
-                                            content: Form(
-                                                child: Column(
-                                              children: [
-                                                TextFieldWidget(
-                                                  labelText: "title".tr,
-                                                  iconData: Icons.description,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  isLast: false,
-                                                  isFirst: false,
-                                                  validator: (text) {
-                                                    if (text == null ||
-                                                        text.isEmpty) {
-                                                      return 'field is empty'
-                                                          .tr;
-                                                    }
-                                                    // controller.description =
-                                                    //     text;
-                                                    return null;
-                                                  },
-                                                ),
-                                                TextFieldWidget(
-                                                  labelText: "description".tr,
-                                                  iconData: Icons.description,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  isLast: false,
-                                                  isFirst: false,
-                                                  validator: (text) {
-                                                    if (text == null ||
-                                                        text.isEmpty) {
-                                                      return 'field is empty'
-                                                          .tr;
-                                                    }
-                                                    // controller.description =
-                                                    //     text;
-                                                    return null;
-                                                  },
-                                                ),
-                                                Center(
-                                                  child: DropdownButton<String>(
-                                                      value: 'Electricité',
-                                                      icon: const Icon(
-                                                          Icons.arrow_downward),
-                                                      style: const TextStyle(
-                                                          color: Colors
-                                                              .orangeAccent),
-                                                      underline: Container(
-                                                        height: 2,
-                                                        color:
-                                                            Colors.orangeAccent,
-                                                      ),
-                                                      onChanged:
-                                                          (String newValue) {
-                                                        // controller.selectedCategory.value = newValue;
-                                                        // controller.update();
-                                                        print(newValue);
-                                                      },
-                                                      items: [
-                                                        DropdownMenuItem(
-                                                          child: Text(
-                                                              'Informatique'),
-                                                          value: 'Informatique',
-                                                        ),
-                                                        DropdownMenuItem(
-                                                          child: Text(
-                                                              'Electricité'),
-                                                          value: 'Electricité',
-                                                        )
-                                                      ]),
-                                                ),
-                                                TextButton(
-                                                    onPressed: () {
-                                                      DatePicker.showDatePicker(
-                                                          context,
-                                                          showTitleActions:
-                                                              true,
-                                                          minTime:
-                                                              DateTime.now(),
-                                                          onChanged: (date) {
-                                                        print('change $date');
-                                                      }, onConfirm: (date) {
-                                                        print('confirm $date');
-                                                      },
-                                                          currentTime:
-                                                              DateTime.now());
-                                                    },
-                                                    child: Text(
-                                                      'Choose Date / Time',
-                                                      style: TextStyle(
-                                                          color: Colors.orange),
-                                                    )),
-                                                Text('Media :'),
-                                                SizedBox(width: 15),
-                                                IconButton(
-                                                    onPressed: () {},
-                                                    icon:
-                                                        Icon(Icons.add_a_photo))
-                                              ],
-                                            )),
-                                          ));
+                                  if (controller.client.value.first_name !=
+                                      null) {
+                                    Get.toNamed(Routes.BOOK_E_SERVICE);
+                                  } else {
+                                    Get.showSnackbar(Ui.ErrorSnackBar(
+                                        message: 'You must login before !'));
+                                    return null;
+                                  }
                                 }))),
                     // Padding(
                     //   padding:

@@ -79,7 +79,7 @@ Widget RecWidget(_service, eServiceController, {String id}) {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   provider.name,
@@ -91,31 +91,26 @@ Widget RecWidget(_service, eServiceController, {String id}) {
                 // Wrap(
                 //   children: Ui.getStarsList(_service.rate),
                 // ),
-                SizedBox(height: 10),
-                Wrap(
-                  children: [
-                    Text(provider.description, style: Get.textTheme.bodyText1),
-                    // Text(' - '),
-                    // Text("\$" + _service.maxPrice.toString(), style: Get.textTheme.bodyText1),
-                    SizedBox(height: 20),
-
-                    SmoothStarRating(
-                      rating: provider.rate,
-                      isReadOnly: true,
-                      size: 20,
-                      filledIconData: Icons.star,
-                      halfFilledIconData: Icons.star_half,
-                      defaultIconData: Icons.star_border,
-                      starCount: 5,
-                      allowHalfRating: true,
-                      spacing: 2.0,
-                      color: Colors.orange,
-                      onRated: (value) {
-                        print("rating value -> $value");
-                        // print("rating value dd -> ${value.truncate()}");
-                      },
-                    )
-                  ],
+                Wrap(children: [
+                  Text(provider.description, style: Get.textTheme.bodyText1),
+                  // Text(' - '),
+                  // Text("\$" + _service.maxPrice.toString(), style: Get.textTheme.bodyText1),
+                ]),
+                SmoothStarRating(
+                  rating: provider.rate,
+                  isReadOnly: true,
+                  size: 20,
+                  filledIconData: Icons.star,
+                  halfFilledIconData: Icons.star_half,
+                  defaultIconData: Icons.star_border,
+                  starCount: 5,
+                  allowHalfRating: true,
+                  spacing: 2.0,
+                  color: Colors.orange,
+                  onRated: (value) {
+                    print("rating value -> $value");
+                    // print("rating value dd -> ${value.truncate()}");
+                  },
                 )
               ],
             ),

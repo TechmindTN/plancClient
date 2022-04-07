@@ -1,14 +1,21 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/task_model.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 import '../../../Network/InterventionNetwork.dart';
+import '../../../Network/MediaNetwork.dart';
 import '../../../models/Category.dart';
 import '../../../models/Client.dart';
 import '../../../models/Intervention.dart';
+import '../../../models/Media.dart';
 import '../../../models/Provider.dart';
 import '../../../services/auth_service.dart';
 import '../../auth/controllers/auth_controller.dart';
@@ -16,12 +23,14 @@ import '../../home/controllers/home_controller.dart';
 
 class BookEServiceController extends GetxController {
   InterventionNetwork _interventionNetwork = InterventionNetwork();
+  MediaNetwork _mediaNetwork = MediaNetwork();
+
   final scheduled = false.obs;
-  final Rx<Task> task = Task().obs;
   final Rx<Intervention> intervention = Intervention().obs;
   List<String> catnames = <String>[].obs;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
+  File file;
+  List<File> filelist = [];
   Client currentclient = Get.find<AuthController>().currentProfile;
   String description = '';
   String title;
@@ -33,8 +42,11 @@ class BookEServiceController extends GetxController {
   Rx<Timestamp> d = Timestamp.now().obs;
   List<Category> categlist = <Category>[].obs;
   RxString selectedCategory = ''.obs;
+  RxList<Image> imlist = <Image>[].obs;
+  ServiceProvider service = ServiceProvider();
   @override
   void onInit() {
+    file = File('');
     country = currentclient.country;
     city = currentclient.city;
     state = currentclient.state;
@@ -46,13 +58,7 @@ class BookEServiceController extends GetxController {
       catnames.add(element.name);
     });
     selectedCategory.value = categlist.first.name;
-
-    this.task.value = Task(
-      dateTime: Timestamp.now(),
-      address: Get.find<AuthService>().address.value,
-      eService: (Get.arguments as ServiceProvider),
-      // user: Get.find<AuthService>().user.value,
-    );
+    service = (Get.arguments as ServiceProvider);
     super.onInit();
   }
 
@@ -116,23 +122,32 @@ class BookEServiceController extends GetxController {
   }
 
   addIntervention() async {
+    Media media = Media();
+    List<Map<String, dynamic>> medlist = [];
+    var intervention_id;
     intervention.value = Intervention(
-        creation_date: Timestamp.now(),
-        city: city,
-        address: address,
-        country: country,
-        title: title,
-        datetime: d.value,
-        description: description,
-        zip_code: zip_code,
-        state: state,
-        bill: null,
-        price: null,
-        states: 'en cours');
-    var data = intervention.value.tofire();
+      creation_date: Timestamp.now(),
+      city: city,
+      address: address,
+      country: country,
+      title: title,
+      datetime: d.value,
+      description: description,
+      zip_code: zip_code,
+      state: state,
+      bill: null,
+      price: null,
+      states: 'en cours',
+    );
 
+    var data = intervention.value.tofire();
     data["client"] = firestore.doc('Client/' + currentclient.id);
-    data["provider"] = firestore.doc('Provider/' + task.value.eService.id);
+
+    if (service != null) {
+      data["provider"] = firestore.doc('Provider/' + service.id);
+    } else {
+      intervention.value.provider = null;
+    }
     var cat;
     categlist.forEach((element) {
       if (element.name == selectedCategory.value) {
@@ -140,9 +155,62 @@ class BookEServiceController extends GetxController {
       }
     });
     data["category"] = firestore.doc('Category/' + cat);
-    print(data);
+
+    print('data ' + data.toString());
     await _interventionNetwork
         .addIntervention(data)
-        .then((value) => Get.find<HomeController>().onInit());
+        .then((val) => {
+              filelist.forEach((element) async {
+                await uploadFile(element).then((value) {
+                  media = Media(type: 'image', url: value);
+                  medlist.add(media.tofire());
+                }).then;
+              }),
+              intervention_id = val.id,
+              _mediaNetwork.addMedia(medlist, intervention_id)
+            })
+        .then((value) {
+      print('liiiiist' + medlist.toString());
+
+      Get.find<HomeController>().onInit();
+    });
+  }
+
+  changeImage() async {
+    final ImagePicker _picker = ImagePicker();
+
+    final List<XFile> pickedimage = await _picker.pickMultiImage();
+    pickedimage.forEach((element) {
+      file = File('');
+      file = File(element.path);
+      filelist.add(file);
+      imlist.value.add(Image.file(file));
+      update();
+    });
+
+    //       storeimage=Container(
+    //         height: 150,
+    //         child: Image(
+    //   image: FileImage(im,
+
+    //   ),
+    // ),
+    //       );
+    //print(storeimage);
+  }
+
+  Future<String> uploadFile(f) async {
+    final filename = basename(f.path);
+    final destination = "/Interventions/$filename";
+    // FirebaseStorage storage = FirebaseStorage.instance;
+    // Reference refimage = storage.ref().child("/stores_main/$filename");
+    final ref = FirebaseStorage.instance.ref(destination);
+    UploadTask uploadtask = ref.putFile(f);
+    // TaskSnapshot dowurl = await (await uploadtask.whenComplete(() {}));
+    final snapshot = await uploadtask.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    //var url = dowurl.toString();
+    print(urlDownload);
+    return urlDownload;
   }
 }
