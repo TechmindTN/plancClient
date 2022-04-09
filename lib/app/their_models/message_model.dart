@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'parents/model.dart';
-import 'user_model.dart';
+import '../models/User.dart';
 
 class Message extends Model {
   String id;
@@ -47,7 +47,7 @@ class Message extends Model {
               element['media'] = [
                 {'thumb': element['thumb']}
               ];
-              return User.fromJson(element);
+              return User.fromFire(element);
             }).toList()
           : [];
     } catch (e) {
@@ -65,8 +65,7 @@ class Message extends Model {
     var map = new Map<String, dynamic>();
     map["id"] = id;
     map["name"] = name;
-    map["users"] =
-        users.map((element) => element.toRestrictMap()).toSet().toList();
+    map["users"] = users.map((element) => element.tofire()).toSet().toList();
     map["visible_to_users"] =
         users.map((element) => element.id).toSet().toList();
     map["read_by_users"] = readByUsers;

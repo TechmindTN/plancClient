@@ -6,9 +6,9 @@ import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../common/ui.dart';
 import '../../../routes/app_pages.dart';
-import '../../../services/auth_service.dart';
+import '../controllers/messages_controller.dart';
 
-class MessageItemWidget extends StatelessWidget {
+class MessageItemWidget extends GetWidget<MessagesController> {
   MessageItemWidget({Key key, this.message, this.onDismissed})
       : super(key: key);
   final Message message;
@@ -16,7 +16,6 @@ class MessageItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthService _authService = Get.find<AuthService>();
     return InkWell(
       onTap: () {
         Get.toNamed(Routes.CHAT, arguments: this.message);
@@ -49,10 +48,9 @@ class MessageItemWidget extends StatelessWidget {
           padding: EdgeInsets.all(12),
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           decoration: Ui.getBoxDecoration(
-              color:
-                  this.message.readByUsers.contains(_authService.user.value.id)
-                      ? Get.theme.primaryColor
-                      : Get.theme.accentColor.withOpacity(0.05)),
+              color: this.message.readByUsers.contains(controller.user.id)
+                  ? Get.theme.primaryColor
+                  : Get.theme.accentColor.withOpacity(0.05)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -61,29 +59,29 @@ class MessageItemWidget extends StatelessWidget {
                   SizedBox(
                     width: 60,
                     height: 60,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: CachedNetworkImage(
-                        height: 140,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        imageUrl: this
-                            .message
-                            .users
-                            .firstWhere((element) =>
-                                element.id == _authService.user.value.id)
-                            .mediaThumb,
-                        // imageUrl: 'assets/img/loading.gif',
-                        placeholder: (context, url) => Image.asset(
-                          'assets/img/loading.gif',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: 140,
-                        ),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.error_outline),
-                      ),
-                    ),
+                    // child: ClipRRect(
+                    //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                    //   child: CachedNetworkImage(
+                    //     height: 140,
+                    //     width: double.infinity,
+                    //     fit: BoxFit.cover,
+                    //     imageUrl: this
+                    //         .message
+                    //         .users
+                    //         .firstWhere((element) =>
+                    //             element.id == controller.user.id)
+
+                    //     // imageUrl: 'assets/img/loading.gif',
+                    //     placeholder: (context, url) => Image.asset(
+                    //       'assets/img/loading.gif',
+                    //       fit: BoxFit.cover,
+                    //       width: double.infinity,
+                    //       height: 140,
+                    //     ),
+                    //     errorWidget: (context, url, error) =>
+                    //         Icon(Icons.error_outline),
+                    //   ),
+                    // ),
                   ),
                   Positioned(
                     bottom: 3,
@@ -118,7 +116,7 @@ class MessageItemWidget extends StatelessWidget {
                                 fontWeight: this
                                         .message
                                         .readByUsers
-                                        .contains(_authService.user.value.id)
+                                        .contains(controller.user.id)
                                     ? FontWeight.w400
                                     : FontWeight.w800)),
                           ),
@@ -146,7 +144,7 @@ class MessageItemWidget extends StatelessWidget {
                                 fontWeight: this
                                         .message
                                         .readByUsers
-                                        .contains(_authService.user.value.id)
+                                        .contains(controller.user.id)
                                     ? FontWeight.w400
                                     : FontWeight.w800)),
                           ),

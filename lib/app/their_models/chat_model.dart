@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import "parents/model.dart";
-import 'user_model.dart';
+import '../models/User.dart';
 
 class Chat extends Model {
   String id = UniqueKey().toString();
