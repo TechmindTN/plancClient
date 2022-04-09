@@ -3,28 +3,37 @@ import 'package:get/get.dart';
 import 'package:home_services/app/their_models/chat_model.dart';
 import 'package:home_services/app/their_models/message_model.dart';
 
+import '../../../models/Client.dart';
+import '../../../models/User.dart';
 import '../../../repositories/chat_repository.dart';
 import '../../../services/auth_service.dart';
+import '../../auth/controllers/auth_controller.dart';
 // import '../repository/notification_repository.dart';
 
 class MessagesController extends GetxController {
   var message = Message([]).obs;
   ChatRepository _chatRepository;
   AuthService _authService;
+  AuthController _authController;
+
   var messages = <Message>[].obs;
   var chats = <Chat>[].obs;
   final chatTextController = TextEditingController();
-
+  Client client;
+  User user;
   MessagesController() {
     _chatRepository = new ChatRepository();
     _authService = Get.find<AuthService>();
+    _authController = Get.find<AuthController>();
   }
 
   @override
   void onInit() async {
     // await createMessage(new Message([_authService.user.value], id: UniqueKey().toString(), name: 'Appliance Repair Company'));
     // await createMessage(new Message([_authService.user.value], id: UniqueKey().toString(), name: 'Shifting Home'));
-    // await createMessage(new Message([_authService.user.value], id: UniqueKey().toString(), name: 'Pet Car Company'));
+    client = Get.find<AuthController>().currentProfile;
+    user = Get.find<AuthController>().currentuser;
+
     await listenForMessages();
     super.onInit();
   }
@@ -40,9 +49,9 @@ class MessagesController extends GetxController {
   }
 
   Future createMessage(Message _message) async {
-    // _message.users.insert(0, _authService.user.value);
+    print(_message);
     _message.lastMessageTime = DateTime.now().toUtc().millisecondsSinceEpoch;
-    _message.readByUsers = [_authService.user.value.id];
+    _message.readByUsers = [user.id];
 
     message.value = _message;
 
@@ -68,8 +77,8 @@ class MessagesController extends GetxController {
   }
 
   addMessage(Message _message, String text) {
-    Chat _chat = new Chat(text, DateTime.now().toUtc().millisecondsSinceEpoch,
-        _authService.user.value.id);
+    Chat _chat =
+        new Chat(text, DateTime.now().toUtc().millisecondsSinceEpoch, user.id);
     if (_message.id == null) {
       _message.id = UniqueKey().toString();
       createMessage(_message);

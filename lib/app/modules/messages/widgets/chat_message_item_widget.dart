@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/chat_model.dart';
 
-import '../../../services/auth_service.dart';
+import '../controllers/messages_controller.dart';
 
-class ChatMessageItem extends StatelessWidget {
+class ChatMessageItem extends GetWidget<MessagesController> {
   final Chat chat;
 
   ChatMessageItem({this.chat});
 
   @override
   Widget build(BuildContext context) {
-    return Get.find<AuthService>().user.value.id == this.chat.userId
+    return controller.user.id == this.chat.userId
         ? getSentMessageLayout(context)
         : getReceivedMessageLayout(context);
   }
@@ -38,7 +38,7 @@ class ChatMessageItem extends StatelessWidget {
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  new Text(this.chat.user.name,
+                  new Text(this.chat.user.username,
                       style: Get.textTheme.bodyText1
                           .merge(TextStyle(fontWeight: FontWeight.w600))),
                   new Container(
@@ -57,7 +57,7 @@ class ChatMessageItem extends StatelessWidget {
                 child: CachedNetworkImage(
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  imageUrl: this.chat.user.mediaThumb,
+                  imageUrl: controller.client.profile_photo,
                   placeholder: (context, url) => Image.asset(
                     'assets/img/loading.gif',
                     fit: BoxFit.cover,
@@ -100,7 +100,7 @@ class ChatMessageItem extends StatelessWidget {
                 child: CachedNetworkImage(
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  imageUrl: this.chat.user.mediaThumb,
+                  imageUrl: controller.client.profile_photo,
                   placeholder: (context, url) => Image.asset(
                     'assets/img/loading.gif',
                     fit: BoxFit.cover,
@@ -115,7 +115,7 @@ class ChatMessageItem extends StatelessWidget {
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text(this.chat.user.name,
+                  new Text(this.chat.user.username,
                       style: Get.textTheme.bodyText1.merge(TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Get.theme.primaryColor))),
