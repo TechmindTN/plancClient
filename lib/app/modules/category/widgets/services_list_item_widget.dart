@@ -7,17 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/ui.dart';
+import '../../../models/Provider.dart';
 import '../../../their_models/e_service_model.dart';
 import '../../../routes/app_pages.dart';
 
 class ServicesListItemWidget extends StatelessWidget {
   const ServicesListItemWidget({
     Key key,
-    @required EService service,
+    @required ServiceProvider service,
   })  : _service = service,
         super(key: key);
 
-  final EService _service;
+  final ServiceProvider _service;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class ServicesListItemWidget extends StatelessWidget {
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
-                      imageUrl: _service.firstMediaUrl,
+                      imageUrl: _service.profile_photo,
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,
@@ -56,46 +57,46 @@ class ServicesListItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (_service.eProvider.available)
-                  Container(
-                    width: 80,
-                    child: Text("Available".tr,
-                        maxLines: 1,
-                        style: Get.textTheme.bodyText2.merge(
-                          TextStyle(
-                              color: Colors.green, height: 1.4, fontSize: 10),
-                        ),
-                        softWrap: false,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.fade),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.2),
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
-                  ),
-                if (!_service.eProvider.available)
-                  Container(
-                    width: 80,
-                    child: Text("Offline".tr,
-                        maxLines: 1,
-                        style: Get.textTheme.bodyText2.merge(
-                          TextStyle(
-                              color: Colors.grey, height: 1.4, fontSize: 10),
-                        ),
-                        softWrap: false,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.fade),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.2),
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
-                  ),
+                // if (_service.eProvider.available)
+                //   Container(
+                //     width: 80,
+                //     child: Text("Available".tr,
+                //         maxLines: 1,
+                //         style: Get.textTheme.bodyText2.merge(
+                //           TextStyle(
+                //               color: Colors.green, height: 1.4, fontSize: 10),
+                //         ),
+                //         softWrap: false,
+                //         textAlign: TextAlign.center,
+                //         overflow: TextOverflow.fade),
+                //     decoration: BoxDecoration(
+                //       color: Colors.green.withOpacity(0.2),
+                //       borderRadius: BorderRadius.only(
+                //           bottomRight: Radius.circular(10),
+                //           bottomLeft: Radius.circular(10)),
+                //     ),
+                //     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+                //   ),
+                // if (!_service.eProvider.available)
+                //   Container(
+                //     width: 80,
+                //     child: Text("Offline".tr,
+                //         maxLines: 1,
+                //         style: Get.textTheme.bodyText2.merge(
+                //           TextStyle(
+                //               color: Colors.grey, height: 1.4, fontSize: 10),
+                //         ),
+                //         softWrap: false,
+                //         textAlign: TextAlign.center,
+                //         overflow: TextOverflow.fade),
+                //     decoration: BoxDecoration(
+                //       color: Colors.grey.withOpacity(0.2),
+                //       borderRadius: BorderRadius.only(
+                //           bottomRight: Radius.circular(10),
+                //           bottomLeft: Radius.circular(10)),
+                //     ),
+                //     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+                //   ),
               ],
             ),
             SizedBox(width: 12),
@@ -107,7 +108,7 @@ class ServicesListItemWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        _service.title ?? '',
+                        _service.name ?? '',
                         style: Get.textTheme.bodyText2,
                         maxLines: 3,
                         // textAlign: TextAlign.end,
@@ -147,14 +148,13 @@ class ServicesListItemWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "From (%s)"
-                                .trArgs([_service.totalReviews.toString()]),
+                            "From (%s)".trArgs([50.toString()]),
                             style: Get.textTheme.bodyText1,
                           ),
                         ],
                       ),
-                      Ui.getPrice(_service.minPrice,
-                          style: Get.textTheme.headline6),
+                      // Ui.getPrice(_service.minPrice,
+                      //     style: Get.textTheme.headline6),
                     ],
                   ),
                   Row(
@@ -173,7 +173,7 @@ class ServicesListItemWidget extends StatelessWidget {
                       SizedBox(width: 5),
                       Flexible(
                         child: Text(
-                          _service.eProvider.name,
+                          _service.name,
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           softWrap: false,
@@ -192,7 +192,7 @@ class ServicesListItemWidget extends StatelessWidget {
                       SizedBox(width: 5),
                       Flexible(
                         child: Text(
-                          _service.eProvider.address,
+                          _service.address,
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           softWrap: false,
@@ -202,28 +202,28 @@ class ServicesListItemWidget extends StatelessWidget {
                     ],
                   ),
                   Divider(height: 8, thickness: 1),
-                  Wrap(
-                    spacing: 5,
-                    children:
-                        List.generate(_service.subCategories.length, (index) {
-                      return Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        child: Text(
-                            _service.subCategories.elementAt(index).name,
-                            style: Get.textTheme.caption
-                                .merge(TextStyle(fontSize: 10))),
-                        decoration: BoxDecoration(
-                            color: Get.theme.primaryColor,
-                            border: Border.all(
-                              color: Get.theme.focusColor.withOpacity(0.2),
-                            ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                      );
-                    }),
-                    runSpacing: 5,
-                  ),
+                  // Wrap(
+                  //   spacing: 5,
+                  //   children:
+                  //       List.generate(_service.subCategories.length, (index) {
+                  //     return Container(
+                  //       padding:
+                  //           EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  //       child: Text(
+                  //           _service.subCategories.elementAt(index).name,
+                  //           style: Get.textTheme.caption
+                  //               .merge(TextStyle(fontSize: 10))),
+                  //       decoration: BoxDecoration(
+                  //           color: Get.theme.primaryColor,
+                  //           border: Border.all(
+                  //             color: Get.theme.focusColor.withOpacity(0.2),
+                  //           ),
+                  //           borderRadius:
+                  //               BorderRadius.all(Radius.circular(20))),
+                  //     );
+                  //   }),
+                  //   runSpacing: 5,
+                  // ),
                 ],
               ),
             ),

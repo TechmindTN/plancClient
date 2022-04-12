@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 
 import '../../../global_widgets/circular_loading_widget.dart';
+import '../../../models/Provider.dart';
 import '../../category/widgets/services_list_item_widget.dart';
 
 class SearchServicesListWidget extends StatelessWidget {
-  final List<EService> services;
+  final List<ServiceProvider> services;
 
-  SearchServicesListWidget({Key key, List<EService> this.services})
+  SearchServicesListWidget({Key key, List<ServiceProvider> this.services})
       : super(key: key);
 
   @override

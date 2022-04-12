@@ -11,8 +11,8 @@ class TranslationService extends GetxService {
   // must add language codes here
   static final languages = [
     'en_US',
-    'fr',
-    'ar',
+    'fr_FR',
+    'ar_AR',
   ];
 
   // initialize the translation service by loading the assets/locales folder

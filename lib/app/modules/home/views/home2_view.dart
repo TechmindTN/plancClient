@@ -45,7 +45,6 @@ class Home2View extends GetView<HomeController> {
     //    recWidgets.add(RecWidget(eServiceController.providers[i], eServiceController));
     //   controller.update();
     // }
-    controller.update();
 
     // print(controller.)
     return Scaffold(
@@ -98,14 +97,17 @@ class Home2View extends GetView<HomeController> {
                         CarouselSlider(
                           options: CarouselOptions(
                             autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 7),
+                            autoPlayInterval: Duration(seconds: 5),
                             height: 310,
                             viewportFraction: 1.0,
                             onPageChanged: (index, reason) {
                               controller.currentSlide.value = index;
+                              controller.update();
                             },
                           ),
                           items: controller.slider.map((Slide slide) {
+                            controller.update();
+
                             return SlideItemWidget(slide: slide);
                           }).toList(),
                         ),
