@@ -61,7 +61,7 @@ class MessagesController extends GetxController {
   }
 
   Future listenForMessages() async {
-    _chatRepository.getUserMessages(_authService.user.value.id).listen((event) {
+    _chatRepository.getUserMessages(user.id).listen((event) {
       event.sort((Message a, Message b) {
         return b.lastMessageTime.compareTo(a.lastMessageTime);
       });

@@ -41,7 +41,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFieldWidget(
-                    labelText: "title".tr,
+                    labelText: "Title".tr,
                     iconData: Icons.title,
                     keyboardType: TextInputType.text,
                     isLast: false,
@@ -69,7 +69,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
                     },
                   ),
                   TextFieldWidget(
-                    labelText: "Your address".tr,
+                    labelText: "Your Address".tr,
                     initialValue: _authController.currentProfile.home_address,
                     iconData: Icons.home,
                     keyboardType: TextInputType.streetAddress,
@@ -102,26 +102,32 @@ class BookEServiceView extends GetView<BookEServiceController> {
                             border: Border.all(
                                 color: Get.theme.focusColor.withOpacity(0.05))),
                         child: Center(
-                          child: DropdownButton<String>(
-                            value: controller.selectedCategory.value,
-                            icon: const Icon(Icons.arrow_downward),
-                            style: const TextStyle(color: Colors.orangeAccent),
-                            underline: Container(
-                              height: 2,
-                              color: Colors.orangeAccent,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              value: controller.selectedCategory.value,
+                              icon: const Icon(Icons.arrow_downward),
+                              style:
+                                  const TextStyle(color: Colors.orangeAccent),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.orangeAccent,
+                              ),
+                              onChanged: (String newValue) {
+                                controller.selectedCategory.value = newValue;
+                                controller.update();
+                                print(controller.selectedCategory.value);
+                              },
+                              items: controller.catnames
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             ),
-                            onChanged: (String newValue) {
-                              controller.selectedCategory.value = newValue;
-                              controller.update();
-                              print(controller.selectedCategory.value);
-                            },
-                            items: controller.catnames
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
                           ),
                         )),
                   )
@@ -282,7 +288,9 @@ class BookEServiceView extends GetView<BookEServiceController> {
                               '${controller.d.value.toDate().day}',
                           style: Get.textTheme.headline5),
                       Text(
-                          'At ${controller.d.value.toDate().hour}' +
+                          'At'.tr +
+                              ' ' +
+                              '${controller.d.value.toDate().hour}' +
                               ':' +
                               '${controller.d.value.toDate().minute}',
                           style: Get.textTheme.headline3),

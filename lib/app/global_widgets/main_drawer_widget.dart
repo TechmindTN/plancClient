@@ -30,7 +30,7 @@ class MainDrawerWidget extends StatelessWidget {
               //currentUser.value.apiToken != null ? Navigator.of(context).pushNamed('/Profile') : Navigator.of(context).pushNamed('/Login');
             },
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               decoration: BoxDecoration(
                 color: Theme.of(context).hintColor.withOpacity(0.1),
               ),
@@ -38,19 +38,24 @@ class MainDrawerWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: [
-                      Text("Welcome".tr,
-                          style: Get.textTheme.headline5.merge(
-                              TextStyle(color: Theme.of(context).accentColor))),
-                      SizedBox(width: 50),
-                      user.email == null
-                          ? SizedBox(width: 5)
-                          : ClipRRect(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Welcome".tr,
+                            style: Get.textTheme.headline5.merge(TextStyle(
+                                color: Theme.of(context).accentColor))),
+                      ]),
+                  SizedBox(height: 10),
+                  user.email == null
+                      ? SizedBox(width: 5)
+                      : Row(
+                          children: [
+                            ClipRRect(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50)),
                               child: CachedNetworkImage(
-                                height: 100,
-                                width: 100,
+                                height: 70,
+                                width: 70,
                                 fit: BoxFit.cover,
                                 imageUrl: client.profile_photo ??
                                     'https://cdn1.vectorstock.com/i/1000x1000/23/70/man-avatar-icon-flat-vector-19152370.jpg',
@@ -64,15 +69,15 @@ class MainDrawerWidget extends StatelessWidget {
                                     Icon(Icons.error_outline),
                               ),
                             ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
+                          ],
+                        ),
+                  SizedBox(height: 20),
                   user.email == null
                       ? Text("Login account or create new one for free".tr,
                           style: Get.textTheme.bodyText1)
                       : Text("Want to Logout ?".tr,
                           style: Get.textTheme.bodyText1),
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                   user.email == null
                       ? Wrap(
                           spacing: 10,
@@ -135,8 +140,9 @@ class MainDrawerWidget extends StatelessWidget {
                                 Get.find<AuthController>().currentuser = User();
                                 Get.find<AuthController>().currentProfile =
                                     Client();
-                                _authController.update();
+
                                 Get.offAllNamed(Routes.ROOT);
+                                _authController.update();
                               },
                               color: Get.theme.accentColor,
                               height: 40,
@@ -185,7 +191,7 @@ class MainDrawerWidget extends StatelessWidget {
             onTap: (e) {
               if (user.email == null) {
                 Get.showSnackbar(
-                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                    Ui.ErrorSnackBar(message: 'You must login before !'.tr));
                 return null;
               } else {
                 Get.back();
@@ -199,7 +205,7 @@ class MainDrawerWidget extends StatelessWidget {
             onTap: (e) {
               if (user.email == null) {
                 Get.showSnackbar(
-                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                    Ui.ErrorSnackBar(message: 'You must login before !'.tr));
                 return null;
               } else {
                 Get.offAndToNamed(Routes.NOTIFICATIONS);
@@ -212,7 +218,7 @@ class MainDrawerWidget extends StatelessWidget {
             onTap: (e) {
               if (user.email == null) {
                 Get.showSnackbar(
-                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                    Ui.ErrorSnackBar(message: 'You must login before !'.tr));
                 return null;
               } else {
                 Get.offAndToNamed(Routes.FAVORITES);
@@ -225,7 +231,7 @@ class MainDrawerWidget extends StatelessWidget {
             onTap: (e) {
               if (user.email == null) {
                 Get.showSnackbar(
-                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                    Ui.ErrorSnackBar(message: 'You must login before !'.tr));
                 return null;
               } else {
                 Get.back();
@@ -250,7 +256,7 @@ class MainDrawerWidget extends StatelessWidget {
             onTap: (e) {
               if (user.email == null) {
                 Get.showSnackbar(
-                    Ui.ErrorSnackBar(message: 'You must login before !'));
+                    Ui.ErrorSnackBar(message: 'You must login before !'.tr));
                 return null;
               } else {
                 Get.back();

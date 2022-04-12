@@ -6,7 +6,7 @@ import '../../common/helper.dart';
 class TranslationService extends GetxService {
   final translations = Map<String, Map<String, String>>().obs;
   // fallbackLocale saves the day when the locale gets in trouble
-  final fallbackLocale = Locale('en', 'US');
+  final fallbackLocale = Locale('fr', 'FR');
 
   // must add language codes here
   static final languages = [

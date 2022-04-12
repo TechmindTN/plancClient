@@ -7,7 +7,7 @@
     "Address": "Adresse",
     "Archived": "Archivé",
     "Can I help you something?": "Puis-je vous aider quelque chose?",
-    "Categories": "Categories",
+    "Categories": "Catégories",
     "Chat": "Chat", 
     "password too short":"mot de passe courte",
     "field is empty":"le champ est vide",
@@ -24,7 +24,7 @@
     "Help & Support": "Service & Support",
     "Hi,": "Bonjour,",
     "Home": "Acceuil",
-    "Home page refreshed successfully": "PPage d'accueil actualisée avec succès",
+    "Home page refreshed successfully": "Page d'accueil actualisée avec succès",
     "How do you feel this service?": "Comment ressentez-vous ce service ?",
     "John Doe": "John Doe",
     "Light Theme": "Theme Clair",
@@ -32,10 +32,10 @@
     "Logout": "Se déconnecter",
     "Messages": "Messages",
     "New Message From": "Nouveau message de",
-    "Notification": "Notificacion",
+    "Notification": "Notification",
     "Ongoing": "En Cours",
-    "Period": "Periode",
-    "Phone number": "Numero de telephone",
+    "Period": "Période",
+    "Phone number": "Numéro de téléphone",
     "Phone number must start with country code!": "Le numéro de téléphone doit commencer par l'indicatif du pays!",
     "Profile": "Profile",
     "Progress": "Progrès",
@@ -106,11 +106,14 @@
     "Requested Service on": "Service demandé le",
     "Continue": "Continue",
     "You already have an account?": "Avez vous déjà un compte?",
+    "You must login before !":"Vous devez vous connecter avant !",
     "List of categories refreshed successfully": "Liste des catégories actualisée avec succès",
     "List of services refreshed successfully": "Liste des services actualisée avec succès",
     "Available": "Disponible",
     "Offline": "Hors Ligne",
     "From (%s)": "De (%s)",
+    "Title":"Titre",
+    "At":"A",
     "Tax": "Tax",
     "Total": "Total",
     "page refreshed successfully": "page actualisée avec succès",
@@ -188,6 +191,8 @@
   
   "Book This Service": "Réservez ce service",
   
-  "Favorites": "Favoris"
-  
+  "Favorites": "Favoris",
+  "Request an intervention":"Demander une intervention",
+  "Suppliers":"Fournisseurs",
+  "Professionals":"Professionnels"
 }

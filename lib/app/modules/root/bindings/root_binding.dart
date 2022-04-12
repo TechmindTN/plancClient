@@ -15,9 +15,6 @@ class RootBinding extends Bindings {
     Get.lazyPut<RootController>(
       () => RootController(),
     );
-    Get.lazyPut<HomeController>(
-      () => HomeController(),
-    );
     Get.lazyPut<TasksController>(
       () => TasksController(),
     );
@@ -29,6 +26,8 @@ class RootBinding extends Bindings {
     );
     Get.put<EServiceController>(EServiceController(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
+    Get.put<HomeController>(HomeController(), permanent: true);
+
     Get.lazyPut<SearchController>(
       () => SearchController(),
     );
