@@ -66,7 +66,9 @@ class HomeController extends GetxController {
       interventions.value.clear();
       interventions.value =
           await _interventionNetwork.getInterventionsList(client.value.id);
+      print('bbbbbbbboking' + interventions.string);
     }
+
     //   var index = 0;
     //   while (index <= interventions.length) {
     //     print('eee' + interventions.first.address);

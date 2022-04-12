@@ -42,7 +42,8 @@ class RootController extends GetxController {
   void changePageInRoot(int _index) {
     if (_index != 0) {
       if (Get.find<AuthController>().currentuser.email == null) {
-        Get.showSnackbar(Ui.ErrorSnackBar(message: 'You must login before !'));
+        Get.showSnackbar(
+            Ui.ErrorSnackBar(message: 'You must login before !'.tr));
         return null;
       } else {
         currentIndex.value = _index;

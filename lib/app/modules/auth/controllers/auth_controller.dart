@@ -1,33 +1,42 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:geocoding/geocoding.dart';
 
 import '../../../models/Client.dart';
-import '../../../models/User.dart';
+import '../../../models/User.dart' as user;
 import '../../../Network/UserNetwork.dart';
 import '../../home/controllers/home_controller.dart';
 
 class AuthController extends GetxController {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   final hidePassword = true.obs;
   Rx<Image> im = Image.network(
           'https://icon-library.com/images/no-photo-available-icon/no-photo-available-icon-20.jpg')
       .obs;
   File file;
-  User currentuser;
+  user.User currentuser;
   Client currentProfile;
+  var currentfireuser = FirebaseAuth.instance.currentUser;
   RxString gender = 'Male'.obs;
   DocumentReference data;
-  User u1 = User();
-
+  user.User u1 = user.User();
+  LatLng position;
+  List<Placemark> marks = [];
+  Set<Marker> markers = Set();
   Future<void> onInit() {
     file = File('');
+
     // im = Image.file(file);
-    currentuser = User();
+    currentuser = user.User();
     currentProfile = Client();
     super.onInit();
   }
@@ -54,7 +63,7 @@ class AuthController extends GetxController {
     // return true;
   }
 
-  registerUser(User u) async {
+  registerUser(user.User u) async {
     UserNetwork _userNetwork = UserNetwork();
 
     await _userNetwork.addUser(u).then((dr) => data = dr);

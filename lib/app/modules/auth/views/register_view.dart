@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/ui.dart';
 import '../../../global_widgets/block_button_widget.dart';
 import '../../../global_widgets/text_field_widget.dart';
-import '../../../models/User.dart';
+import '../../../models/User.dart' as user;
 import '../../../their_models/setting_model.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/settings_service.dart';
@@ -14,6 +15,8 @@ import 'register_view2.dart';
 
 class RegisterView extends GetView<AuthController> {
   // final _currentUser = Get.find<AuthService>().user;
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   final Setting _settings = Get.find<SettingsService>().setting.value;
   String _email = '';
   String _pass = '';
@@ -171,26 +174,62 @@ class RegisterView extends GetView<AuthController> {
               SizedBox(
                 width: Get.width,
                 child: BlockButtonWidget(
-                  onPressed: () {
+                  onPressed: () async {
+                    UserCredential userCredential;
                     if (formGlobalKey.currentState.validate()) {
-                      controller.u1 = User(
+                      try {
+                        userCredential =
+                            await auth.createUserWithEmailAndPassword(
                           email: _email,
                           password: _pass,
-                          username: _email,
-                          creation_date: Timestamp.now());
-                      controller.registerUser(controller.u1);
+                        );
+                        controller.currentfireuser = userCredential.user;
+                      } on FirebaseAuthException catch (e) {
+                        if (e.code == 'weak-password') {
+                          print('The password provided is too weak.');
+                          Get.showSnackbar(Ui.ErrorSnackBar(
+                              message: 'The password provided is too weak.'));
+                        } else if (e.code == 'email-already-in-use') {
+                          Get.showSnackbar(Ui.ErrorSnackBar(
+                              message:
+                                  'The account already exists for that email.'));
+                          print('The account already exists for that email.');
+                        } else {
+                          print('cooooooode' + e.code);
+                        }
+                        return null;
+                      }
 
-                      navigator.pushAndRemoveUntil<void>(
-                        MaterialPageRoute<void>(
-                            builder: (BuildContext context) => RegisterView2()),
-                        ModalRoute.withName('/'),
-                      );
-                      // Get.offAllNamed(Routes.REGISTER2);
+                      try {
+                        if (userCredential.user != null &&
+                            !userCredential.user.emailVerified) {
+                          await userCredential.user.sendEmailVerification();
+                        }
+                      } catch (e) {
+                        print(e);
+                        return null;
+                      }
+                      ;
+                      if (userCredential.user != null) {
+                        print('verif' +
+                            userCredential.user.emailVerified.toString());
+                        print('user' + userCredential.toString());
+                        controller.u1 = user.User(
+                            email: _email,
+                            password: _pass,
+                            username: _email,
+                            creation_date: Timestamp.now());
+                        controller.registerUser(controller.u1);
+
+                        navigator.pushAndRemoveUntil<void>(
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  RegisterView2()),
+                          ModalRoute.withName('/'),
+                        );
+                        // Get.offAllNamed(Routes.REGISTER2);
+                      }
                     }
-                    navigator.pushAndRemoveUntil<void>(
-                        MaterialPageRoute<void>(
-                            builder: (BuildContext context) => RegisterView2()),
-                        ModalRoute.withName('/'));
                   },
                   color: Get.theme.accentColor,
                   text: Text(

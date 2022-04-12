@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../common/ui.dart';
 import '../../../global_widgets/block_button_widget.dart';
+import '../../../global_widgets/map_select_widget.dart';
 import '../../../global_widgets/text_field_widget.dart';
 import '../../../models/Client.dart';
 import '../../../models/User.dart';
@@ -30,6 +31,7 @@ class RegisterView2 extends GetView<AuthController> {
   String _city;
   String _state;
   String age;
+  TextEditingController _addressmap = TextEditingController();
   Map<String, String> _Social = {"facebook": '', "instagram": ''};
   final formGlobalKey = GlobalKey<FormState>();
   _getFromGallery() async {
@@ -117,7 +119,8 @@ class RegisterView2 extends GetView<AuthController> {
         ),
         Form(
             key: formGlobalKey,
-            child: Column(children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               SizedBox(
                 height: 50,
               ),
@@ -163,30 +166,51 @@ class RegisterView2 extends GetView<AuthController> {
                   return null;
                 },
               ),
-              Obx(
-                () => DropdownButton<String>(
-                  value: controller.gender.value,
-                  icon: const Icon(Icons.arrow_downward),
-                  style: const TextStyle(color: Colors.orangeAccent),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.orangeAccent,
-                  ),
-                  onChanged: (String newValue) {
-                    controller.gender.value = newValue;
-                    controller.update();
-                  },
-                  items: <String>[
-                    'Male',
-                    'Female',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ),
+              Obx(() => Container(
+                  padding:
+                      EdgeInsets.only(top: 20, bottom: 14, left: 20, right: 20),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+                  decoration: BoxDecoration(
+                      color: Get.theme.primaryColor,
+                      borderRadius:
+                          BorderRadius.vertical(bottom: Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Get.theme.focusColor.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5)),
+                      ],
+                      border: Border.all(
+                          color: Get.theme.focusColor.withOpacity(0.05))),
+                  child: Row(children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: controller.gender.value,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        style: const TextStyle(color: Colors.orangeAccent),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.orangeAccent,
+                        ),
+                        onChanged: (String newValue) {
+                          controller.gender.value = newValue;
+                          controller.update();
+                        },
+                        items: <String>[
+                          'Male',
+                          'Female',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ]))),
               TextFieldWidget(
                 labelText: "Age".tr,
                 hintText: "##".tr,
@@ -217,81 +241,10 @@ class RegisterView2 extends GetView<AuthController> {
                   return null;
                 },
               ),
-              TextFieldWidget(
-                labelText: "Country".tr,
-                hintText: "tunisia".tr,
-                keyboardType: TextInputType.text,
-                iconData: Icons.text_fields,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  _country = text;
-                  return null;
-                },
-              ),
-              TextFieldWidget(
-                labelText: "City".tr,
-                hintText: "tunis".tr,
-                keyboardType: TextInputType.text,
-                iconData: Icons.text_fields,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  _city = text;
-                  return null;
-                },
-              ),
-              TextFieldWidget(
-                labelText: "Home_address".tr,
-                hintText: "address".tr,
-                keyboardType: TextInputType.streetAddress,
-                iconData: Icons.text_fields,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  _address = text;
-                  return null;
-                },
-              ),
-              TextFieldWidget(
-                labelText: "State".tr,
-                hintText: "tunis".tr,
-                keyboardType: TextInputType.text,
-                iconData: Icons.text_fields,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  _state = text;
-                  return null;
-                },
-              ),
-              TextFieldWidget(
-                labelText: "Zip code".tr,
-                hintText: "0000".tr,
-                keyboardType: TextInputType.number,
-                iconData: Icons.numbers,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  _zipcode = text;
-                  return null;
-                },
-              ),
+              GetBuilder<AuthController>(builder: (profileController) {
+                return MapSelect(context, profileController, _addressmap);
+              }),
+
               TextFieldWidget(
                 labelText: "Facebook Account".tr,
                 hintText: "facebook username".tr,
@@ -342,13 +295,9 @@ class RegisterView2 extends GetView<AuthController> {
                           first_name: _firstname,
                           last_name: _lastname,
                           phone: (int.parse(_phone)),
-                          country: _country,
-                          city: _city,
-                          zip_code: int.parse(_zipcode),
-                          home_address: _address,
+                          home_address: _addressmap.text,
                           social_media: _Social,
                           gender: controller.gender.value,
-                          state: _state,
                           age: int.parse(age));
                       var data = await controller.registerClient(c, user);
                       if (await controller.verifylogin(

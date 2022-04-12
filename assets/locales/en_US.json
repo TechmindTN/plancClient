@@ -83,6 +83,8 @@
   "johndoe@gmail.com": "johndoe@gmail.com",
   "Send Reset Link": "Send Reset Link",
   "You don't have an account?": "You don't have an account?",
+  "You must login before !":"You must login before !",
+
   "You remember my password!": "You remember my password!",
   "Password": "Password",
   "Forgot Password?": "Forgot Password?",
@@ -102,6 +104,8 @@
   "Select a time": "Select a time",
   "Requested Service on": "Requested Service on",
   "Continue": "Continue",
+  "Title":"Title",
+  "At":"At",
   "List of categories refreshed successfully": "List of categories refreshed successfully",
   "List of services refreshed successfully": "List of services refreshed successfully",
   "Categories of services": "Categories of services",
@@ -157,5 +161,7 @@
   "Total Amount": "Total Amount",
   "Favorites": "Favorites",
   "Privacy Policy": "Privacy Policy",
-  "Login account or create new one for free": "Login account or create new one for free"
+  "Login account or create new one for free": "Login account or create new one for free",
+  "Suppliers":"Suppliers",
+  "Professionals":"Professionals"
 }

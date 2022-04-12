@@ -49,6 +49,17 @@ class Home2View extends GetView<HomeController> {
 
     // print(controller.)
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            if (controller.client.value.first_name != null) {
+              Get.toNamed(Routes.BOOK_E_SERVICE);
+            } else {
+              Get.showSnackbar(
+                  Ui.ErrorSnackBar(message: 'You must login before !'.tr));
+              return null;
+            }
+          }),
       body: RefreshIndicator(
           onRefresh: () async {
             controller.refreshHome(showMessage: true);
@@ -139,20 +150,20 @@ class Home2View extends GetView<HomeController> {
                       child: _tabSection(context),
                     ),
 
-                    Container(
-                        child: Center(
-                            child: ElevatedButton(
-                                child: Text('Request an intervention '),
-                                onPressed: () {
-                                  if (controller.client.value.first_name !=
-                                      null) {
-                                    Get.toNamed(Routes.BOOK_E_SERVICE);
-                                  } else {
-                                    Get.showSnackbar(Ui.ErrorSnackBar(
-                                        message: 'You must login before !'));
-                                    return null;
-                                  }
-                                }))),
+                    // Container(
+                    //     child: Center(
+                    //         child: ElevatedButton(
+                    //             child: Text('Demander une intervention'.tr),
+                    //             onPressed: () {
+                    //               if (controller.client.value.first_name !=
+                    //                   null) {
+                    //                 Get.toNamed(Routes.BOOK_E_SERVICE);
+                    //               } else {
+                    //                 Get.showSnackbar(Ui.ErrorSnackBar(
+                    //                     message: 'You must login before !'.tr));
+                    //                 return null;
+                    //               }
+                    //             }))),
                     // Padding(
                     //   padding:
                     //       EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -258,8 +269,8 @@ class Home2View extends GetView<HomeController> {
         children: <Widget>[
           Container(
             child: TabBar(labelColor: Colors.orange, tabs: [
-              Tab(text: "Fournisseurs"),
-              Tab(text: "Professionnels"),
+              Tab(text: "Suppliers".tr),
+              Tab(text: "Professionals".tr),
             ]),
           ),
           Container(
