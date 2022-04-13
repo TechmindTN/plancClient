@@ -361,9 +361,9 @@ class BookEServiceView extends GetView<BookEServiceController> {
                 ],
               ),
               color: Get.theme.accentColor,
-              onPressed: () {
+              onPressed: () async {
                 if (formGlobalKey.currentState.validate()) {
-                  controller.addIntervention();
+                  await controller.addIntervention();
                   Get.toNamed(Routes.ROOT);
                 }
               }).paddingOnly(right: 20, left: 20),

@@ -41,8 +41,7 @@ class ProWidget extends GetWidget<HomeController> {
             ),
           ),
           CategoriesCarouselWidget(),
-          Container(
-              color: Get.theme.primaryColor,
+          Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Row(children: [
                 Expanded(

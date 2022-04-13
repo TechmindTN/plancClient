@@ -8,6 +8,7 @@ import 'package:home_services/app/models/Provider.dart';
 import 'package:home_services/app/models/User.dart';
 
 import '../modules/home/controllers/home_controller.dart';
+import 'MediaNetwork.dart';
 
 List<ServiceProvider> futprov;
 
@@ -18,6 +19,8 @@ class ServiceProviderNetwork {
   UserNetwork userServices = UserNetwork();
   CategoryNetwork categoryServices = CategoryNetwork();
   BranchNetwork branchServices = BranchNetwork();
+  MediaNetwork mediaServices = MediaNetwork();
+
   // UserNetwork userServices = UserNetwork();
 
   Future<List<ServiceProvider>> getProvidersList() async {
@@ -47,19 +50,25 @@ class ServiceProviderNetwork {
         // List<dynamic> drList = element['categories'];
         // List<Category> categories = [];
         // serviceProvider.categories = categories;
-List<Category> categories=[];
-      List<dynamic> drList = snapshot.docs.first['categories'];
-      drList.forEach((element) async {
-        Category category =await categoryServices.getCategoryById(element.id);
-        categories.add(category);
-       });
-serviceProvider.categories=categories;
+        List<Category> categories = [];
+        List<dynamic> drList = snapshot.docs.first['categories'];
+        drList.forEach((element) async {
+          Category category =
+              await categoryServices.getCategoryById(element.id);
+          categories.add(category);
+        });
+        serviceProvider.categories = categories;
         // drList.forEach((value) async {
         //   Category category = Category(name: '', parent: null, id: value.id);
         //   category = await categoryServices.getCategoryById(category.id ?? '');
         //   serviceProvider.categories.add(category);
         //   print(serviceProvider.categories.first.name);
         // });
+
+        //get media list
+
+        serviceProvider.media =
+            await mediaServices.getMediaListByProvider(serviceProvider.id);
 
         //get user
         DocumentReference dr = element['user'];

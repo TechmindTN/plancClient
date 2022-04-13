@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/style.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -45,7 +46,6 @@ class Home2View extends GetView<HomeController> {
     //    recWidgets.add(RecWidget(eServiceController.providers[i], eServiceController));
     //   controller.update();
     // }
-    controller.update();
 
     // print(controller.)
     return Scaffold(
@@ -54,6 +54,7 @@ class Home2View extends GetView<HomeController> {
           onPressed: () {
             if (controller.client.value.first_name != null) {
               Get.toNamed(Routes.BOOK_E_SERVICE);
+              controller.onInit();
             } else {
               Get.showSnackbar(
                   Ui.ErrorSnackBar(message: 'You must login before !'.tr));
@@ -98,14 +99,17 @@ class Home2View extends GetView<HomeController> {
                         CarouselSlider(
                           options: CarouselOptions(
                             autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 7),
+                            autoPlayInterval: Duration(seconds: 5),
                             height: 310,
                             viewportFraction: 1.0,
                             onPageChanged: (index, reason) {
                               controller.currentSlide.value = index;
+                              controller.update();
                             },
                           ),
                           items: controller.slider.map((Slide slide) {
+                            controller.update();
+
                             return SlideItemWidget(slide: slide);
                           }).toList(),
                         ),
@@ -146,7 +150,7 @@ class Home2View extends GetView<HomeController> {
                     Image.asset("assets/img/banner2.jpg"),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 15),
                       child: _tabSection(context),
                     ),
 
@@ -263,30 +267,48 @@ class Home2View extends GetView<HomeController> {
   }
 
   Widget _tabSection(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        children: <Widget>[
-          Container(
-            child: TabBar(labelColor: Colors.orange, tabs: [
-              Tab(text: "Suppliers".tr),
-              Tab(text: "Professionals".tr),
-            ]),
-          ),
-          Container(
-            //Add this to give height
-            height: 625,
-            child: TabBarView(children: [
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(5), boxShadow: [
+          BoxShadow(
+              color: Color.fromARGB(255, 255, 255, 255),
+              spreadRadius: 3,
+              offset: Offset(0, 5))
+        ]),
+        child: DefaultTabController(
+          length: 2,
+          child: Column(
+            children: <Widget>[
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                child: EntrepriseWidget(),
+                child: TabBar(
+                    unselectedLabelStyle: TextStyle(fontSize: 15),
+                    indicatorWeight: 1.0,
+                    labelColor: Colors.orange,
+                    labelStyle:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    tabs: [
+                      Tab(text: "Suppliers".tr),
+                      Tab(text: "Professionals".tr),
+                    ]),
               ),
               Container(
-                child: ProWidget(),
+                //Add this to give height
+                height: 625,
+                child: TabBarView(children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                    child: EntrepriseWidget(),
+                  ),
+                  Container(
+                    child: ProWidget(),
+                  ),
+                ]),
               ),
-            ]),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
