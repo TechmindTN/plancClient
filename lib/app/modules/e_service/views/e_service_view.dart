@@ -186,7 +186,7 @@ class EServiceView extends GetView<EServiceController> {
                                                       .height *
                                                   0.7,
                                               child: Image.network(
-                                                media,
+                                                media.url,
                                                 // scale: 20,
 
                                                 fit: BoxFit.fill,
@@ -214,7 +214,7 @@ class EServiceView extends GetView<EServiceController> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10)),
                                           child: Image.network(
-                                            images[index],
+                                            images[index].url,
                                             height: 100,
                                             width: double.infinity,
                                             fit: BoxFit.cover,

@@ -39,8 +39,11 @@ class TasksCarouselWidget extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.bookings.length,
                 itemBuilder: (_, index) {
-                  controller.selectedTask.value = controller.bookings.first;
-                  controller.update();
+                  if (index == 0) {
+                    controller.selectedTask.value = controller.bookings.first;
+                    controller.update();
+                  }
+
                   var _service = controller.bookings.elementAt(index).provider;
                   var _task = controller.bookings.elementAt(index);
                   return GestureDetector(

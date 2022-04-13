@@ -1,6 +1,7 @@
 {
-  "ar": "عربى",
+  "ar_AR": "العربية",
   "en_US": "الإنجليزية (الولايات المتحدة الأمريكية)",
+  "fr_FR": "الفرنسية",
   "123 Street, City 136, State, Country": "123 Street، City 136، State، Country",
   "Account": "الحساب",
   "Address": "عنوان",
@@ -153,5 +154,7 @@
   "Bookings": "الحجوزات",
   "Payment Method": "طريقة الدفع او السداد",
   "Tax Amount": "قيمة الضريبة",
-  "Total Amount": "المبلغ الإجمالي"
+  "Total Amount": "المبلغ الإجمالي",
+  "Suppliers":"المزودين",
+  "Professionals":"المهنيين"
 }

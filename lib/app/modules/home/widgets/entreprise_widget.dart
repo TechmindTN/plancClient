@@ -21,11 +21,11 @@ class EntrepriseWidget extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 150,
+        height: 180,
         margin: EdgeInsets.only(bottom: 15),
         child: Column(children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Row(
               children: [
                 Expanded(
@@ -44,9 +44,8 @@ class EntrepriseWidget extends GetWidget<HomeController> {
             ),
           ),
           CategoriesCarouselWidget(),
-          Container(
-              color: Get.theme.primaryColor,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Row(children: [
                 Expanded(
                     child: Text("Recommended for you".tr,
@@ -56,7 +55,7 @@ class EntrepriseWidget extends GetWidget<HomeController> {
             height: 345,
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 child: StreamBuilder(
                     stream: providersRef.snapshots(),
                     builder: (context, snapshot) {

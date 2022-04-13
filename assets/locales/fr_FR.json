@@ -1,7 +1,7 @@
 {
-    "ar": "Arabe",
-    "en_US": "Englais (EE. UU.)",
-    "fr": "Francais",
+    "ar_AR": "Arabe",
+    "en_US": "Anglais",
+    "fr_FR": "Francais",
     "123 Street, City 136, State, Country": "rue 123, ville 136, État, Pays",
     "Account": "Compte",
     "Address": "Adresse",

@@ -123,8 +123,6 @@ class BookEServiceController extends GetxController {
 
   addIntervention() async {
     Media media = Media();
-    List<Map<String, dynamic>> medlist = [];
-    var intervention_id;
     intervention.value = Intervention(
       creation_date: Timestamp.now(),
       city: city,
@@ -157,23 +155,19 @@ class BookEServiceController extends GetxController {
     data["category"] = firestore.doc('Category/' + cat);
 
     print('data ' + data.toString());
-    await _interventionNetwork
-        .addIntervention(data)
-        .then((val) => {
-              filelist.forEach((element) async {
-                await uploadFile(element).then((value) {
-                  media = Media(type: 'image', url: value);
-                  medlist.add(media.tofire());
-                }).then;
-              }),
-              intervention_id = val.id,
-              _mediaNetwork.addMedia(medlist, intervention_id)
-            })
-        .then((value) {
-      print('liiiiist' + medlist.toString());
+    await _interventionNetwork.addIntervention(data).then((val) => {
+          filelist.forEach((element) async {
+            await uploadFile(element).then((value) {
+              media = Media(type: 'image', url: value);
+              _mediaNetwork.addoneMedia(media.tofire(), val.id);
+              print('media foreach ' + media.tofire().toString());
+            });
+          }),
+        });
+    // Future.delayed(const Duration(seconds: 5),
+    //     addmediatointervention(intervention_id, medlist));
 
-      Get.find<HomeController>().onInit();
-    });
+    Get.find<HomeController>().onInit();
   }
 
   changeImage() async {

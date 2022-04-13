@@ -5,6 +5,7 @@ import 'package:home_services/app/models/Provider.dart';
 import 'package:home_services/app/routes/app_pages.dart';
 
 import '../../../Network/BranchNetwork.dart';
+import '../../../Network/MediaNetwork.dart';
 import '../../../Network/UserNetwork.dart';
 import '../../e_service/views/e_service_view.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -15,6 +16,8 @@ Widget RecWidget(_service, eServiceController, {String id}) {
   // eServiceController.getThisProvider(provider,_service['user'].id);
   UserNetwork userServices = UserNetwork();
   BranchNetwork branchServices = BranchNetwork();
+  MediaNetwork mediaServices = MediaNetwork();
+
   // provider.branches=await branchServices.getBranchListByProvider(provider.id);
   // provider.user=await userServices.getUserById(_service.id);
 
@@ -25,7 +28,8 @@ Widget RecWidget(_service, eServiceController, {String id}) {
     provider.id = id;
   }
   return GestureDetector(
-    onTap: () {
+    onTap: () async {
+      provider.media = await mediaServices.getMediaListByProvider(provider.id);
       eServiceController.serviceProvider.value = provider;
       // Get.toNamed(Routes.E_SERVICE, arguments: provider);
       Get.to(EServiceView(provider));
@@ -39,9 +43,7 @@ Widget RecWidget(_service, eServiceController, {String id}) {
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-              color: Get.theme.focusColor.withOpacity(0.1),
-              blurRadius: 10,
-              offset: Offset(0, 5)),
+              color: Get.theme.focusColor.withOpacity(0.07), spreadRadius: 10)
         ],
       ),
       child: Column(
@@ -68,7 +70,7 @@ Widget RecWidget(_service, eServiceController, {String id}) {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
             height: 115,
             width: double.infinity,
             decoration: BoxDecoration(

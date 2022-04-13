@@ -46,7 +46,7 @@ class ServiceProvider {
       : name = fire['name'],
         description = fire['description'],
         website = fire['website'],
-        media = fire['media'],
+        media = null,
         id = null,
         profile_photo = fire['profile_photo'],
         address = fire['address'],
