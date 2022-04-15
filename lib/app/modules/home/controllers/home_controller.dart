@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/modules/e_service/controllers/e_service_controller.dart';
 import 'package:home_services/app/their_models/address_model.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../../../../common/ui.dart';
 import '../../../Network/CategoryNetwork.dart';
@@ -41,6 +43,7 @@ class HomeController extends GetxController {
   CollectionReference providersRef =
       FirebaseFirestore.instance.collection('Provider');
   final addresses = <Address>[].obs;
+  RxString presentAddress = ''.obs;
   final slider = <Slide>[].obs;
   final currentSlide = 0.obs;
   var prov = <ServiceProvider>[];
@@ -62,6 +65,9 @@ class HomeController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    getPresentAddress();
+    // _getAddressFromLatLng();
+
     pro.value = await _userNetwork.getUsersByRole('Professionel');
     entreprise.value = await _userNetwork.getUsersByRole('Entreprise');
 
@@ -91,6 +97,29 @@ class HomeController extends GetxController {
 
     await refreshHome();
     super.onInit();
+  }
+
+  getPresentAddress() {
+    print('searching');
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      _getAddressFromLatLng(position);
+      update();
+    }).catchError((e) {
+      print('bahaaaa error' + e.toString());
+    });
+  }
+
+  _getAddressFromLatLng(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    Placemark place = placemarks[0];
+
+    presentAddress.value =
+        "${place.locality}, ${place.postalCode}, ${place.country}";
   }
 
   Future<void> loadAssets() async {
