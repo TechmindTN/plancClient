@@ -33,7 +33,7 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                       end: 20, start: index == 0 ? 20 : 0),
                   padding: EdgeInsets.symmetric(vertical: 10),
                   decoration: new BoxDecoration(
-                    color: Colors.orangeAccent,
+                    color: Colors.orange,
                     // gradient: new LinearGradient(
                     //     colors: [_category.color.withOpacity(1), _category.color.withOpacity(0.1)],
                     //     begin: AlignmentDirectional.topStart,
@@ -79,8 +79,9 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                           Text(
                             _category.name,
                             maxLines: 2,
-                            style: Get.textTheme.bodyText2.merge(
-                                TextStyle(color: Get.theme.primaryColor)),
+                            style: Get.textTheme.bodyText2.merge(TextStyle(
+                              color: Get.theme.primaryColor,
+                            )),
                           ),
                         ],
                       ),

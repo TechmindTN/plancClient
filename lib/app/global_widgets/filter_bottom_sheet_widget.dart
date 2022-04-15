@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../modules/home/controllers/home_controller.dart';
 import '../modules/search/controllers/search_controller.dart';
 import 'circular_loading_widget.dart';
 
@@ -54,39 +55,27 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
                   ],
                   initiallyExpanded: true,
                 ),
-                GetX(initState: (_) {
-                  print("initState");
-                  controller.getCategories();
-                }, builder: (_) {
-                  if (controller.categories.isEmpty) {
-                    return CircularLoadingWidget(height: 100);
-                  }
-                  return ExpansionTile(
-                    title:
-                        Text("Categories".tr, style: Get.textTheme.bodyText2),
-                    children:
-                        List.generate(controller.categories.length, (index) {
-                      var _category = controller.categories.elementAt(index);
-                      return CheckboxListTile(
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        value: false,
-                        onChanged: (value) {
-                          // setState(() {
-                          //   _con.filter?.open = value;
-                          // });
-                        },
-                        title: Text(
-                          _category.name,
-                          style: Get.textTheme.bodyText1,
-                          overflow: TextOverflow.fade,
-                          softWrap: false,
-                          maxLines: 1,
-                        ),
-                      );
-                    }),
-                    initiallyExpanded: true,
-                  );
-                }),
+                ExpansionTile(
+                  title: Text("Categories".tr, style: Get.textTheme.bodyText2),
+                  children: List.generate(
+                      Get.find<HomeController>().categories.length, (index) {
+                    var _category =
+                        Get.find<HomeController>().categories.elementAt(index);
+                    return CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.trailing,
+                      value: false,
+                      onChanged: (value) {},
+                      title: Text(
+                        _category.name,
+                        style: Get.textTheme.bodyText1,
+                        overflow: TextOverflow.fade,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                    );
+                  }),
+                  initiallyExpanded: true,
+                )
               ],
             ),
           ),

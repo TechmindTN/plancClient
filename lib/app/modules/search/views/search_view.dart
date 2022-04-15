@@ -35,7 +35,7 @@ class SearchView extends GetView<SearchController> {
 
   Widget buildSearchBar() {
     return Hero(
-      tag: Get.arguments,
+      tag: 'hero-tag',
       child: Container(
         margin: EdgeInsets.only(left: 20, right: 20, bottom: 16),
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),

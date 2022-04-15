@@ -10,6 +10,7 @@ import '../../../../common/ui.dart';
 import '../../../models/Provider.dart';
 import '../../../their_models/e_service_model.dart';
 import '../../../routes/app_pages.dart';
+import '../../e_service/views/e_service_view.dart';
 
 class ServicesListItemWidget extends StatelessWidget {
   const ServicesListItemWidget({
@@ -24,7 +25,7 @@ class ServicesListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.E_SERVICE, arguments: _service);
+        Get.to(EServiceView(_service));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),

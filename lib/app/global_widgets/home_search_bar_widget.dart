@@ -41,34 +41,34 @@ class HomeSearchBarWidget extends StatelessWidget implements PreferredSize {
                 ),
               ),
               SizedBox(width: 8),
-              GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(
-                    FilterBottomSheetWidget(),
-                    isScrollControlled: true,
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.only(
-                      right: 10, left: 10, top: 10, bottom: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    color: Get.theme.focusColor.withOpacity(0.1),
-                  ),
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    spacing: 4,
-                    children: [
-                      Text("Filter".tr, style: Get.textTheme.bodyText2),
-                      Icon(
-                        Icons.filter_list,
-                        color: Get.theme.hintColor,
-                        size: 21,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.bottomSheet(
+              //       FilterBottomSheetWidget(),
+              //       isScrollControlled: true,
+              //     );
+              //   },
+              //   // child: Container(
+              //   //   padding: const EdgeInsets.only(
+              //   //       right: 10, left: 10, top: 10, bottom: 10),
+              //   //   decoration: BoxDecoration(
+              //   //     borderRadius: BorderRadius.all(Radius.circular(8)),
+              //   //     color: Get.theme.focusColor.withOpacity(0.1),
+              //   //   ),
+              //   //   child: Wrap(
+              //   //     crossAxisAlignment: WrapCrossAlignment.center,
+              //   //     spacing: 4,
+              //   //     children: [
+              //   //       Text("Filter".tr, style: Get.textTheme.bodyText2),
+              //   //       Icon(
+              //   //         Icons.filter_list,
+              //   //         color: Get.theme.hintColor,
+              //   //         size: 21,
+              //   //       ),
+              //   //     ],
+              //   //   ),
+              //   // ),
+              // ),
             ],
           ),
         ),

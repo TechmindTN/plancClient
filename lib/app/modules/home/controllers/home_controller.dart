@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/modules/e_service/controllers/e_service_controller.dart';
@@ -37,6 +38,8 @@ class HomeController extends GetxController {
   EServiceRepository _eServiceRepository;
   EServiceController eServiceController = Get.find<EServiceController>();
   InterventionNetwork _interventionNetwork = InterventionNetwork();
+  CollectionReference providersRef =
+      FirebaseFirestore.instance.collection('Provider');
   final addresses = <Address>[].obs;
   final slider = <Slide>[].obs;
   final currentSlide = 0.obs;
@@ -48,7 +51,7 @@ class HomeController extends GetxController {
   final entreprise = <User>[].obs;
   final featured = <Category>[].obs;
   var client = Client().obs;
-  final RxList list = [].obs;
+  final List list = [];
   RxList<Asset> images = <Asset>[].obs;
   HomeController() {
     _userRepo = new UserRepository();
@@ -59,6 +62,9 @@ class HomeController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    pro.value = await _userNetwork.getUsersByRole('Professionel');
+    entreprise.value = await _userNetwork.getUsersByRole('Entreprise');
+
     Get.put<EServiceController>(EServiceController());
     if (Get.find<AuthController>().currentProfile.first_name != null) {
       print('there is client connected !');
@@ -82,8 +88,6 @@ class HomeController extends GetxController {
     //   print("there is not !");
     // }
     prov = await eServiceController.getProviders();
-    pro.value = await _userNetwork.getUsersByRole('Professionel');
-    entreprise.value = await _userNetwork.getUsersByRole('Entreprise');
 
     await refreshHome();
     super.onInit();

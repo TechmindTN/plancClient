@@ -14,6 +14,7 @@ import '../../../global_widgets/circular_loading_widget.dart';
 
 import '../../../models/Provider.dart';
 import '../../../routes/app_pages.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../controllers/e_service_controller.dart';
 import '../widgets/e_provider_item_widget.dart';
 import '../widgets/e_service_til_widget.dart';
@@ -562,7 +563,12 @@ class EServiceView extends GetView<EServiceController> {
           ),
           color: Get.theme.accentColor,
           onPressed: () {
-            Get.toNamed(Routes.BOOK_E_SERVICE, arguments: provider);
+            if (Get.find<AuthController>().currentuser.email != null) {
+              Get.toNamed(Routes.BOOK_E_SERVICE, arguments: provider);
+            } else {
+              Get.showSnackbar(
+                  Ui.ErrorSnackBar(message: 'You must login before !'));
+            }
           }).paddingOnly(right: 20, left: 20),
     );
   }
