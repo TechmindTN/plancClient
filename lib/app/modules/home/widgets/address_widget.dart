@@ -9,7 +9,7 @@ import '../../auth/controllers/auth_controller.dart';
 import '../controllers/home_controller.dart';
 
 class AddressWidget extends StatelessWidget {
-  TextEditingController _address;
+  String _address = '';
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,25 +19,15 @@ class AddressWidget extends StatelessWidget {
           Icon(Icons.place_outlined),
           SizedBox(width: 10),
           Expanded(
-              child: TextFormField(
-                  initialValue:
-                      Get.find<AuthController>().currentProfile.home_address ??
-                          'Address',
-                  controller: _address,
-                  maxLines: 1,
-                  readOnly: true,
-
-                  // Get.find<AuthService>().address.value?.address ??
-                  //     "Loading...".tr,
-                  style: Get.textTheme.bodyText1)),
+            child: Obx(() {
+              return Text(
+                  Get.find<HomeController>().presentAddress.value ??
+                      "Loading...".tr,
+                  style: Get.textTheme.bodyText1);
+            }),
+          ),
           SizedBox(width: 10),
-          IconButton(
-              icon: Icon(Icons.gps_fixed),
-              onPressed: () async {
-                GetBuilder<AuthController>(builder: (_authController) {
-                  return MapSelect(context, _authController, _address);
-                });
-              }),
+          IconButton(icon: Icon(Icons.gps_fixed), onPressed: () async {}),
 /*              LocationResult result = await showLocationPicker(context, Get.find<SettingsService>().setting.value.googleMapsKey,
                   initialCenter: Get.find<AuthService>().address.value.getLatLng(),
                   automaticallyAnimateToCurrentLocation: false,
