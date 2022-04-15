@@ -35,10 +35,8 @@ class BookEServiceController extends GetxController {
   String description = '';
   String title;
   String address;
-  String country;
-  String city;
-  String state;
-  int zip_code;
+
+  GeoPoint location;
   Rx<Timestamp> d = Timestamp.now().obs;
   List<Category> categlist = <Category>[].obs;
   RxString selectedCategory = ''.obs;
@@ -47,10 +45,7 @@ class BookEServiceController extends GetxController {
   @override
   void onInit() {
     file = File('');
-    country = currentclient.country;
-    city = currentclient.city;
-    state = currentclient.state;
-    zip_code = currentclient.zip_code;
+    location = currentclient.location;
     address = currentclient.home_address;
     intervention.value.datetime = d.value;
     categlist = Get.find<HomeController>().categories.value;
@@ -125,14 +120,11 @@ class BookEServiceController extends GetxController {
     Media media = Media();
     intervention.value = Intervention(
       creation_date: Timestamp.now(),
-      city: city,
       address: address,
-      country: country,
+      location: location,
       title: title,
       datetime: d.value,
       description: description,
-      zip_code: zip_code,
-      state: state,
       bill: null,
       price: null,
       states: 'en cours',

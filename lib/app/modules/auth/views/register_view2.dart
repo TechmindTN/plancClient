@@ -241,8 +241,8 @@ class RegisterView2 extends GetView<AuthController> {
                   return null;
                 },
               ),
-              GetBuilder<AuthController>(builder: (profileController) {
-                return MapSelect(context, profileController, _addressmap);
+              GetBuilder<AuthController>(builder: (_authController) {
+                return MapSelect(context, _authController, _addressmap);
               }),
 
               TextFieldWidget(
@@ -296,6 +296,8 @@ class RegisterView2 extends GetView<AuthController> {
                           last_name: _lastname,
                           phone: (int.parse(_phone)),
                           home_address: _addressmap.text,
+                          location: GeoPoint(controller.position.latitude,
+                              controller.position.longitude),
                           social_media: _Social,
                           gender: controller.gender.value,
                           age: int.parse(age));

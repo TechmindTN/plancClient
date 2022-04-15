@@ -51,59 +51,64 @@ class EntrepriseWidget extends GetWidget<HomeController> {
                     child: Text("Recommended for you".tr,
                         style: Get.textTheme.headline5)),
               ])),
-          Container(
-            height: 345,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                child: StreamBuilder(
-                    stream: providersRef.snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Text(
-                          'No Data...',
-                        );
-                      } else {
-                        controller.list.clear();
-                        print('before ' + snapshot.data.docs.length.toString());
-
-                        for (var i = 0; i < snapshot.data.docs.length; i++) {
-                          for (var j = 0;
-                              j < controller.entreprise.length;
-                              j++) {
-                            if (controller.entreprise[j].id ==
-                                snapshot.data.docs[i].data()['user'].id) {
-                              controller.list.add(snapshot.data.docs[i]);
-                              continue;
-                            }
-                          }
-                        }
-                        print('after ' + controller.list.length.toString());
-                        if (controller.list.isEmpty) {
-                          return CircularProgressIndicator();
-                        } else {
-                          return ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: controller.list.length,
-                              itemBuilder: ((context, index) {
-                                // ServiceProvider provider =
-                                //     ServiceProvider.fromFire(
-                                //         snapshot.data.docs[index]);
-                                //  eServiceController.getThisProvider(provider,snapshot.data.docs[index].id);
-
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: RecWidget(controller.list[index],
-                                      eServiceController),
+          GetBuilder<HomeController>(
+              init: HomeController(),
+              builder: (val) => Container(
+                    height: 345,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 5),
+                        child: StreamBuilder(
+                            stream: providersRef.snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Text(
+                                  'No Data...',
                                 );
-                              }));
-                        }
-                      }
-                    }),
-              ),
-            ),
-          ),
+                              } else {
+                                val.list.clear();
+
+                                for (var i = 0;
+                                    i < snapshot.data.docs.length;
+                                    i++) {
+                                  for (var j = 0;
+                                      j < controller.entreprise.length;
+                                      j++) {
+                                    if (controller.entreprise[j].id ==
+                                        snapshot.data.docs[i]
+                                            .data()['user']
+                                            .id) {
+                                      val.list.add(snapshot.data.docs[i]);
+                                      continue;
+                                    }
+                                  }
+                                }
+                                if (val.list.isEmpty) {
+                                  return CircularProgressIndicator();
+                                } else {
+                                  return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: val.list.length,
+                                      itemBuilder: ((context, index) {
+                                        // ServiceProvider provider =
+                                        //     ServiceProvider.fromFire(
+                                        //         snapshot.data.docs[index]);
+                                        //  eServiceController.getThisProvider(provider,snapshot.data.docs[index].id);
+
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0),
+                                          child: RecWidget(val.list[index],
+                                              eServiceController),
+                                        );
+                                      }));
+                                }
+                              }
+                            }),
+                      ),
+                    ),
+                  )),
         ]));
   }
 }

@@ -267,6 +267,7 @@ class Home2View extends GetView<HomeController> {
   }
 
   Widget _tabSection(BuildContext context) {
+    var color1, color2;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -283,11 +284,19 @@ class Home2View extends GetView<HomeController> {
             children: <Widget>[
               Container(
                 child: TabBar(
+                    indicator: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.circular(5), // Creates border
+                        color: Colors.orange),
+                    labelPadding: EdgeInsets.all(0),
                     unselectedLabelStyle: TextStyle(fontSize: 15),
                     indicatorWeight: 1.0,
-                    labelColor: Colors.orange,
-                    labelStyle:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    unselectedLabelColor: Colors.orange,
+                    labelColor: Colors.white,
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                     tabs: [
                       Tab(text: "Suppliers".tr),
                       Tab(text: "Professionals".tr),
@@ -302,6 +311,7 @@ class Home2View extends GetView<HomeController> {
                     child: EntrepriseWidget(),
                   ),
                   Container(
+                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                     child: ProWidget(),
                   ),
                 ]),
