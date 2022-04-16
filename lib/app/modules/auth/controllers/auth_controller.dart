@@ -32,6 +32,7 @@ class AuthController extends GetxController {
   LatLng position;
   List<Placemark> marks = [];
   Set<Marker> markers = Set();
+  Set<Marker> providers_markers = Set();
   Future<void> onInit() {
     file = File('');
 

@@ -54,7 +54,7 @@ class ServiceProvider {
         // country = fire['country'],
         // state = fire['state'],
         // zip_code = fire['zip_code'],
-        // location = fire['location'],
+        location = fire['location'],
         social_media = fire['social_media'],
         phone = fire['phone'],
         rate = double.parse(fire['rate'].toString());
