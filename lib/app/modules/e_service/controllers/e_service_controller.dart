@@ -33,9 +33,8 @@ class EServiceController extends GetxController {
     //   rxProvider.value=element;
     //   // providers.add(rxProvider);
     // });
-    providers = await providerServices.getProvidersList();
     List<ServiceProvider> sp = await providerServices.getProvidersList();
-    print("sp " + sp.toString());
+
     return sp;
   }
 

@@ -61,16 +61,16 @@ class SearchController extends GetxController {
     }
   }
 
-  Future getCategories() async {
-    try {
-      _categoryRepository.getAll().then((value) {
-        categories.clear();
-        return value;
-      }).then((value) {
-        categories.value = value;
-      });
-    } catch (e) {
-      Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
-    }
-  }
+  // Future getCategories() async {
+  //   try {
+  //     _categoryRepository.getAll().then((value) {
+  //       categories.clear();
+  //       return value;
+  //     }).then((value) {
+  //       categories.value = value;
+  //     });
+  //   } catch (e) {
+  //     Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
+  //   }
+  // }
 }

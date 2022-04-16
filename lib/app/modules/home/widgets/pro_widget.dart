@@ -61,22 +61,22 @@ class ProWidget extends GetWidget<HomeController> {
                           'No Data...',
                         );
                       } else {
-                        RxList list = [].obs;
+                        controller.list1.clear;
                         print('before ' + snapshot.data.docs.length.toString());
                         for (var i = 0; i < snapshot.data.docs.length; i++) {
                           for (var j = 0; j < controller.pro.length; j++) {
                             if (controller.pro[j].id ==
                                 snapshot.data.docs[i].data()['user'].id) {
-                              list.add(snapshot.data.docs[i]);
+                              controller.list1.add(snapshot.data.docs[i]);
                               continue;
                             }
                           }
                         }
-                        print('after ' + list.length.toString());
+                        print('after ' + controller.list1.length.toString());
                         controller.update();
                         return ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: list.length,
+                            itemCount: controller.list1.length,
                             itemBuilder: ((context, index) {
                               // ServiceProvider provider =
                               //     ServiceProvider.fromFire(
@@ -86,8 +86,8 @@ class ProWidget extends GetWidget<HomeController> {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16.0),
-                                child:
-                                    RecWidget(list[index], eServiceController),
+                                child: RecWidget(controller.list1[index],
+                                    eServiceController),
                               );
                             }));
                       }

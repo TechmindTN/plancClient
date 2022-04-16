@@ -44,6 +44,8 @@ class HomeController extends GetxController {
       FirebaseFirestore.instance.collection('Provider');
   final addresses = <Address>[].obs;
   RxString presentAddress = ''.obs;
+  Position presentposition;
+  List providers_snapshots = [];
   final slider = <Slide>[].obs;
   final currentSlide = 0.obs;
   var prov = <ServiceProvider>[];
@@ -55,6 +57,7 @@ class HomeController extends GetxController {
   final featured = <Category>[].obs;
   var client = Client().obs;
   final List list = [];
+  final List list1 = [];
   RxList<Asset> images = <Asset>[].obs;
   HomeController() {
     _userRepo = new UserRepository();
@@ -73,12 +76,10 @@ class HomeController extends GetxController {
 
     Get.put<EServiceController>(EServiceController());
     if (Get.find<AuthController>().currentProfile.first_name != null) {
-      print('there is client connected !');
       client.value = Get.find<AuthController>().currentProfile;
       interventions.value.clear();
       interventions.value =
           await _interventionNetwork.getInterventionsList(client.value.id);
-      print('bbbbbbbboking' + interventions.string);
     }
 
     //   var index = 0;
@@ -105,6 +106,8 @@ class HomeController extends GetxController {
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
         .then((Position position) {
+      print('possssss' + position.latitude.toString());
+      presentposition = position;
       _getAddressFromLatLng(position);
       update();
     }).catchError((e) {
@@ -150,10 +153,10 @@ class HomeController extends GetxController {
   }
 
   Future refreshHome({bool showMessage = false}) async {
-    await getSlider();
-    await getAddresses();
+    // await getSlider();
+    // await getAddresses();
     await getCategories();
-    await getFeatured();
+    // await getFeatured();
     update();
 
     if (showMessage) {
