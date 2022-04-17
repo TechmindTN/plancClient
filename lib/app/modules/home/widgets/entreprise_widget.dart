@@ -67,6 +67,7 @@ class EntrepriseWidget extends GetWidget<HomeController> {
                                   'No Data...',
                                 );
                               } else {
+                                val.allproviders = snapshot.data.docs;
                                 val.list.clear();
 
                                 for (var i = 0;

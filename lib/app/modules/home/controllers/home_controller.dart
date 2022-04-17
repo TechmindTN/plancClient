@@ -30,6 +30,7 @@ import '../../category/controllers/category_controller.dart';
 import '../../profile/controllers/profile_controller.dart';
 import '../../profile/views/profile_view.dart';
 import '../../tasks/controllers/tasks_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeController extends GetxController {
   CategoryNetwork _categoryNetwork = CategoryNetwork();
@@ -58,6 +59,8 @@ class HomeController extends GetxController {
   var client = Client().obs;
   final List list = [];
   final List list1 = [];
+  List allproviders = [];
+
   RxList<Asset> images = <Asset>[].obs;
   HomeController() {
     _userRepo = new UserRepository();
@@ -68,7 +71,20 @@ class HomeController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    getPresentAddress();
+    await Permission.location.status.then((val) {
+      if (val.isDenied) {
+        Permission.locationWhenInUse.request().then((value) {
+          if (value.isGranted) {
+            getPresentAddress();
+          }
+        });
+      } else {
+        if (val.isGranted) {
+          getPresentAddress();
+        }
+      }
+    });
+
     // _getAddressFromLatLng();
 
     pro.value = await _userNetwork.getUsersByRole('Professionel');
