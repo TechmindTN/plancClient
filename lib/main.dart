@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import 'app/modules/auth/controllers/auth_controller.dart';
@@ -24,6 +25,9 @@ void initServices() async {
 
   await Get.putAsync(() => SettingsService().init());
 
+  if (await Geolocator.isLocationServiceEnabled() == false) {
+    Geolocator.openLocationSettings();
+  }
   Get.log('All services started...');
 }
 
@@ -39,7 +43,7 @@ void main() async {
       localizationsDelegates: [GlobalMaterialLocalizations.delegate],
       supportedLocales: Get.find<TranslationService>().supportedLocales(),
       translationsKeys: Get.find<TranslationService>().translations,
-      locale: Get.find<SettingsService>().getLocale(),
+      locale: Get.find<TranslationService>().fallbackLocale,
       fallbackLocale: Get.find<TranslationService>().fallbackLocale,
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.cupertino,

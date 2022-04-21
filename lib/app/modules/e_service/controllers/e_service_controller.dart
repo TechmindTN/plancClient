@@ -34,7 +34,7 @@ class EServiceController extends GetxController {
     //   // providers.add(rxProvider);
     // });
     List<ServiceProvider> sp = await providerServices.getProvidersList();
-
+    print('spl ' + sp.length.toString());
     return sp;
   }
 
@@ -54,9 +54,8 @@ class EServiceController extends GetxController {
     await getEService();
     await getReviews();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(
-          message:
-              eService.value.title + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(
+          Ui.SuccessSnackBar(message: "page refreshed successfully".tr));
     }
   }
 

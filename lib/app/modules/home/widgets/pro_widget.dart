@@ -48,50 +48,55 @@ class ProWidget extends GetWidget<HomeController> {
                     child: Text("Recommended for you".tr,
                         style: Get.textTheme.headline5)),
               ])),
-          Container(
-            height: 345,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: StreamBuilder(
-                    stream: providersRef.snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Text(
-                          'No Data...',
-                        );
-                      } else {
-                        controller.list1.clear;
-                        print('before ' + snapshot.data.docs.length.toString());
-                        for (var i = 0; i < snapshot.data.docs.length; i++) {
-                          for (var j = 0; j < controller.pro.length; j++) {
-                            if (controller.pro[j].id ==
-                                snapshot.data.docs[i].data()['user'].id) {
-                              controller.list1.add(snapshot.data.docs[i]);
-                              continue;
+          GetBuilder<HomeController>(
+            init: HomeController(),
+            builder: (val) => Container(
+              height: 345,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: StreamBuilder(
+                      stream: providersRef.snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text(
+                            'No Data...',
+                          );
+                        } else {
+                          val.list1.clear;
+
+                          for (var i = 0; i < snapshot.data.docs.length; i++) {
+                            for (var j = 0; j < controller.pro.length; j++) {
+                              if (controller.pro[j].id ==
+                                  snapshot.data.docs[i].data()['user'].id) {
+                                val.list1.add(snapshot.data.docs[i]);
+                                continue;
+                              }
                             }
                           }
-                        }
-                        print('after ' + controller.list1.length.toString());
-                        controller.update();
-                        return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: controller.list1.length,
-                            itemBuilder: ((context, index) {
-                              // ServiceProvider provider =
-                              //     ServiceProvider.fromFire(
-                              //         snapshot.data.docs[index]);
-                              //  eServiceController.getThisProvider(provider,snapshot.data.docs[index].id);
+                          if (val.list1.isEmpty) {
+                            return CircularProgressIndicator();
+                          } else {
+                            return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: val.list1.length,
+                                itemBuilder: ((context, index) {
+                                  // ServiceProvider provider =
+                                  //     ServiceProvider.fromFire(
+                                  //         snapshot.data.docs[index]);
+                                  //  eServiceController.getThisProvider(provider,snapshot.data.docs[index].id);
 
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                child: RecWidget(controller.list1[index],
-                                    eServiceController),
-                              );
-                            }));
-                      }
-                    }),
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: RecWidget(
+                                        val.list1[index], eServiceController),
+                                  );
+                                }));
+                          }
+                        }
+                      }),
+                ),
               ),
             ),
           ),

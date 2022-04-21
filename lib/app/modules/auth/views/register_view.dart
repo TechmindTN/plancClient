@@ -157,7 +157,10 @@ class RegisterView extends GetView<AuthController> {
                     if (text == null || text.isEmpty) {
                       return 'field is empty'.tr;
                     }
-                    _pass = text;
+                    if (text != _pass) {
+                      return 'Not matching !';
+                    }
+
                     return null;
                   },
                 );

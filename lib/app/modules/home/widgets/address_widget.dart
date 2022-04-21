@@ -11,109 +11,107 @@ import '../../auth/controllers/auth_controller.dart';
 import '../controllers/home_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class AddressWidget extends StatelessWidget {
-  AuthController _authController = Get.find<AuthController>();
+class AddressWidget extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-      child: Row(children: [
-        Icon(Icons.place_outlined),
-        SizedBox(width: 10),
-        Expanded(
-          child: Obx(() {
-            return Text(
-                Get.find<HomeController>().presentAddress.value ??
-                    "Loading...".tr,
-                style: Get.textTheme.bodyText1);
-          }),
-        ),
-        SizedBox(width: 10),
-        IconButton(
-            icon: Icon(Icons.gps_fixed),
-            onPressed: () async {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return GetBuilder<AuthController>(builder: (control) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width * 0.95,
-                        height: MediaQuery.of(context).size.height * 0.95,
-                        child: GoogleMap(
-                            compassEnabled: true,
-                            indoorViewEnabled: true,
-                            mapToolbarEnabled: true,
-                            buildingsEnabled: true,
-                            onMapCreated: ((controller) {
-                              Get.find<HomeController>()
-                                  .allproviders
-                                  .forEach((snap) {
-                                var _service =
-                                    ServiceProvider.fromFire(snap.data());
-                                print('serviceeeeee' + _service.name);
-                                print('serviceeeeee' +
-                                    _service.location.toString());
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+        child: Row(children: [
+          Icon(Icons.place_outlined),
+          SizedBox(width: 10),
+          Get.find<AuthController>().currentuser != null
+              ? Expanded(
+                  child: Obx(() {
+                    return Text(
+                        controller.presentAddress.value ?? "Loading...".tr,
+                        style: Get.textTheme.subtitle1);
+                  }),
+                )
+              : Expanded(child: Text(' Look at providers location ')),
+          SizedBox(width: 10),
+          IconButton(
+              icon: Icon(Icons.gps_fixed),
+              onPressed: () async {
+                controller.allproviders.forEach((snap) {
+                  var _service = ServiceProvider.fromFire(snap.data());
+                  print('serviceeeeee' + _service.name);
+                  print('serviceeeeee' + _service.location.toString());
 
-                                if (_service.location != null) {
-                                  print('service here ' +
-                                      _service.name +
-                                      ' lat ' +
-                                      _service.location.latitude.toString() +
-                                      ' long ' +
-                                      _service.location.longitude.toString());
-                                  control.providers_markers.add(Marker(
-                                      infoWindow: InfoWindow(
-                                          title: _service.name,
-                                          snippet: _service.description),
-                                      markerId: MarkerId('value'),
-                                      position: LatLng(
-                                          _service.location.latitude,
-                                          _service.location.longitude)));
-                                  control.update();
-                                }
-                              });
-
-                              print('list prov ' +
-                                  control.providers_markers.toString());
-                            }),
-                            mapType: MapType.normal,
-                            onTap: (argument) {
-                              // if (_authController.markers.length > 0) {
-                              //   _authController.markers.clear();
-                              //   _authController.update();
-                              // }
-                              // _authController.markers.add(Marker(
-                              //     markerId: MarkerId('value'),
-                              //     position: LatLng(argument.latitude,
-                              //         argument.longitude)));
-                              // _authController.position = LatLng(
-                              //     argument.latitude, argument.longitude);
-                              // _authController.update();
-                            },
-                            markers: control.providers_markers,
-                            myLocationButtonEnabled: true,
-                            myLocationEnabled: true,
-                            initialCameraPosition:
-                                Get.find<HomeController>().presentposition !=
-                                        null
-                                    ? CameraPosition(
-                                        tilt: 60,
-                                        zoom: 10,
-                                        target: LatLng(
-                                            Get.find<HomeController>()
-                                                .presentposition
-                                                .latitude,
-                                            Get.find<HomeController>()
-                                                .presentposition
-                                                .longitude))
-                                    : CameraPosition(
-                                        tilt: 60,
-                                        zoom: 15,
-                                        target: LatLng(36.80278, 10.17972))),
-                      );
+                  if (_service.location != null) {
+                    print('service here ' +
+                        _service.name +
+                        ' lat ' +
+                        _service.location.latitude.toString() +
+                        ' long ' +
+                        _service.location.longitude.toString());
+                    controller.providers_markers.add(Marker(
+                        infoWindow: InfoWindow(
+                            title: _service.name,
+                            snippet: 'Téléphone: ' + _service.phone.toString()),
+                        markerId: MarkerId(_service.name),
+                        position: LatLng(_service.location.latitude,
+                            _service.location.longitude)));
+                  }
+                });
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Obx(() => Container(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            height: MediaQuery.of(context).size.height * 0.95,
+                            child: GoogleMap(
+                                compassEnabled: true,
+                                indoorViewEnabled: true,
+                                mapToolbarEnabled: true,
+                                buildingsEnabled: true,
+                                onMapCreated: ((control) {
+                                  print('list prov ' +
+                                      controller.providers_markers.value
+                                          .toString());
+                                }),
+                                mapType: MapType.normal,
+                                onTap: (argument) {
+                                  // if (_authController.markers.length > 0) {
+                                  //   _authController.markers.clear();
+                                  //   _authController.update();
+                                  // }
+                                  // _authController.markers.add(Marker(
+                                  //     markerId: MarkerId('value'),
+                                  //     position: LatLng(argument.latitude,
+                                  //         argument.longitude)));
+                                  // _authController.position = LatLng(
+                                  //     argument.latitude, argument.longitude);
+                                  // _authController.update();
+                                },
+                                markers: controller.providers_markers.value,
+                                myLocationButtonEnabled: true,
+                                myLocationEnabled: true,
+                                initialCameraPosition:
+                                    Get.find<HomeController>()
+                                                .presentposition !=
+                                            null
+                                        ? CameraPosition(
+                                            tilt: 60,
+                                            zoom: 10,
+                                            target:
+                                                LatLng(
+                                                    Get.find<HomeController>()
+                                                        .presentposition
+                                                        .latitude,
+                                                    Get.find<HomeController>()
+                                                        .presentposition
+                                                        .longitude))
+                                        : CameraPosition(
+                                            tilt: 60,
+                                            zoom: 10,
+                                            target:
+                                                LatLng(36.80278, 10.17972))),
+                          ));
                     });
-                  });
-            })
+              })
+        ]));
+  }
+}
 /*              LocationResult result = await showLocationPicker(context, Get.find<SettingsService>().setting.value.googleMapsKey,
                   initialCenter: Get.find<AuthService>().address.value.getLatLng(),
                   automaticallyAnimateToCurrentLocation: false,
@@ -179,7 +177,5 @@ class AddressWidget extends StatelessWidget {
         //   //   }
         //   // },
         // );
-      ]),
-    );
-  }
-}
+      
+

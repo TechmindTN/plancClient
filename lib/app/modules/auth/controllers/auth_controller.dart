@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/Client.dart';
 import '../../../models/User.dart' as user;
@@ -32,10 +34,14 @@ class AuthController extends GetxController {
   LatLng position;
   List<Placemark> marks = [];
   Set<Marker> markers = Set();
-  Set<Marker> providers_markers = Set();
-  Future<void> onInit() {
+  SharedPreferences prefs;
+  Future<void> onInit() async {
     file = File('');
-
+    // prefs = await SharedPreferences.getInstance();
+    // if (prefs.get('user') != null) {
+    //   var saveduser = user.User.fromFire(json.decode(prefs.get('user')));
+    //   verifylogin(saveduser.email, saveduser.password);
+    // }
     // im = Image.file(file);
     currentuser = user.User();
     currentProfile = Client();
@@ -59,6 +65,7 @@ class AuthController extends GetxController {
         .then((value) => currentProfile = value);
 
     Get.find<HomeController>().onInit();
+    // prefs.setString('user', json.encode(currentuser.tofire()));
     return ok;
     // if (data == null) return false;
     // return true;

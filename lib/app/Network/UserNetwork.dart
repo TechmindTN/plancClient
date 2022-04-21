@@ -112,6 +112,7 @@ class UserNetwork {
   Future<DocumentReference> addUser(User u) async {
     // var added=await usersRef.add(data).then((value) { print('User Added: '+value.id);
     var data = u.tofire();
+    data['creation_date'] = Timestamp.now();
     Role r = await getClientRoleByName("Client");
     DocumentReference rf = await getRoleRef(r.id);
     data['role'] = rf;

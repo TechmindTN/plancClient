@@ -33,7 +33,11 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                       end: 20, start: index == 0 ? 20 : 0),
                   padding: EdgeInsets.symmetric(vertical: 10),
                   decoration: new BoxDecoration(
-                    color: Colors.orange,
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.red, Colors.yellow],
+                    ),
                     // gradient: new LinearGradient(
                     //     colors: [_category.color.withOpacity(1), _category.color.withOpacity(0.1)],
                     //     begin: AlignmentDirectional.topStart,
@@ -41,7 +45,7 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                     //     end: AlignmentDirectional.bottomEnd,
                     //     stops: [0.1, 0.9],
                     //     tileMode: TileMode.clamp),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
                   ),
                   child: Stack(
                     alignment: AlignmentDirectional.topStart,
@@ -54,6 +58,7 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                               child: Center(
                             child: Image.network(
                               _category.icon,
+                              color: Colors.black54,
                               fit: BoxFit.scaleDown,
                             ),
                           )),
