@@ -24,7 +24,7 @@ class PaymentMethodItemWidget extends GetWidget<CheckoutController> {
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Theme(
           data: ThemeData(
-            toggleableActiveColor: Get.theme.primaryColor,
+            toggleableActiveColor: Get.theme.primaryColorDark,
           ),
           child: RadioListTile(
             value: _paymentMethod,

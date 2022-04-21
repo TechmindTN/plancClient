@@ -53,332 +53,319 @@ class EServiceView extends GetView<EServiceController> {
     //   );
     // } else {
     return Scaffold(
-      bottomNavigationBar: buildBlockButtonWidget(prov),
-      body: RefreshIndicator(
-          onRefresh: () async {
-            controller.refreshEService(showMessage: true);
-          },
-          child: CustomScrollView(
-            primary: true,
-            shrinkWrap: false,
-            slivers: <Widget>[
-              SliverAppBar(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                expandedHeight: 320,
-                elevation: 0,
-                // pinned: true,
-                floating: true,
-                iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-                centerTitle: true,
-                automaticallyImplyLeading: false,
-                leading: new IconButton(
-                  icon: new Icon(Icons.arrow_back_ios,
-                      color: Get.theme.hintColor),
-                  onPressed: () => {Get.back()},
-                ),
-                bottom: buildEServiceTitleBarWidget(prov),
-                flexibleSpace: FlexibleSpaceBar(
-                    collapseMode: CollapseMode.parallax,
-                    background:
-                        // Obx(() {
-                        Stack(
-                      alignment: AlignmentDirectional.center,
-                      children: <Widget>[
-                        Image.network(prov.profile_photo)
-                        // buildCarouselSlider(provider),
-                        // buildCarouselBullets(provider),
-                      ],
-                    )
-                    // }),
-                    ).marginOnly(bottom: 50),
+        bottomNavigationBar: buildBlockButtonWidget(prov),
+        body: CustomScrollView(
+          primary: true,
+          shrinkWrap: false,
+          slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              expandedHeight: 320,
+              elevation: 0,
+              // pinned: true,
+              floating: true,
+              iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              leading: new IconButton(
+                icon:
+                    new Icon(Icons.arrow_back_ios, color: Get.theme.hintColor),
+                onPressed: () => {Get.back()},
               ),
+              bottom: buildEServiceTitleBarWidget(prov),
+              flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
+                  background:
+                      // Obx(() {
+                      Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: <Widget>[
+                      Image.network(prov.profile_photo)
+                      // buildCarouselSlider(provider),
+                      // buildCarouselBullets(provider),
+                    ],
+                  )
+                  // }),
+                  ).marginOnly(bottom: 50),
+            ),
 
-              // WelcomeWidget(),
-              SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(height: 10),
+            // WelcomeWidget(),
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 10),
 
-                    // buildCategories(provider),
-                    EServiceTilWidget(
-                      title: Text("Description".tr,
-                          style: Get.textTheme.subtitle2),
-                      content: Text(prov.description,
-                          style: Get.textTheme.bodyText1),
-                    ),
+                  // buildCategories(provider),
+                  EServiceTilWidget(
+                    title:
+                        Text("Description".tr, style: Get.textTheme.subtitle2),
+                    content:
+                        Text(prov.description, style: Get.textTheme.bodyText1),
+                  ),
 
-                    EServiceTilWidget(
-                      title: Text("Contact".tr, style: Get.textTheme.subtitle2),
-                      content: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(prov.phone.toString() ?? '12345678',
-                                  style: Get.textTheme.bodyText1),
-                              Icon(Icons.phone_outlined)
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          //   Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Text(prov.user.email,
-                          //         style: Get.textTheme.bodyText1),
-                          //         Icon(Icons.email_outlined)
-                          //   ],
-                          // ),
-                        ],
-                      ),
-                    ),
-
-                    EServiceTilWidget(
-                      title: Text("Address".tr, style: Get.textTheme.subtitle2),
-                      content: Text(prov.address ?? '123 Centre Urbain Nord',
-                          style: Get.textTheme.bodyText1),
-                    ),
-
-                    // EServiceTilWidget(
-                    //   title: Text("Service Provider".tr, style: Get.textTheme.subtitle2),
-                    //   content: EProviderItemWidget(provider: _eService.eProvider),
-                    //   actions: [
-                    //     GestureDetector(
-                    //       onTap: () {
-                    //         Get.toNamed(Routes.E_PROVIDER, arguments: _eService.eProvider);
-                    //       },
-                    //       child: Text("View More".tr, style: Get.textTheme.subtitle1),
-                    //     ),
-                    //   ],
-                    // ),
-                    EServiceTilWidget(
-                      horizontalPadding: 0,
-                      title:
-                          Text("Galleries".tr, style: Get.textTheme.subtitle2)
-                              .paddingSymmetric(horizontal: 20),
-                      content: Container(
-                        height: 120,
-                        child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: false,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: images.length,
-                            itemBuilder: (_, index) {
-                              // var _media = _eService.media.elementAt(index);
-                              var media = images[index];
-                              return InkWell(
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Dialog(
-                                            insetPadding: EdgeInsets.all(0),
-                                            backgroundColor: Colors.transparent,
-                                            child: Container(
-                                              color: Colors.transparent
-                                                  .withOpacity(0.3),
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.7,
-                                              child: Image.network(
-                                                media.url,
-                                                // scale: 20,
-
-                                                fit: BoxFit.fill,
-                                                // width: MediaQuery.of(context).size.width*0.9,
-                                                // height: MediaQuery.of(context).size.height*0.8,
-
-                                                // scale: 0.1,
-                                              ),
-                                            ));
-                                      });
-                                  //Get.toNamed(Routes.CATEGORY, arguments: _category);
-                                },
-                                child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  margin: EdgeInsetsDirectional.only(
-                                      end: 20,
-                                      start: index == 0 ? 20 : 0,
-                                      top: 10,
-                                      bottom: 10),
-                                  child: Stack(
-                                    alignment: AlignmentDirectional.topStart,
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          child: Image.network(
-                                            images[index].url,
-                                            height: 100,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                          )
-                                          // child: CachedNetworkImage(
-                                          //   height: 100,
-                                          //   width: double.infinity,
-                                          //   fit: BoxFit.cover,
-                                          //   imageUrl: media,
-                                          //   placeholder: (context, url) => Image.asset(
-                                          //     'assets/img/loading.gif',
-                                          //     fit: BoxFit.cover,
-                                          //     width: double.infinity,
-                                          //     height: 100,
-                                          //   ),
-                                          //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                                          // ),
-                                          ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsetsDirectional.only(
-                                                start: 12, top: 8),
-                                        child: Text(
-                                          'Item' ?? '',
-                                          maxLines: 2,
-                                          style: Get.textTheme.bodyText2.merge(
-                                              TextStyle(
-                                                  color:
-                                                      Get.theme.primaryColor)),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
-                      actions: [
-                        InkWell(
-                          onTap: () {
-                            // Get.offAllNamed(Routes.REGISTER);
-                          },
-                          child: Text("View All".tr,
-                              style: Get.textTheme.subtitle1),
-                        ).paddingSymmetric(horizontal: 20),
+                  EServiceTilWidget(
+                    title: Text("Contact".tr, style: Get.textTheme.subtitle2),
+                    content: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(prov.phone.toString() ?? '12345678',
+                                style: Get.textTheme.bodyText1),
+                            Icon(Icons.phone_outlined)
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        //   Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Text(prov.user.email,
+                        //         style: Get.textTheme.bodyText1),
+                        //         Icon(Icons.email_outlined)
+                        //   ],
+                        // ),
                       ],
                     ),
-                    EServiceTilWidget(
-                      title: Text("Social Media".tr,
-                          style: Get.textTheme.subtitle2),
-                      content: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Website".tr,
-                                  style: Get.textTheme.bodyText1),
-                              Text(prov.website,
-                                  style: Get.textTheme.bodyText1),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Facebook".tr,
-                                  style: Get.textTheme.bodyText1),
-                              Text(prov.social_media['Facebook'] ?? prov.name,
-                                  style: Get.textTheme.bodyText1),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Instagram".tr,
-                                  style: Get.textTheme.bodyText1),
-                              Text(prov.social_media['Instagram'] ?? prov.name,
-                                  style: Get.textTheme.bodyText1),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("LinkedIn".tr,
-                                  style: Get.textTheme.bodyText1),
-                              Text(prov.social_media['LinkedIn'] ?? prov.name,
-                                  style: Get.textTheme.bodyText1),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    EServiceTilWidget(
-                      title: Text("Reviews & Ratings".tr,
-                          style: Get.textTheme.subtitle2),
-                      content: Column(
-                        children: [
-                          Text(prov.rate.toString(),
-                              style: Get.textTheme.headline1),
-                          Wrap(children: [
-                            SmoothStarRating(
-                              rating: prov.rate,
-                              isReadOnly: false,
-                              size: 20,
-                              filledIconData: Icons.star,
-                              halfFilledIconData: Icons.star_half,
-                              defaultIconData: Icons.star_border,
-                              starCount: 5,
-                              allowHalfRating: true,
-                              spacing: 2.0,
-                              color: Colors.orange,
-                              onRated: (value) {
-                                print("rating value -> $value");
-                                // print("rating value dd -> ${value.truncate()}");
+                  ),
+
+                  EServiceTilWidget(
+                    title: Text("Address".tr, style: Get.textTheme.subtitle2),
+                    content: Text(prov.address ?? '123 Centre Urbain Nord',
+                        style: Get.textTheme.bodyText1),
+                  ),
+
+                  // EServiceTilWidget(
+                  //   title: Text("Service Provider".tr, style: Get.textTheme.subtitle2),
+                  //   content: EProviderItemWidget(provider: _eService.eProvider),
+                  //   actions: [
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Get.toNamed(Routes.E_PROVIDER, arguments: _eService.eProvider);
+                  //       },
+                  //       child: Text("View More".tr, style: Get.textTheme.subtitle1),
+                  //     ),
+                  //   ],
+                  // ),
+                  EServiceTilWidget(
+                    horizontalPadding: 0,
+                    title: Text("Galleries".tr, style: Get.textTheme.subtitle2)
+                        .paddingSymmetric(horizontal: 20),
+                    content: Container(
+                      height: 120,
+                      child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: false,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: images.length,
+                          itemBuilder: (_, index) {
+                            // var _media = _eService.media.elementAt(index);
+                            var media = images[index];
+                            return InkWell(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                          insetPadding: EdgeInsets.all(0),
+                                          backgroundColor: Colors.transparent,
+                                          child: Container(
+                                            color: Colors.transparent
+                                                .withOpacity(0.3),
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.7,
+                                            child: Image.network(
+                                              media.url,
+                                              // scale: 20,
+
+                                              fit: BoxFit.fill,
+                                              // width: MediaQuery.of(context).size.width*0.9,
+                                              // height: MediaQuery.of(context).size.height*0.8,
+
+                                              // scale: 0.1,
+                                            ),
+                                          ));
+                                    });
+                                //Get.toNamed(Routes.CATEGORY, arguments: _category);
                               },
-                            ),
-                          ]),
-                          Divider(height: 35, thickness: 1.3),
-                          Obx(() {
-                            if (controller.reviews.isEmpty) {
-                              return CircularLoadingWidget(height: 100);
-                            }
-                            return ListView.separated(
-                              padding: EdgeInsets.all(0),
-                              itemBuilder: (context, index) {
-                                return ReviewItemWidget(
-                                    review:
-                                        controller.reviews.elementAt(index));
-                              },
-                              separatorBuilder: (context, index) {
-                                return Divider(height: 35, thickness: 1.3);
-                              },
-                              itemCount: controller.reviews.length,
-                              primary: false,
-                              shrinkWrap: true,
+                              child: Container(
+                                width: 100,
+                                height: 100,
+                                margin: EdgeInsetsDirectional.only(
+                                    end: 20,
+                                    start: index == 0 ? 20 : 0,
+                                    top: 10,
+                                    bottom: 10),
+                                child: Stack(
+                                  alignment: AlignmentDirectional.topStart,
+                                  children: [
+                                    ClipRRect(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        child: Image.network(
+                                          images[index].url,
+                                          height: 100,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                        )
+                                        // child: CachedNetworkImage(
+                                        //   height: 100,
+                                        //   width: double.infinity,
+                                        //   fit: BoxFit.cover,
+                                        //   imageUrl: media,
+                                        //   placeholder: (context, url) => Image.asset(
+                                        //     'assets/img/loading.gif',
+                                        //     fit: BoxFit.cover,
+                                        //     width: double.infinity,
+                                        //     height: 100,
+                                        //   ),
+                                        //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                                        // ),
+                                        ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          start: 12, top: 8),
+                                      child: Text(
+                                        'Item' ?? '',
+                                        maxLines: 2,
+                                        style: Get.textTheme.bodyText2.merge(
+                                            TextStyle(
+                                                color: Get.theme.primaryColor)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             );
                           }),
-                        ],
-                      ),
-                      actions: [
-                        InkWell(
-                          onTap: () {
-                            // Get.offAllNamed(Routes.REGISTER);
-                          },
-                          child: Text("View All".tr,
-                              style: Get.textTheme.subtitle1),
+                    ),
+                    actions: [
+                      InkWell(
+                        onTap: () {
+                          // Get.offAllNamed(Routes.REGISTER);
+                        },
+                        child:
+                            Text("View All".tr, style: Get.textTheme.subtitle1),
+                      ).paddingSymmetric(horizontal: 20),
+                    ],
+                  ),
+                  EServiceTilWidget(
+                    title:
+                        Text("Social Media".tr, style: Get.textTheme.subtitle2),
+                    content: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Website".tr, style: Get.textTheme.bodyText1),
+                            Text(prov.website, style: Get.textTheme.bodyText1),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Facebook".tr, style: Get.textTheme.bodyText1),
+                            Text(prov.social_media['Facebook'] ?? prov.name,
+                                style: Get.textTheme.bodyText1),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Instagram".tr,
+                                style: Get.textTheme.bodyText1),
+                            Text(prov.social_media['Instagram'] ?? prov.name,
+                                style: Get.textTheme.bodyText1),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("LinkedIn".tr, style: Get.textTheme.bodyText1),
+                            Text(prov.social_media['LinkedIn'] ?? prov.name,
+                                style: Get.textTheme.bodyText1),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  EServiceTilWidget(
+                    title: Text("Reviews & Ratings".tr,
+                        style: Get.textTheme.subtitle2),
+                    content: Column(
+                      children: [
+                        Text(prov.rate.toString(),
+                            style: Get.textTheme.headline1),
+                        Wrap(children: [
+                          SmoothStarRating(
+                            rating: prov.rate,
+                            isReadOnly: false,
+                            size: 20,
+                            filledIconData: Icons.star,
+                            halfFilledIconData: Icons.star_half,
+                            defaultIconData: Icons.star_border,
+                            starCount: 5,
+                            allowHalfRating: true,
+                            spacing: 2.0,
+                            color: Colors.orange,
+                            onRated: (value) {
+                              print("rating value -> $value");
+                              // print("rating value dd -> ${value.truncate()}");
+                            },
+                          ),
+                        ]),
+                        Divider(height: 35, thickness: 1.3),
+                        Obx(() {
+                          if (controller.reviews.isEmpty) {
+                            return CircularLoadingWidget(height: 100);
+                          }
+                          return ListView.separated(
+                            padding: EdgeInsets.all(0),
+                            itemBuilder: (context, index) {
+                              return ReviewItemWidget(
+                                  review: controller.reviews.elementAt(index));
+                            },
+                            separatorBuilder: (context, index) {
+                              return Divider(height: 35, thickness: 1.3);
+                            },
+                            itemCount: controller.reviews.length,
+                            primary: false,
+                            shrinkWrap: true,
+                          );
+                        }),
+                      ],
+                    ),
+                    actions: [
+                      InkWell(
+                        onTap: () {
+                          // Get.offAllNamed(Routes.REGISTER);
+                        },
+                        child:
+                            Text("View All".tr, style: Get.textTheme.subtitle1),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          )),
-    );
+            ),
+          ],
+        ));
     // }
     // });
   }

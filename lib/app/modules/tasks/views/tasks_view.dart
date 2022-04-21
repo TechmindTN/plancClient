@@ -59,7 +59,7 @@ class TasksView extends GetView<TasksController> {
                       color: Get.theme.accentColor.withOpacity(0.2)),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text("Completed".tr,
+                    child: Text("Pending".tr,
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade),
@@ -74,7 +74,7 @@ class TasksView extends GetView<TasksController> {
                       color: Get.theme.accentColor.withOpacity(0.2)),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text("Archived".tr,
+                    child: Text("Completed".tr,
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade),
@@ -88,10 +88,10 @@ class TasksView extends GetView<TasksController> {
                   await controller.getOngoingTasks();
                   break;
                 case 1:
-                  await controller.getCompletedTasks();
+                  await controller.getArchivedTasks();
                   break;
                 case 2:
-                  await controller.getArchivedTasks();
+                  await controller.getCompletedTasks();
               }
             },
           ),

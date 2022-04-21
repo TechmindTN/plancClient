@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/payment_method_model.dart';
 
@@ -29,16 +30,14 @@ class CheckoutController extends GetxController {
 
   TextStyle getTitleTheme(Payment paymentMethod) {
     if (paymentMethod == selectedPaymentMethod.value) {
-      return Get.textTheme.bodyText2
-          .merge(TextStyle(color: Get.theme.primaryColorDark));
+      return Get.textTheme.bodyText2.merge(TextStyle(color: Colors.orange));
     }
     return Get.textTheme.bodyText2;
   }
 
   TextStyle getSubTitleTheme(Payment paymentMethod) {
     if (paymentMethod == selectedPaymentMethod.value) {
-      return Get.textTheme.caption
-          .merge(TextStyle(color: Get.theme.primaryColorDark));
+      return Get.textTheme.caption.merge(TextStyle(color: Colors.orange));
     }
     return Get.textTheme.caption;
   }

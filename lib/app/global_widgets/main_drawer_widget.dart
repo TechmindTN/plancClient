@@ -10,6 +10,7 @@ import '../../common/ui.dart';
 import '../models/Client.dart';
 import '../models/User.dart';
 import '../modules/auth/controllers/auth_controller.dart';
+import '../modules/home/controllers/home_controller.dart';
 import '../modules/root/controllers/root_controller.dart' show RootController;
 import '../routes/app_pages.dart';
 import '../services/settings_service.dart';
@@ -143,6 +144,7 @@ class MainDrawerWidget extends StatelessWidget {
 
                                 Get.offAllNamed(Routes.ROOT);
                                 _authController.update();
+                                Get.find<HomeController>().onInit();
                               },
                               color: Get.theme.accentColor,
                               height: 40,

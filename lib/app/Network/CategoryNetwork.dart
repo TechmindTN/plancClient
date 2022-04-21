@@ -6,7 +6,7 @@ class CategoryNetwork {
   CollectionReference categoryRef =
       FirebaseFirestore.instance.collection('Category');
 
-  getCategoriesByProvider(String id) async {
+  Future<List<Category>> getCategoriesByProvider(String id) async {
     List<Category> categories = [];
     Category category;
     bool parentExist = false;
@@ -26,7 +26,7 @@ class CategoryNetwork {
     // }
     // while(parentExist);
     // print(categories.length);
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 7; i++) {
       parentExist = false;
       DocumentSnapshot snapshot = await categoryRef.doc(id).get();
       category = Category.fromFire(snapshot.data());

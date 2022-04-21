@@ -5,7 +5,7 @@
   "123 Street, City 136, State, Country": "123 Street, City 136, State, Country",
   "Account": "Account",
   "Address": "Address",
-  "Archived": "Archived",
+  "Pending": "Pending",
   "Can I help you something?": "Can I help you something?",
   "Categories": "Categories",
   "Chat": "Chat",
@@ -58,6 +58,7 @@
   "Welcome,": "Welcome,",
   "Your Review": "Your Review",
   "error": "Error",
+  "Not matching !":"Not matching !",
   "Languages": "Languages",
   "CategoryFilter.ALL": "All",
   "CategoryFilter.RATING": "Rating",
@@ -84,7 +85,10 @@
   "Send Reset Link": "Send Reset Link",
   "You don't have an account?": "You don't have an account?",
   "You must login before !":"You must login before !",
+  "When would you like us to come to your address?":"Quand souhaitez-vous que nous venions à votre adresse ?",
 
+  "At What time you are free in your address?":"At What time you are free in your address?",
+  
   "You remember my password!": "You remember my password!",
   "Password": "Password",
   "Forgot Password?": "Forgot Password?",

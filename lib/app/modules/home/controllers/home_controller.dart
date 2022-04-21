@@ -7,10 +7,12 @@ import 'package:home_services/app/their_models/address_model.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/ui.dart';
 import '../../../Network/CategoryNetwork.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../Network/InterventionNetwork.dart';
 import '../../../Network/UserNetwork.dart';
@@ -60,7 +62,8 @@ class HomeController extends GetxController {
   final List list = [];
   final List list1 = [];
   List allproviders = [];
-
+  RxSet<Marker> providers_markers = Set<Marker>().obs;
+  SharedPreferences prefs;
   RxList<Asset> images = <Asset>[].obs;
   HomeController() {
     _userRepo = new UserRepository();
@@ -84,7 +87,6 @@ class HomeController extends GetxController {
         }
       }
     });
-
     // _getAddressFromLatLng();
 
     pro.value = await _userNetwork.getUsersByRole('Professionel');
@@ -136,9 +138,9 @@ class HomeController extends GetxController {
         await placemarkFromCoordinates(position.latitude, position.longitude);
 
     Placemark place = placemarks[0];
-
+    print('place ' + place.toJson().toString());
     presentAddress.value =
-        "${place.locality}, ${place.postalCode}, ${place.country}";
+        "${place.street}, ${place.subAdministrativeArea}, ${place.locality}, ${place.country}";
   }
 
   Future<void> loadAssets() async {
@@ -169,7 +171,7 @@ class HomeController extends GetxController {
   }
 
   Future refreshHome({bool showMessage = false}) async {
-    // await getSlider();
+    await getSlider();
     // await getAddresses();
     await getCategories();
     // await getFeatured();
@@ -196,6 +198,7 @@ class HomeController extends GetxController {
   Future getSlider() async {
     try {
       slider.value = await _sliderRepo.getHomeSlider();
+      update();
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }

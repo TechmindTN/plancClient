@@ -29,8 +29,9 @@ class EntrepriseWidget extends GetWidget<HomeController> {
             child: Row(
               children: [
                 Expanded(
-                    child:
-                        Text("Categories".tr, style: Get.textTheme.headline5)),
+                    child: Text("Categories".tr,
+                        style: Get.textTheme.headline5
+                            .merge(TextStyle(color: Get.theme.focusColor)))),
                 MaterialButton(
                   elevation: 0,
                   onPressed: () {
@@ -49,7 +50,8 @@ class EntrepriseWidget extends GetWidget<HomeController> {
               child: Row(children: [
                 Expanded(
                     child: Text("Recommended for you".tr,
-                        style: Get.textTheme.headline5)),
+                        style: Get.textTheme.headline5
+                            .merge(TextStyle(color: Get.theme.focusColor)))),
               ])),
           GetBuilder<HomeController>(
               init: HomeController(),
@@ -69,14 +71,13 @@ class EntrepriseWidget extends GetWidget<HomeController> {
                               } else {
                                 val.allproviders = snapshot.data.docs;
                                 val.list.clear();
-
                                 for (var i = 0;
                                     i < snapshot.data.docs.length;
                                     i++) {
                                   for (var j = 0;
-                                      j < controller.entreprise.length;
+                                      j < val.entreprise.length;
                                       j++) {
-                                    if (controller.entreprise[j].id ==
+                                    if (val.entreprise[j].id ==
                                         snapshot.data.docs[i]
                                             .data()['user']
                                             .id) {

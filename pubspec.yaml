@@ -24,6 +24,7 @@ dependencies:
   # GET
   get: 4.0.0-nullsafety.2
   get_storage: 2.0.1
+  shared_preferences: ^2.0.13
   # DIO
   dio: 4.0.0-beta7
   dio_http_cache:

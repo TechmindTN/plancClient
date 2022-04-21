@@ -45,7 +45,7 @@ class Client {
         location = fire['location'],
         home_address = fire['home_address'],
         phone = fire['phone'],
-        profile_photo = fire['profile_photo '],
+        profile_photo = fire['profile_photo'],
         id = null,
         gender = fire['gender'],
         social_media = fire['social_media'];
@@ -87,6 +87,5 @@ class Client {
         'home_address': home_address,
         'age': age,
         'city': city,
-        
       };
 }

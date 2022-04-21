@@ -5,7 +5,7 @@
     "123 Street, City 136, State, Country": "rue 123, ville 136, État, Pays",
     "Account": "Compte",
     "Address": "Adresse",
-    "Archived": "Archivé",
+    "Pending": "En attente",
     "Can I help you something?": "Puis-je vous aider quelque chose?",
     "Categories": "Catégories",
     "Chat": "Chat", 
@@ -14,6 +14,8 @@
     "Chats": "Chats",
     "Service Providers":"Fournisseurs",
     "Completed": "Terminé",
+    "Not matching !":"Ne correspond pas au mot de passe  !",
+
     "Dark Theme": "Theme Noir",
     "Description": "Description",
     "Done": "Terminé",
@@ -165,7 +167,8 @@
     "Search": "Rechercher",
     "Please choose your address": "Veuillez choisir votre adresse",
   "Categories of services": "Categories of services",
-  
+  "At What time you are free in your address?":"A quelle heure êtes-vous libre à votre adresse ?",
+
   "Visa Card": "Carte Visa",
   "MasterCard": "MasterCard",
   "Razorpay": "Razorpay",
@@ -190,6 +193,7 @@
   "View More": "Voir Plus",
   
   "Book This Service": "Réservez ce service",
+  "When would you like us to come to your address?":"Quand souhaitez-vous que nous venions à votre adresse ?",
   
   "Favorites": "Favoris",
   "Request an intervention":"Demander une intervention",

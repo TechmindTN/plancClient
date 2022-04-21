@@ -51,13 +51,17 @@ class ServiceProviderNetwork {
         // List<Category> categories = [];
         // serviceProvider.categories = categories;
         List<Category> categories = [];
-        List<dynamic> drList = snapshot.docs.first['categories'];
+        List<dynamic> drList = element['categories'];
+        print('service prov name ' +
+            serviceProvider.name +
+            'drlist' +
+            drList.toString());
         drList.forEach((element) async {
           Category category =
               await categoryServices.getCategoryById(element.id);
           categories.add(category);
         });
-        serviceProvider.categories = categories;
+
         // drList.forEach((value) async {
         //   Category category = Category(name: '', parent: null, id: value.id);
         //   category = await categoryServices.getCategoryById(category.id ?? '');
@@ -85,7 +89,11 @@ class ServiceProviderNetwork {
 
         serviceProvider.categories = categories;
         providers.add(serviceProvider);
-
+        print('prov length all ' + providers.length.toString());
+        print('service prov name ' +
+            serviceProvider.name +
+            'catlist' +
+            serviceProvider.categories.toString());
         // index++;
       });
       print('providers done');
@@ -196,5 +204,15 @@ class ServiceProviderNetwork {
     serviceProvider.categories = categories;
 
     return serviceProvider;
+  }
+
+  Future<List<ServiceProvider>> getProvidersByCategory(
+      List<ServiceProvider> list, DocumentReference dr) {
+    List<ServiceProvider> category_providers;
+    list.forEach((element) {
+      if (element.categories.contains(dr)) {
+        category_providers.add(element);
+      }
+    });
   }
 }
