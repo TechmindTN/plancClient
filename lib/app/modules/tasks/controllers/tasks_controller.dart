@@ -29,12 +29,17 @@ class TasksController extends GetxController {
   // final selectedOngoingTask = Task().obs;
   // final selectedCompletedTask = Task().obs;
   // final selectedArchivedTask = Task().obs;
-
+  RxList<Intervention> OngoingTasks = <Intervention>[].obs;
   @override
   void onInit() async {
     print('bookings');
 
-    bookings.value = Get.find<HomeController>().interventions;
+    bookings.value = Get.find<HomeController>()
+        .interventions
+        .takeWhile((element) => element.states == "pending")
+        .toList();
+    OngoingTasks.value =
+        bookings.value.takeWhile((value) => value.states == 'ongoing').toList();
     super.onInit();
   }
 
@@ -99,7 +104,7 @@ class TasksController extends GetxController {
   // }
 
   Future<void> getCompletedTasks({bool showMessage = false}) async {
-    completedTasks.value = await _taskRepository.getCompletedTasks();
+    // completedTasks.value = await _taskRepository.getCompletedTasks();
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
@@ -108,11 +113,15 @@ class TasksController extends GetxController {
   }
 
   Future<void> getArchivedTasks({bool showMessage = false}) async {
-    archivedTasks.value = await _taskRepository.getArchivedTasks();
+    // archivedTasks.value = await _taskRepository.getArchivedTasks();
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
     }
     //selectedArchivedTask.value = archivedTasks.isNotEmpty ? archivedTasks.first : new Task();
+  }
+
+  updateFireintervention(String id) async {
+    await interventionNetwork.updateIntervention(id);
   }
 }

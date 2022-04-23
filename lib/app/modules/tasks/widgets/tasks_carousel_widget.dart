@@ -7,7 +7,9 @@ import 'package:home_services/app/their_models/task_model.dart';
 import '../../../../common/ui.dart';
 import '../../../global_widgets/circular_loading_widget.dart';
 import '../../../models/Intervention.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/tasks_controller.dart';
+import '../views/bill_view.dart';
 import 'task_row_widget.dart';
 
 class TasksCarouselWidget extends StatelessWidget {
@@ -286,8 +288,72 @@ class TasksCarouselWidget extends StatelessWidget {
                           value: val.selectedTask.value.description,
                           hasDivider: true),
                       TaskRowWidget(
-                          description: "Status".tr,
-                          value: val.selectedTask.value.states),
+                        description: "Status".tr,
+                        value: val.selectedTask.value.states.tr,
+                        hasDivider: true,
+                      ),
+                      val.selectedTask.value.bill != null
+                          ? Column(children: [
+                              TaskRowWidget(
+                                description: "Total price",
+                                value: val.selectedTask.value.bill.total_price
+                                        .toString() +
+                                    ' tnd',
+                                hasDivider: true,
+                              ),
+                              Row(children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Bill ',
+                                      style: Get.textTheme.bodyText1,
+                                    )),
+                                Expanded(
+                                    flex: 2,
+                                    child: TextButton(
+                                        style: ButtonStyle(
+                                            alignment: Alignment.bottomRight),
+                                        onPressed: () {
+                                          Get.toNamed(Routes.BILL,
+                                              arguments:
+                                                  val.selectedTask.value.bill);
+                                        },
+                                        child: Text(
+                                          'View Bill',
+                                          textAlign: TextAlign.end,
+                                        )))
+                              ]),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                      child: ElevatedButton(
+                                    onPressed: () async {
+                                      val.OngoingTasks.add(
+                                          val.selectedTask.value);
+
+                                      val.bookings
+                                          .remove(val.selectedTask.value);
+                                      await val.updateFireintervention(
+                                          val.selectedTask.value.id);
+
+                                      val.update();
+                                      DefaultTabController.of(context)
+                                          .animateTo(1);
+                                    },
+                                    child: Text('Accept'),
+                                  )),
+                                  Expanded(
+                                      child: ElevatedButton(
+                                    onPressed: () {},
+                                    child: Text('Decline'),
+                                  ))
+                                ],
+                              )
+                            ])
+                          : SizedBox()
                     ],
                   ),
                 );

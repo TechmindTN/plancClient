@@ -73,9 +73,11 @@ class InterventionNetwork {
 
       //get bill
       dr = element['bill'];
+      if (dr != null) {
+        Bill bill = await billServices.getBillById(dr.id);
+        intervention.bill = bill;
+      }
 
-      // Bill bill = await billServices.getBillById(dr.id);
-      // intervention.bill = bill;
       interventions.add(intervention);
     });
     print('leeen' + interventions.length.toString());
@@ -113,5 +115,9 @@ class InterventionNetwork {
     intervention.bill = bill;
     print(intervention.description);
     return intervention;
+  }
+
+  Future<void> updateIntervention(String id) async {
+    await InterventionsRef.doc(id).update({"states": "ongoing"});
   }
 }

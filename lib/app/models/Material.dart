@@ -8,11 +8,11 @@ class Material {
 
   Material(
       {this.id,
-       this.name,
-       this.supplier,
-       this.price,
-       this.description,
-       this.media});
+      this.name,
+      this.supplier,
+      this.price,
+      this.description,
+      this.media});
 
   Material.fromFire(fire)
       : name = fire['name'],
@@ -33,12 +33,11 @@ class Material {
     });
 
     Map<String, dynamic> tofire() => {
-        'name': name,
-        'supplier': supplier,
-        'price': price,
-        'description': description,
-        'media': media,
-        
-      };
+          'name': name,
+          'supplier': supplier,
+          'price': price,
+          'description': description,
+          'media': media,
+        };
   }
 }

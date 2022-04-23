@@ -6,14 +6,15 @@ import 'package:home_services/app/their_models/task_model.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../common/ui.dart';
+import '../../../models/Intervention.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/tasks_controller.dart';
 
 class TasksListWidget extends StatelessWidget {
   final controller = Get.find<TasksController>();
-  final List<Task> tasks;
+  final List<Intervention> tasks;
 
-  TasksListWidget({Key key, List<Task> this.tasks}) : super(key: key);
+  TasksListWidget({Key key, List<Intervention> this.tasks}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class TasksListWidget extends StatelessWidget {
                     height: 70,
                     width: 70,
                     fit: BoxFit.cover,
-                    imageUrl: _task.eService?.profile_photo,
+                    imageUrl: _task.provider?.profile_photo,
                     placeholder: (context, url) => Image.asset(
                       'assets/img/loading.gif',
                       fit: BoxFit.cover,
@@ -58,7 +59,7 @@ class TasksListWidget extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            _task.eService?.name ?? '',
+                            _task.provider?.name ?? '',
                             style: Get.textTheme.bodyText2,
                             maxLines: 3,
                             // textAlign: TextAlign.end,
@@ -91,7 +92,7 @@ class TasksListWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '${_task.dateTime}',
+                            '${_task.datetime.toDate().toString()}',
                             style: Get.textTheme.caption,
                           ),
                         ],
@@ -108,29 +109,29 @@ class TasksListWidget extends StatelessWidget {
                               style: Get.textTheme.headline6),
                         ],
                       ),
-                      Wrap(
-                        spacing: 10,
-                        children: [
-                          MaterialButton(
-                            elevation: 0,
-                            onPressed: () {
-                              Get.toNamed(Routes.RATING, arguments: _task);
-                            },
-                            shape: StadiumBorder(),
-                            color: Get.theme.accentColor.withOpacity(0.1),
-                            child: Text("Rating".tr,
-                                style: Get.textTheme.subtitle1),
-                          ),
-                          MaterialButton(
-                            elevation: 0,
-                            onPressed: () {},
-                            shape: StadiumBorder(),
-                            color: Get.theme.accentColor.withOpacity(0.1),
-                            child: Text("Re-Booking".tr,
-                                style: Get.textTheme.subtitle1),
-                          ),
-                        ],
-                      )
+                      // Wrap(
+                      //   spacing: 10,
+                      //   children: [
+                      //     MaterialButton(
+                      //       elevation: 0,
+                      //       onPressed: () {
+                      //         Get.toNamed(Routes.RATING, arguments: _task);
+                      //       },
+                      //       shape: StadiumBorder(),
+                      //       color: Get.theme.accentColor.withOpacity(0.1),
+                      //       child: Text("Rating".tr,
+                      //           style: Get.textTheme.subtitle1),
+                      //     ),
+                      //     MaterialButton(
+                      //       elevation: 0,
+                      //       onPressed: () {},
+                      //       shape: StadiumBorder(),
+                      //       color: Get.theme.accentColor.withOpacity(0.1),
+                      //       child: Text("Re-Booking".tr,
+                      //           style: Get.textTheme.subtitle1),
+                      //     ),
+                      //   ],
+                      // )
                     ],
                   ),
                 ),

@@ -39,6 +39,7 @@ import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/language_view.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/settings/views/theme_mode_view.dart';
+import '../modules/tasks/views/bill_view.dart';
 
 part 'app_routes.dart';
 
@@ -86,6 +87,7 @@ class AppPages {
         name: Routes.REGISTER2,
         page: () => RegisterView2(),
         binding: AuthBinding()),
+    GetPage(name: Routes.BILL, page: () => BillView(), binding: AuthBinding()),
     GetPage(
         name: Routes.FORGOT_PASSWORD,
         page: () => ForgotPasswordView(),

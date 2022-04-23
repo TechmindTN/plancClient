@@ -127,7 +127,7 @@ class BookEServiceController extends GetxController {
       description: description,
       bill: null,
       price: null,
-      states: 'en cours',
+      states: 'pending',
     );
 
     var data = intervention.value.tofire();

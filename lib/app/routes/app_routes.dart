@@ -27,6 +27,7 @@ abstract class Routes {
   static const NOTIFICATIONS = '/notifications';
   static const FAVORITES = '/favorites';
   static const HELP = '/help';
+  static const BILL = '/bill';
   static const PRIVACY = '/privacy';
   static const E_PROVIDER = '/e-provider';
   static const E_PROVIDER_E_SERVICES = '/e-provider/e-services';

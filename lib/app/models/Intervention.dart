@@ -20,7 +20,7 @@ class Intervention {
   final GeoPoint location;
   final String country;
   final String city;
-  final String states;
+  String states;
   final int zip_code;
   final String address;
   Timestamp datetime;

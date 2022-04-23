@@ -34,7 +34,7 @@ class TaskRowWidget extends StatelessWidget {
                 flex: 2,
                 child: child ??
                     Text(
-                      value,
+                      value ?? '',
                       style: valueStyle ?? Get.textTheme.bodyText2,
                       maxLines: 3,
                       textAlign: TextAlign.end,
