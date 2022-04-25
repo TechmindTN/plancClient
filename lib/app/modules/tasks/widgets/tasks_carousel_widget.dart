@@ -327,6 +327,8 @@ class TasksCarouselWidget extends StatelessWidget {
                                 height: 5,
                               ),
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                       child: ElevatedButton(

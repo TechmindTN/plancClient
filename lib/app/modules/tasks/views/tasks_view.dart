@@ -85,10 +85,10 @@ class TasksView extends GetView<TasksController> {
             onTap: (index) async {
               switch (index) {
                 case 0:
-                  await controller.getOngoingTasks();
+                  await controller.getPendingTasks();
                   break;
                 case 1:
-                  await controller.getArchivedTasks();
+                  await controller.getOngoingTasks();
                   break;
                 case 2:
                   await controller.getCompletedTasks();
@@ -116,9 +116,9 @@ class TasksView extends GetView<TasksController> {
               ),
               RefreshIndicator(
                 onRefresh: () async {
-                  await controller.getArchivedTasks(showMessage: true);
+                  await controller.CompletedTasks.refresh();
                 },
-                child: TasksListWidget(tasks: controller.OngoingTasks),
+                child: TasksListWidget(tasks: controller.CompletedTasks),
               ),
             ],
           ),

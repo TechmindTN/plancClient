@@ -30,30 +30,43 @@ class TasksController extends GetxController {
   // final selectedCompletedTask = Task().obs;
   // final selectedArchivedTask = Task().obs;
   RxList<Intervention> OngoingTasks = <Intervention>[].obs;
+  RxList<Intervention> CompletedTasks = <Intervention>[].obs;
+
   @override
   void onInit() async {
-    print('bookings');
+    for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
+      if (Get.find<HomeController>().interventions.value[i].states ==
+          "pending") {
+        bookings.value.add(Get.find<HomeController>().interventions.value[i]);
+      } else {
+        if (Get.find<HomeController>().interventions.value[i].states ==
+            "ongoing") {
+          OngoingTasks.value
+              .add(Get.find<HomeController>().interventions.value[i]);
+        } else {
+          CompletedTasks.value
+              .add(Get.find<HomeController>().interventions.value[i]);
+        }
+      }
+    }
+    Get.find<HomeController>().interventions.value.forEach((element) {
+      print('elem book ' + element.states);
+    });
 
-    bookings.value = Get.find<HomeController>()
-        .interventions
-        .takeWhile((element) => element.states == "pending")
-        .toList();
-    OngoingTasks.value =
-        bookings.value.takeWhile((value) => value.states == 'ongoing').toList();
     super.onInit();
   }
 
   Future refreshTasks({bool showMessage = false}) async {
+    await getPendingTasks();
     await getOngoingTasks();
-    await getCompletedTasks();
-    await getArchivedTasks();
+
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
     }
   }
 
-  Future getOngoingTasks({bool showMessage = false}) async {
+  Future getPendingTasks({bool showMessage = false}) async {
     // QuerySnapshot snaps = await _interventionNetwork.InterventionsRef.get();
     // Intervention i;
     // snaps.docs.forEach((element) async {
@@ -69,8 +82,13 @@ class TasksController extends GetxController {
     // _interventionNetwork
     //   bookings.value.add(i);
     // });
-    bookings.value = Get.find<HomeController>().interventions;
-
+    bookings.clear();
+    for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
+      if (Get.find<HomeController>().interventions.value[i].states ==
+          "pending") {
+        bookings.value.add(Get.find<HomeController>().interventions.value[i]);
+      }
+    }
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
@@ -103,8 +121,15 @@ class TasksController extends GetxController {
   //   return c;
   // }
 
-  Future<void> getCompletedTasks({bool showMessage = false}) async {
-    // completedTasks.value = await _taskRepository.getCompletedTasks();
+  getOngoingTasks({bool showMessage = false}) {
+    OngoingTasks.clear();
+    for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
+      if (Get.find<HomeController>().interventions.value[i].states ==
+          "ongoing") {
+        OngoingTasks.value
+            .add(Get.find<HomeController>().interventions.value[i]);
+      }
+    }
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
@@ -112,8 +137,15 @@ class TasksController extends GetxController {
     //selectedCompletedTask.value = completedTasks.isNotEmpty ? completedTasks.first : new Task();
   }
 
-  Future<void> getArchivedTasks({bool showMessage = false}) async {
-    // archivedTasks.value = await _taskRepository.getArchivedTasks();
+  Future<void> getCompletedTasks({bool showMessage = false}) async {
+    completedTasks.clear();
+    for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
+      if (Get.find<HomeController>().interventions.value[i].states ==
+          "completed") {
+        CompletedTasks.value
+            .add(Get.find<HomeController>().interventions.value[i]);
+      }
+    }
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
