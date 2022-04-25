@@ -16,13 +16,13 @@ class Intervention {
   final double price;
   List<dynamic> media;
   final Timestamp creation_date;
-  final String state;
+  String state;
   final GeoPoint location;
-  final String country;
-  final String city;
-  final String states;
-  final int zip_code;
-  final String address;
+  String country;
+  String city;
+  String states;
+  int zip_code;
+  String address;
   Timestamp datetime;
 
   Intervention(
@@ -50,13 +50,9 @@ class Intervention {
         description = fire['description'],
         price = fire['price'],
         creation_date = fire['creation_date'],
-        city = fire['city'],
         states = fire['states'],
-        zip_code = fire['zip_code'],
         location = fire['location'],
         address = fire['address'],
-        country = fire['country'],
-        state = fire['state'],
         id = null,
         datetime = fire['date_time'];
   // provider = fire['provider'],

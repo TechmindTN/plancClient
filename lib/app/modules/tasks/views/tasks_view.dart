@@ -44,7 +44,7 @@ class TasksView extends GetView<TasksController> {
                       color: Get.theme.accentColor.withOpacity(0.2)),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text("Ongoing".tr,
+                    child: Text("Pending".tr,
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade),
@@ -59,7 +59,7 @@ class TasksView extends GetView<TasksController> {
                       color: Get.theme.accentColor.withOpacity(0.2)),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text("Pending".tr,
+                    child: Text("Ongoing".tr,
                         maxLines: 1,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade),
@@ -85,10 +85,10 @@ class TasksView extends GetView<TasksController> {
             onTap: (index) async {
               switch (index) {
                 case 0:
-                  await controller.getOngoingTasks();
+                  await controller.getPendingTasks();
                   break;
                 case 1:
-                  await controller.getArchivedTasks();
+                  await controller.getOngoingTasks();
                   break;
                 case 2:
                   await controller.getCompletedTasks();
@@ -102,7 +102,7 @@ class TasksView extends GetView<TasksController> {
             children: [
               RefreshIndicator(
                 onRefresh: () async {
-                  await controller.getOngoingTasks(showMessage: true);
+                  await controller.bookings.refresh();
                 },
                 child: SingleChildScrollView(
                   child: TasksCarouselWidget(),
@@ -110,15 +110,15 @@ class TasksView extends GetView<TasksController> {
               ),
               RefreshIndicator(
                 onRefresh: () async {
-                  await controller.getCompletedTasks(showMessage: true);
+                  await controller.OngoingTasks.refresh();
                 },
-                child: TasksListWidget(tasks: controller.completedTasks),
+                child: TasksListWidget(tasks: controller.OngoingTasks),
               ),
               RefreshIndicator(
                 onRefresh: () async {
-                  await controller.getArchivedTasks(showMessage: true);
+                  await controller.CompletedTasks.refresh();
                 },
-                child: TasksListWidget(tasks: controller.archivedTasks),
+                child: TasksListWidget(tasks: controller.CompletedTasks),
               ),
             ],
           ),
