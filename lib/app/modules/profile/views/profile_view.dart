@@ -122,16 +122,7 @@ class ProfileView extends GetView<ProfileController> {
                   labelText: "Email".tr,
                   iconData: Icons.alternate_email,
                 ),
-                TextFieldWidget(
-                  onSaved: (input) => controller.currentProfile.country = input,
-                  validator: (input) => input.length < 3
-                      ? "Should be more than 3 letters".tr
-                      : null,
-                  initialValue: controller.currentProfile.country,
-                  hintText: "Tunisie".tr,
-                  labelText: "Country".tr,
-                  iconData: Icons.person_outline,
-                ),
+
                 TextFieldWidget(
                   onSaved: (input) =>
                       controller.currentProfile.home_address = input,
@@ -143,6 +134,15 @@ class ProfileView extends GetView<ProfileController> {
                   labelText: "Home address".tr,
                   iconData: Icons.person_outline,
                 ),
+                TextFieldWidget(
+                    onSaved: (input) =>
+                        controller.currentProfile.phone = int.parse(input),
+                    validator: (input) =>
+                        input.length < 3 ? "Should  8 numbers".tr : null,
+                    initialValue: controller.currentProfile.phone.toString(),
+                    hintText: "Phone number".tr,
+                    labelText: "Phone number".tr,
+                    iconData: Icons.phone),
                 TextFieldWidget(
                   onSaved: (input) => controller
                       .currentProfile.social_media['facebook'] = input,
@@ -167,15 +167,6 @@ class ProfileView extends GetView<ProfileController> {
                   labelText: "Instagram Account".tr,
                   iconData: Icons.message_rounded,
                 ),
-                TextFieldWidget(
-                    onSaved: (input) =>
-                        controller.currentProfile.phone = int.parse(input),
-                    validator: (input) =>
-                        input.length < 3 ? "Should  8 numbers".tr : null,
-                    initialValue: controller.currentProfile.phone.toString(),
-                    hintText: "Phone number".tr,
-                    labelText: "Phone number".tr,
-                    iconData: Icons.phone),
 
                 // TextFieldWidget(
                 //   keyboardType: TextInputType.phone,

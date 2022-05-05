@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_services/app/their_models/chat_model.dart';
-import 'package:home_services/app/their_models/message_model.dart';
+import '../../../Network/ChatNetwork.dart';
+import '../../../models/Chat.dart';
+import '../../../Network/UserNetwork.dart';
+
+import '../../../models/Message.dart';
 
 import '../../../models/Client.dart';
 import '../../../models/User.dart';
@@ -11,8 +14,10 @@ import '../../auth/controllers/auth_controller.dart';
 // import '../repository/notification_repository.dart';
 
 class MessagesController extends GetxController {
-  var message = Message([]).obs;
-  ChatRepository _chatRepository;
+  var message = Message().obs;
+  ChatNetwork _chatNetwork;
+  UserNetwork userNetwork;
+
   AuthService _authService;
   AuthController _authController;
 
@@ -22,7 +27,7 @@ class MessagesController extends GetxController {
   Client client;
   User user;
   MessagesController() {
-    _chatRepository = new ChatRepository();
+    userNetwork = new UserNetwork();
     _authService = Get.find<AuthService>();
     _authController = Get.find<AuthController>();
   }
@@ -34,7 +39,6 @@ class MessagesController extends GetxController {
     client = Get.find<AuthController>().currentProfile;
     user = Get.find<AuthController>().currentuser;
 
-    await listenForMessages();
     super.onInit();
   }
 
@@ -48,50 +52,49 @@ class MessagesController extends GetxController {
 //    _chatRepository.signInWithToken(_authService.user.value.apiToken);
   }
 
-  Future createMessage(Message _message) async {
-    print(_message);
-    _message.lastMessageTime = DateTime.now().toUtc().millisecondsSinceEpoch;
-    _message.readByUsers = [user.id];
+  // Future createMessage(Message _message) async {
+  //   print(_message);
+  //   _message.lastMessageTime = DateTime.now().toUtc().millisecondsSinceEpoch;
 
-    message.value = _message;
+  //   message.value = _message;
 
-    _chatRepository.createMessage(_message).then((value) {
-      listenForChats(_message);
-    });
-  }
+  //   _chatRepository.createMessage(_message).then((value) {
+  //     listenForChats(_message);
+  //   });
+  // }
 
-  Future listenForMessages() async {
-    _chatRepository.getUserMessages(user.id).listen((event) {
-      event.sort((Message a, Message b) {
-        return b.lastMessageTime.compareTo(a.lastMessageTime);
-      });
-      messages.value = event;
-    });
-  }
+  // Future listenForMessages() async {
+  //   _chatRepository.getUserMessages(user.id).listen((event) {
+  //     event.sort((Message a, Message b) {
+  //       return b.lastMessageTime.compareTo(a.lastMessageTime);
+  //     });
+  //     messages.value = event;
+  //   });
+  // }
 
-  listenForChats(Message _message) async {
-    _message.readByUsers.add(_authService.user.value.id);
-    _chatRepository.getChats(_message).listen((event) {
-      chats.value = event;
-    });
-  }
+  // listenForChats(String id) async {
+  //   chats.value = await userNetwork.getUserChats(id);
+  //   chats.value.forEach((element) {
+  //     messages = (element.conversation);
+  //   });
+  // }
 
-  addMessage(Message _message, String text) {
-    Chat _chat =
-        new Chat(text, DateTime.now().toUtc().millisecondsSinceEpoch, user.id);
-    if (_message.id == null) {
-      _message.id = UniqueKey().toString();
-      createMessage(_message);
-    }
-    _message.lastMessage = text;
-    _message.lastMessageTime = _chat.time;
-    _message.readByUsers = [_authService.user.value.id];
-    _chatRepository.addMessage(_message, _chat).then((value) {
-      _message.users.forEach((_user) {
-        if (_user.id != _authService.user.value.id) {
-          //sendNotification(text, "New Message From".tr + " " + _authService.user.value.name, _user);
-        }
-      });
-    });
-  }
+  addMessage(Message _message, String text) {}
+  //   Chat _chat =
+  //       new Chat(text, DateTime.now().toUtc().millisecondsSinceEpoch, user.id);
+  //   if (_message.id == null) {
+  //     _message.id = UniqueKey().toString();
+  //     createMessage(_message);
+  //   }
+  //   _message.lastMessage = text;
+  //   _message.lastMessageTime = _chat.time;
+  //   _message.readByUsers = [_authService.user.value.id];
+  //   _chatRepository.addMessage(_message, _chat).then((value) {
+  //     _message.users.forEach((_user) {
+  //       if (_user.id != _authService.user.value.id) {
+  //         //sendNotification(text, "New Message From".tr + " " + _authService.user.value.name, _user);
+  //       }
+  //     });
+  //   });
+  // }
 }

@@ -34,31 +34,14 @@ class TasksController extends GetxController {
 
   @override
   void onInit() async {
-    for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
-      if (Get.find<HomeController>().interventions.value[i].states ==
-          "pending") {
-        bookings.value.add(Get.find<HomeController>().interventions.value[i]);
-      } else {
-        if (Get.find<HomeController>().interventions.value[i].states ==
-            "ongoing") {
-          OngoingTasks.value
-              .add(Get.find<HomeController>().interventions.value[i]);
-        } else {
-          CompletedTasks.value
-              .add(Get.find<HomeController>().interventions.value[i]);
-        }
-      }
-    }
-    Get.find<HomeController>().interventions.value.forEach((element) {
-      print('elem book ' + element.states);
-    });
-
+    await refreshTasks();
     super.onInit();
   }
 
   Future refreshTasks({bool showMessage = false}) async {
     await getPendingTasks();
     await getOngoingTasks();
+    await getCompletedTasks();
 
     if (showMessage) {
       Get.showSnackbar(
@@ -138,14 +121,17 @@ class TasksController extends GetxController {
   }
 
   Future<void> getCompletedTasks({bool showMessage = false}) async {
-    completedTasks.clear();
+    CompletedTasks.clear();
+
     for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
       if (Get.find<HomeController>().interventions.value[i].states ==
-          "completed") {
-        CompletedTasks.value
-            .add(Get.find<HomeController>().interventions.value[i]);
+              "completed" ||
+          Get.find<HomeController>().interventions.value[i].states ==
+              "refused") {
+        CompletedTasks.add(Get.find<HomeController>().interventions.value[i]);
       }
     }
+
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
@@ -153,7 +139,7 @@ class TasksController extends GetxController {
     //selectedArchivedTask.value = archivedTasks.isNotEmpty ? archivedTasks.first : new Task();
   }
 
-  updateFireintervention(String id) async {
-    await interventionNetwork.updateIntervention(id);
+  updateFireintervention(String id, int number, ServiceProvider prov) async {
+    await interventionNetwork.updateIntervention(id, number, prov);
   }
 }

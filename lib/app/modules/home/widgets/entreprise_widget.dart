@@ -18,6 +18,7 @@ class EntrepriseWidget extends GetWidget<HomeController> {
   UserNetwork userServices = UserNetwork();
 
   List<Widget> recWidgets = [];
+
   @override
   Widget build(BuildContext context) {
     return Container(

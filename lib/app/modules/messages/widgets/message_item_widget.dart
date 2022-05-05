@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_services/app/their_models/message_model.dart';
+import '../../../models/Message.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../common/ui.dart';
@@ -42,15 +42,15 @@ class MessageItemWidget extends GetWidget<MessagesController> {
           // Then show a snackbar.
           Get.showSnackbar(Ui.SuccessSnackBar(
               message:
-                  "The conversation with ${this.message.name} is dismissed"));
+                  "The conversation with ${this.message.sent_by.username} is dismissed"));
         },
         child: Container(
           padding: EdgeInsets.all(12),
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          decoration: Ui.getBoxDecoration(
-              color: this.message.readByUsers.contains(controller.user.id)
-                  ? Get.theme.primaryColor
-                  : Get.theme.accentColor.withOpacity(0.05)),
+          // decoration: Ui.getBoxDecoration(
+          //     color: this.message.readByUsers.contains(controller.user.id)
+          //         ? Get.theme.primaryColor
+          //         : Get.theme.accentColor.withOpacity(0.05)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
@@ -109,23 +109,17 @@ class MessageItemWidget extends GetWidget<MessagesController> {
                       children: [
                         Expanded(
                           child: Text(
-                            this.message.name,
+                            this.message.sent_by.username,
                             overflow: TextOverflow.fade,
                             softWrap: false,
-                            style: Get.textTheme.bodyText1.merge(TextStyle(
-                                fontWeight: this
-                                        .message
-                                        .readByUsers
-                                        .contains(controller.user.id)
-                                    ? FontWeight.w400
-                                    : FontWeight.w800)),
+                            style: Get.textTheme.bodyText1
+                                .merge(TextStyle(fontWeight: FontWeight.w800)),
                           ),
                         ),
                         Text(
                           DateFormat('HH:mm').format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  this.message.lastMessageTime,
-                                  isUtc: true)),
+                            this.message.time.toDate(),
+                          ),
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Get.textTheme.caption,
@@ -137,23 +131,17 @@ class MessageItemWidget extends GetWidget<MessagesController> {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            this.message.lastMessage,
+                            this.message.content,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
-                            style: Get.textTheme.caption.merge(TextStyle(
-                                fontWeight: this
-                                        .message
-                                        .readByUsers
-                                        .contains(controller.user.id)
-                                    ? FontWeight.w400
-                                    : FontWeight.w800)),
+                            style: Get.textTheme.caption
+                                .merge(TextStyle(fontWeight: FontWeight.w800)),
                           ),
                         ),
                         Text(
-                          DateFormat('dd-MM-yyyy').format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  this.message.lastMessageTime,
-                                  isUtc: true)),
+                          DateFormat('HH:mm').format(
+                            this.message.time.toDate(),
+                          ),
                           overflow: TextOverflow.fade,
                           softWrap: false,
                           style: Get.textTheme.caption,

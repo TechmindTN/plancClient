@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:home_services/app/Network/RoleNetwork.dart';
 import 'package:home_services/app/models/Role.dart';
 
+import '../models/Chat.dart';
 import '../models/Client.dart';
+import '../models/Message.dart';
 import '../models/User.dart';
+import 'MessageNetwork.dart';
 
 class UserNetwork {
   static DocumentReference dr;
@@ -13,6 +16,7 @@ class UserNetwork {
   CollectionReference clientRef =
       FirebaseFirestore.instance.collection('Client');
   RoleNetwork roleServices = RoleNetwork();
+  MessageNetwork _messageNetwork = MessageNetwork();
 
   getClientRoleByName(String name) async {
     Role r;
@@ -154,4 +158,19 @@ class UserNetwork {
 
     return users;
   }
+
+  // Future<List<Chat>> getUserChats(String id) async {
+  //   List<Chat> ChatList = [];
+  //   var ref = getUserRef(id);
+  //   QuerySnapshot q = await usersRef.doc(id).collection('Chat').get();
+  //   q.docs.forEach((element) async {
+  //     Chat c = Chat();
+  //     c.id = element.id;
+  //     var user = await getUserById(element.data()['user'].id);
+  //     List<Message> list = _messageNetwork.getChatMessages(c.id, id);
+  //     c.user = (user);
+  //     c.conversation = list;
+  //     ChatList.add(c);
+  //   });
+  // }
 }

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/modules/e_service/controllers/e_service_controller.dart';
@@ -10,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/ui.dart';
+import '../../../../main.dart';
 import '../../../Network/CategoryNetwork.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -65,6 +68,7 @@ class HomeController extends GetxController {
   RxSet<Marker> providers_markers = Set<Marker>().obs;
   SharedPreferences prefs;
   RxList<Asset> images = <Asset>[].obs;
+  List cards = [];
   HomeController() {
     _userRepo = new UserRepository();
     _sliderRepo = new SliderRepository();
@@ -115,7 +119,77 @@ class HomeController extends GetxController {
     prov = await eServiceController.getProviders();
 
     await refreshHome();
+    FirebaseMessaging.instance.getInitialMessage();
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      description:
+          'This channel is used for important notifications.', // description
+      importance: Importance.max,
+    );
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    var initialzationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initialzationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
+      if (notification != null && android != null) {
+        print('messaaaaaaaaaaaaage: ' + notification.title);
+
+        print('notification hashsss ' + notification.hashCode.toString());
+        print('boooodddd: ' + notification.body);
+        print('channel id: ' + channel.id);
+        print('channel name: ' + channel.name);
+        print('channel desc: ' + channel.description);
+
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                icon: "@mipmap/ic_launcher",
+                // other properties...
+              ),
+            ));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      if (message.data != null) {
+        Get.toNamed(message.data['route']);
+      }
+    });
+
     super.onInit();
+  }
+
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    print('Handling a background message ${message.messageId}');
+  }
+
+  Future<void> refreshIntervention() async {
+    interventions.value.clear();
+    interventions.value =
+        await _interventionNetwork.getInterventionsList(client.value.id);
   }
 
   getPresentAddress() {

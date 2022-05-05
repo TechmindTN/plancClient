@@ -305,7 +305,7 @@ class TasksCarouselWidget extends StatelessWidget {
                                 Expanded(
                                     flex: 1,
                                     child: Text(
-                                      'Bill ',
+                                      'Bill'.tr,
                                       style: Get.textTheme.bodyText1,
                                     )),
                                 Expanded(
@@ -319,7 +319,7 @@ class TasksCarouselWidget extends StatelessWidget {
                                                   val.selectedTask.value.bill);
                                         },
                                         child: Text(
-                                          'View Bill',
+                                          'Voir Facture',
                                           textAlign: TextAlign.end,
                                         )))
                               ]),
@@ -333,15 +333,15 @@ class TasksCarouselWidget extends StatelessWidget {
                                   Expanded(
                                       child: ElevatedButton(
                                     onPressed: () async {
+                                      val.selectedTask.value.states = 'ongoing';
                                       val.OngoingTasks.add(
                                           val.selectedTask.value);
 
-                                      val.bookings
-                                          .remove(val.selectedTask.value);
-                                      await val.updateFireintervention(
-                                          val.selectedTask.value.id);
-
                                       val.update();
+                                      await val.updateFireintervention(
+                                          val.selectedTask.value.id,
+                                          1,
+                                          val.selectedTask.value.provider);
                                       DefaultTabController.of(context)
                                           .animateTo(1);
                                     },
@@ -349,7 +349,20 @@ class TasksCarouselWidget extends StatelessWidget {
                                   )),
                                   Expanded(
                                       child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      val.selectedTask.value.states = 'refused';
+                                      val.CompletedTasks.add(
+                                          val.selectedTask.value);
+                                      val.update();
+                                      await val.updateFireintervention(
+                                          val.selectedTask.value.id,
+                                          2,
+                                          val.selectedTask.value.provider);
+                                      val.update();
+                                      val.bookings.refresh();
+                                      DefaultTabController.of(context)
+                                          .animateTo(2);
+                                    },
                                     child: Text('Decline'),
                                   ))
                                 ],

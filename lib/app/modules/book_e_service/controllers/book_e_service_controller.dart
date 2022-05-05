@@ -20,6 +20,7 @@ import '../../../models/Provider.dart';
 import '../../../services/auth_service.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../home/controllers/home_controller.dart';
+import '../../tasks/controllers/tasks_controller.dart';
 
 class BookEServiceController extends GetxController {
   InterventionNetwork _interventionNetwork = InterventionNetwork();
@@ -117,6 +118,7 @@ class BookEServiceController extends GetxController {
   }
 
   addIntervention() async {
+    bool ok = true;
     Media media = Media();
     intervention.value = Intervention(
       creation_date: Timestamp.now(),
@@ -136,6 +138,7 @@ class BookEServiceController extends GetxController {
     if (service != null) {
       data["provider"] = firestore.doc('Provider/' + service.id);
     } else {
+      ok = false;
       intervention.value.provider = null;
     }
     var cat;
@@ -147,7 +150,8 @@ class BookEServiceController extends GetxController {
     data["category"] = firestore.doc('Category/' + cat);
 
     print('data ' + data.toString());
-    await _interventionNetwork.addIntervention(data).then((val) => {
+
+    await _interventionNetwork.addIntervention(data, ok).then((val) => {
           filelist.forEach((element) async {
             await uploadFile(element).then((value) {
               media = Media(type: 'image', url: value);
@@ -158,8 +162,7 @@ class BookEServiceController extends GetxController {
         });
     // Future.delayed(const Duration(seconds: 5),
     //     addmediatointervention(intervention_id, medlist));
-
-    Get.find<HomeController>().onInit();
+    await Get.find<HomeController>().refreshIntervention();
   }
 
   changeImage() async {

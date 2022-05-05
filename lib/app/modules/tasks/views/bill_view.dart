@@ -10,6 +10,7 @@ import '../widgets/tasks_list_widget.dart';
 
 class BillView extends GetView<TasksController> {
   Bill bill = Get.arguments as Bill;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
