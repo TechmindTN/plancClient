@@ -21,18 +21,19 @@ class ServiceProvider {
   GeoPoint location;
   Map<String, dynamic> social_media;
   int phone;
+  String fcmToken;
   double rate;
 
-  ServiceProvider({
-    this.id,
-    this.name,
-    this.description,
-    this.website,
-    this.media,
-    this.profile_photo,
-    this.user,
-    this.categories,
-  });
+  ServiceProvider(
+      {this.id,
+      this.name,
+      this.description,
+      this.website,
+      this.media,
+      this.profile_photo,
+      this.user,
+      this.categories,
+      this.fcmToken});
 
   Map<String, dynamic> tofire() => {
         'name': name,
@@ -40,6 +41,7 @@ class ServiceProvider {
         'website': website,
         'media': media,
         'profile_photo': profile_photo,
+        'fcmToken': fcmToken
       };
 
   ServiceProvider.fromFire(fire)
@@ -57,6 +59,7 @@ class ServiceProvider {
         location = fire['location'],
         social_media = fire['social_media'],
         phone = fire['phone'],
+        // fcmToken = fire['fcmToken'],
         rate = double.parse(fire['rate'].toString());
 
   printProvider() {

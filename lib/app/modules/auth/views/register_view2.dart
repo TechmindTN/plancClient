@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/modules/auth/views/register_view.dart';
@@ -290,6 +291,7 @@ class RegisterView2 extends GetView<AuthController> {
                   onPressed: () async {
                     if (formGlobalKey.currentState.validate()) {
                       DocumentReference user = controller.data;
+                      var token = await FirebaseMessaging.instance.getToken();
 
                       Client c = Client(
                           first_name: _firstname,
@@ -300,6 +302,7 @@ class RegisterView2 extends GetView<AuthController> {
                               controller.position.longitude),
                           social_media: _Social,
                           gender: controller.gender.value,
+                          fcmToken: token,
                           age: int.parse(age));
                       var data = await controller.registerClient(c, user);
                       if (await controller.verifylogin(

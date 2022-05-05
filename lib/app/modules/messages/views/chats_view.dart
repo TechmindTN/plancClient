@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_services/app/their_models/chat_model.dart';
-import 'package:home_services/app/their_models/message_model.dart';
+import '../../../models/Chat.dart';
+import '../../../models/Message.dart';
 
 import '../../../global_widgets/circular_loading_widget.dart';
 
@@ -14,41 +15,55 @@ import '../widgets/chat_message_item_widget.dart';
 class ChatsView extends GetView<MessagesController> {
   final _myListKey = GlobalKey<AnimatedListState>();
   Message _message;
+  CollectionReference usersRef = FirebaseFirestore.instance.collection('User');
 
   Widget chatList() {
-    return Obx(
-      () {
-        if (controller.chats.isEmpty) {
-          return CircularLoadingWidget(
-            height: Get.height,
-            onCompleteText: "Type a message to start chat!".tr,
-          );
-        } else {
-          return ListView.builder(
-              key: _myListKey,
-              reverse: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              itemCount: controller.chats.length,
-              shrinkWrap: false,
-              primary: true,
-              itemBuilder: (context, index) {
-                Chat _chat = controller.chats.elementAt(index);
-                _chat.user = _message.users
-                    .firstWhere((_user) => _user.id == _chat.userId);
-                return ChatMessageItem(
-                  chat: _chat,
-                );
-              });
-        }
-      },
-    );
+    return GetBuilder<MessagesController>(
+        init: MessagesController(),
+        builder: (val) => Container(
+              height: 345,
+              child: Center(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: StreamBuilder(
+                      stream: usersRef
+                          .doc(val.user.id)
+                          .collection('Chat')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text(
+                            'No Data...',
+                          );
+                        } else {
+                          return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data.docs.length,
+                              itemBuilder: ((context, index) {
+                                // ServiceProvider provider =
+                                //     ServiceProvider.fromFire(
+                                //         snapshot.data.docs[index]);
+                                //  eServiceController.getThisProvider(provider,snapshot.data.docs[index].id);
+                                Chat _chat =
+                                    Chat.fromFire(snapshot.data.docs[index]);
+                                val.chats.add(_chat);
+                                return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: ChatMessageItem(chat: _chat));
+                              }));
+                        }
+                      }),
+                ),
+              ),
+            ));
   }
 
   @override
   Widget build(BuildContext context) {
     _message = Get.arguments as Message;
-    controller.listenForChats(_message);
+    // controller.listenForChats(controller.user.id);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -67,7 +82,8 @@ class ChatsView extends GetView<MessagesController> {
             }),
         automaticallyImplyLeading: false,
         title: Text(
-          _message.name,
+          // _message.name,
+          '',
           overflow: TextOverflow.fade,
           maxLines: 1,
           style: Get.textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),

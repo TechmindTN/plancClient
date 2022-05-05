@@ -68,4 +68,8 @@ class ClientNetwork {
 
     return client;
   }
+
+  void updateFcmToken(String id, String token) async {
+    await clientsRef.doc(id).update({"fcmToken": token});
+  }
 }

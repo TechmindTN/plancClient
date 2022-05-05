@@ -365,7 +365,6 @@ class BookEServiceView extends GetView<BookEServiceController> {
               onPressed: () async {
                 if (formGlobalKey.currentState.validate()) {
                   await controller.addIntervention();
-                  Get.toNamed(Routes.ROOT);
                 }
               }).paddingOnly(right: 20, left: 20),
     );

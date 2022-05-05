@@ -1,41 +1,84 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../Network/MessageNetwork.dart';
+import '../../../Network/UserNetwork.dart';
 import '../../../global_widgets/circular_loading_widget.dart';
 import '../../../global_widgets/notifications_button_widget.dart';
+import '../../../models/Chat.dart';
+import '../../../models/Message.dart';
 import '../../../services/auth_service.dart' show AuthService;
 import '../controllers/messages_controller.dart';
+import '../widgets/chat_message_item_widget.dart';
 import '../widgets/message_item_widget.dart';
 
 class MessagesView extends GetView<MessagesController> {
+  CollectionReference usersRef = FirebaseFirestore.instance.collection('User');
+  UserNetwork _userNetwork = UserNetwork();
+  MessageNetwork _messageNetwork = MessageNetwork();
   Widget conversationsList() {
-    return Obx(
-      () {
-        if (controller.messages.isNotEmpty) {
-          var _messages = controller.messages;
-          return ListView.separated(
-              itemCount: _messages.length,
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 7);
-              },
-              shrinkWrap: true,
-              primary: false,
-              itemBuilder: (context, index) {
-                return MessageItemWidget(
-                  message: controller.messages.elementAt(index),
-                  onDismissed: (conversation) {
-                    controller.messages.removeAt(index);
-                  },
-                );
-              });
-        } else {
-          return CircularLoadingWidget(
-            height: Get.height,
-            onCompleteText: "Messages List Empty",
-          );
-        }
-      },
-    );
+    return GetBuilder<MessagesController>(
+        init: MessagesController(),
+        builder: (val) => Container(
+              height: 345,
+              child: Center(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: StreamBuilder(
+                      stream: usersRef
+                          .doc(val.user.id)
+                          .collection('Chat')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text(
+                            'No Data...',
+                          );
+                        } else {
+                          for (var i = 0; i < snapshot.data.docs.length; i++) {
+                            Chat _chat = Chat();
+                            _chat.id = snapshot.data.docs[i].id;
+                            _userNetwork
+                                .getUserById(
+                                    snapshot.data.docs[i].data()['user'].id)
+                                .then((value) {
+                              _chat.user = value;
+                              print('useeeeeeeerrrrr ' + value.printUser());
+                            });
+
+                            // _messageNetwork
+                            //     .getChatMessages(_chat.id)
+                            //     .then((msg) {
+                            //   _chat.conversation = msg;
+                            // });
+
+                            val.chats.add(_chat);
+                          }
+
+                          return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: val.chats.length,
+                              itemBuilder: ((context, index) {
+                                // ServiceProvider provider =
+                                //     ServiceProvider.fromFire(
+                                //         snapshot.data.docs[index]);
+                                //  eServiceController.getThisProvider(provider,snapshot.data.docs[index].id);
+                                // Chat _chat =
+                                //     Chat.fromFire(snapshot.data.docs[index]);
+
+                                return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
+                                    child: ChatMessageItem(
+                                        chat: val.chats[index]));
+                              }));
+                        }
+                      }),
+                ),
+              ),
+            ));
   }
 
   @override

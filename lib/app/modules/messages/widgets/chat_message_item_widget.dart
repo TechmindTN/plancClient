@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:home_services/app/their_models/chat_model.dart';
-
+import '../../../models/Chat.dart';
+import '../../../models/Message.dart';
 import '../controllers/messages_controller.dart';
 
 class ChatMessageItem extends GetWidget<MessagesController> {
@@ -12,7 +12,7 @@ class ChatMessageItem extends GetWidget<MessagesController> {
 
   @override
   Widget build(BuildContext context) {
-    return controller.user.id == this.chat.userId
+    return controller.user.id == this.chat.user.id
         ? getSentMessageLayout(context)
         : getReceivedMessageLayout(context);
   }
@@ -41,10 +41,10 @@ class ChatMessageItem extends GetWidget<MessagesController> {
                   new Text(this.chat.user.username,
                       style: Get.textTheme.bodyText1
                           .merge(TextStyle(fontWeight: FontWeight.w600))),
-                  new Container(
-                    margin: const EdgeInsets.only(top: 5.0),
-                    child: new Text(chat.text),
-                  ),
+                  // new Container(
+                  //   margin: const EdgeInsets.only(top: 5.0),
+                  //   child: new Text(chat.conversation),
+                  // ),
                 ],
               ),
             ),
@@ -119,13 +119,13 @@ class ChatMessageItem extends GetWidget<MessagesController> {
                       style: Get.textTheme.bodyText1.merge(TextStyle(
                           fontWeight: FontWeight.w600,
                           color: Get.theme.primaryColor))),
-                  new Container(
-                    margin: const EdgeInsets.only(top: 5.0),
-                    child: new Text(
-                      chat.text,
-                      style: TextStyle(color: Get.theme.primaryColor),
-                    ),
-                  ),
+                  // new Container(
+                  //   margin: const EdgeInsets.only(top: 5.0),
+                  //   child: new Text(
+                  //     chat.text,
+                  //     style: TextStyle(color: Get.theme.primaryColor),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

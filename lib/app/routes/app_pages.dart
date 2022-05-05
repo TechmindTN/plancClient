@@ -25,6 +25,7 @@ import '../modules/favorites/views/favorites_view.dart';
 import '../modules/help_privacy/bindings/help_privacy_binding.dart';
 import '../modules/help_privacy/views/help_view.dart';
 import '../modules/help_privacy/views/privacy_view.dart';
+import '../modules/home/views/home2_view.dart';
 import '../modules/messages/views/chats_view.dart';
 import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
@@ -48,6 +49,7 @@ class AppPages {
 
   static final routes = [
     GetPage(name: Routes.ROOT, page: () => RootView(), binding: RootBinding()),
+    GetPage(name: Routes.HOME, page: () => Home2View()),
     GetPage(
         name: Routes.RATING,
         page: () => RatingView(),

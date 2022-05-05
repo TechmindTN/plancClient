@@ -5,13 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
-import 'package:home_services/app/their_models/media_model.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import '../../../../common/ui.dart';
+import '../../../Network/MediaNetwork.dart';
 import '../../../global_widgets/block_button_widget.dart';
 import '../../../global_widgets/circular_loading_widget.dart';
 
+import '../../../models/Media.dart';
 import '../../../models/Provider.dart';
 import '../../../routes/app_pages.dart';
 import '../../auth/controllers/auth_controller.dart';
@@ -30,6 +31,9 @@ class EServiceView extends GetView<EServiceController> {
 
   @override
   Widget build(BuildContext context) {
+    MediaNetwork mediaServices = MediaNetwork();
+    print('name: ' + prov.name);
+    print('id: ' + prov.id);
     List<dynamic> images = [];
     // List<String> images = [
     //   'assets/img/1.png',
@@ -155,95 +159,113 @@ class EServiceView extends GetView<EServiceController> {
                         .paddingSymmetric(horizontal: 20),
                     content: Container(
                       height: 120,
-                      child: ListView.builder(
-                          primary: false,
-                          shrinkWrap: false,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: images.length,
-                          itemBuilder: (_, index) {
-                            // var _media = _eService.media.elementAt(index);
-                            var media = images[index];
-                            return InkWell(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                          insetPadding: EdgeInsets.all(0),
-                                          backgroundColor: Colors.transparent,
-                                          child: Container(
-                                            color: Colors.transparent
-                                                .withOpacity(0.3),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.7,
-                                            child: Image.network(
-                                              media.url,
-                                              // scale: 20,
+                      child: FutureBuilder(
+                          future: mediaServices.getMediaListByProvider(prov.id),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                  child: Container(
+                                      child: CircularProgressIndicator()));
+                            } else {
+                              List<Media> img = snapshot.data;
+                              return ListView.builder(
+                                  primary: false,
+                                  shrinkWrap: false,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: img.length,
+                                  itemBuilder: (_, index) {
+                                    // var _media = _eService.media.elementAt(index);
+                                    var media = img[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return Dialog(
+                                                  insetPadding:
+                                                      EdgeInsets.all(0),
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  child: Container(
+                                                    color: Colors.transparent
+                                                        .withOpacity(0.3),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.7,
+                                                    child: Image.network(
+                                                      media.url,
+                                                      // scale: 20,
 
-                                              fit: BoxFit.fill,
-                                              // width: MediaQuery.of(context).size.width*0.9,
-                                              // height: MediaQuery.of(context).size.height*0.8,
+                                                      fit: BoxFit.fill,
+                                                      // width: MediaQuery.of(context).size.width*0.9,
+                                                      // height: MediaQuery.of(context).size.height*0.8,
 
-                                              // scale: 0.1,
+                                                      // scale: 0.1,
+                                                    ),
+                                                  ));
+                                            });
+                                        //Get.toNamed(Routes.CATEGORY, arguments: _category);
+                                      },
+                                      child: Container(
+                                        width: 100,
+                                        height: 100,
+                                        margin: EdgeInsetsDirectional.only(
+                                            end: 20,
+                                            start: index == 0 ? 20 : 0,
+                                            top: 10,
+                                            bottom: 10),
+                                        child: Stack(
+                                          alignment:
+                                              AlignmentDirectional.topStart,
+                                          children: [
+                                            ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10)),
+                                                child: Image.network(
+                                                  img[index].url,
+                                                  height: 100,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                )
+                                                // child: CachedNetworkImage(
+                                                //   height: 100,
+                                                //   width: double.infinity,
+                                                //   fit: BoxFit.cover,
+                                                //   imageUrl: media,
+                                                //   placeholder: (context, url) => Image.asset(
+                                                //     'assets/img/loading.gif',
+                                                //     fit: BoxFit.cover,
+                                                //     width: double.infinity,
+                                                //     height: 100,
+                                                //   ),
+                                                //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                                                // ),
+                                                ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .only(start: 12, top: 8),
+                                              child: Text(
+                                                'Item' ?? '',
+                                                maxLines: 2,
+                                                style: Get.textTheme.bodyText2
+                                                    .merge(TextStyle(
+                                                        color: Get.theme
+                                                            .primaryColor)),
+                                              ),
                                             ),
-                                          ));
-                                    });
-                                //Get.toNamed(Routes.CATEGORY, arguments: _category);
-                              },
-                              child: Container(
-                                width: 100,
-                                height: 100,
-                                margin: EdgeInsetsDirectional.only(
-                                    end: 20,
-                                    start: index == 0 ? 20 : 0,
-                                    top: 10,
-                                    bottom: 10),
-                                child: Stack(
-                                  alignment: AlignmentDirectional.topStart,
-                                  children: [
-                                    ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        child: Image.network(
-                                          images[index].url,
-                                          height: 100,
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                        )
-                                        // child: CachedNetworkImage(
-                                        //   height: 100,
-                                        //   width: double.infinity,
-                                        //   fit: BoxFit.cover,
-                                        //   imageUrl: media,
-                                        //   placeholder: (context, url) => Image.asset(
-                                        //     'assets/img/loading.gif',
-                                        //     fit: BoxFit.cover,
-                                        //     width: double.infinity,
-                                        //     height: 100,
-                                        //   ),
-                                        //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                                        // ),
+                                          ],
                                         ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.only(
-                                          start: 12, top: 8),
-                                      child: Text(
-                                        'Item' ?? '',
-                                        maxLines: 2,
-                                        style: Get.textTheme.bodyText2.merge(
-                                            TextStyle(
-                                                color: Get.theme.primaryColor)),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                                    );
+                                  });
+                            }
                           }),
                     ),
                     actions: [

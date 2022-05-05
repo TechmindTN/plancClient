@@ -29,7 +29,7 @@ Widget RecWidget(_service, eServiceController, {String id}) {
   }
   return GestureDetector(
     onTap: () async {
-      provider.media = await mediaServices.getMediaListByProvider(provider.id);
+      // provider.media = await mediaServices.getMediaListByProvider(provider.id);
       eServiceController.serviceProvider.value = provider;
       // Get.toNamed(Routes.E_SERVICE, arguments: provider);
       Get.to(EServiceView(provider));
