@@ -31,7 +31,7 @@ class CategoryGridItemWidget extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 10),
                 decoration: new BoxDecoration(
-                  color: Colors.amberAccent,
+                  color: Ui.parseColor('#00CED1'),
                   // gradient: new LinearGradient(
                   //     // colors: [category.color.withOpacity(1), category.color.withOpacity(0.1)],
                   //     begin: AlignmentDirectional.topStart,

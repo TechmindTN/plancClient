@@ -18,6 +18,7 @@ import '../../../models/Client.dart';
 import '../../../models/User.dart' as user;
 import '../../../Network/UserNetwork.dart';
 import '../../home/controllers/home_controller.dart';
+import '../../notifications/controllers/notifications_controller.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -53,6 +54,7 @@ class AuthController extends GetxController {
   Future<bool> verifylogin(String email, String pass) async {
     UserNetwork _userNetwork = UserNetwork();
     ClientNetwork _clientNetwork = ClientNetwork();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool ok = true;
     var data = await _userNetwork.getUserByEmailPassword(email, pass);
@@ -62,6 +64,8 @@ class AuthController extends GetxController {
     if (currentuser == null || currentuser.email == null) {
       return false;
     }
+    prefs.setString('email', email);
+    prefs.setString('pass', pass);
     var token = await FirebaseMessaging.instance.getToken();
     var d = _userNetwork.getUserRef(currentuser.id);
     await _userNetwork
@@ -70,6 +74,7 @@ class AuthController extends GetxController {
     await _clientNetwork.updateFcmToken(currentProfile.id, token);
 
     Get.find<HomeController>().onInit();
+
     // prefs.setString('user', json.encode(currentuser.tofire()));
     return ok;
     // if (data == null) return false;

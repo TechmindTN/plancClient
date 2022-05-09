@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../modules/auth/controllers/auth_controller.dart';
 import '../routes/app_pages.dart';
 import '../services/auth_service.dart';
 
@@ -18,7 +19,7 @@ class NotificationsButtonWidget extends StatelessWidget {
     return MaterialButton(
       elevation: 0,
       onPressed: () {
-        if (Get.find<AuthService>().isAuth == true) {
+        if (Get.find<AuthController>().currentuser.email != null) {
           Get.toNamed(Routes.NOTIFICATIONS);
         } else {
           Get.toNamed(Routes.LOGIN);

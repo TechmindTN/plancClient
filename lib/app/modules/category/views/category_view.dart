@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/ui.dart';
 import '../../../global_widgets/home_search_bar_widget.dart';
 import '../../home/widgets/address_widget.dart';
 import '../controllers/category_controller.dart';
@@ -51,7 +52,7 @@ class CategoryView extends GetView<CategoryController> {
                           width: double.infinity,
                           padding: EdgeInsets.only(top: 75, bottom: 115),
                           decoration: new BoxDecoration(
-                            color: Colors.orangeAccent,
+                            color: Ui.parseColor('#00CED1'),
                             // gradient: new LinearGradient(
                             //     // colors: [controller.category.value.color.withOpacity(1), controller.category.value.color.withOpacity(0.2)],
                             //     begin: AlignmentDirectional.topStart,

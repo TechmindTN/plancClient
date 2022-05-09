@@ -19,8 +19,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../Network/InterventionNetwork.dart';
 import '../../../Network/UserNetwork.dart';
+import '../../../models/Chat.dart';
 import '../../../models/Client.dart';
 import '../../../models/Intervention.dart';
+import '../../../models/Notification.dart' as model;
 import '../../../models/Provider.dart';
 import '../../../models/User.dart';
 import '../../../repositories/category_repository.dart';
@@ -69,6 +71,8 @@ class HomeController extends GetxController {
   SharedPreferences prefs;
   RxList<Asset> images = <Asset>[].obs;
   List cards = [];
+  RxList notifs = [].obs;
+
   HomeController() {
     _userRepo = new UserRepository();
     _sliderRepo = new SliderRepository();
@@ -102,6 +106,13 @@ class HomeController extends GetxController {
       interventions.value.clear();
       interventions.value =
           await _interventionNetwork.getInterventionsList(client.value.id);
+      notifs.value.clear();
+      await _userNetwork
+          .getNotifications(Get.find<AuthController>().currentuser.id)
+          .then((value) {
+        notifs.value = value;
+        print('notiiiififf: ' + value.toString());
+      });
     }
 
     //   var index = 0;
@@ -119,6 +130,7 @@ class HomeController extends GetxController {
     prov = await eServiceController.getProviders();
 
     await refreshHome();
+
     FirebaseMessaging.instance.getInitialMessage();
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
@@ -146,14 +158,17 @@ class HomeController extends GetxController {
       // If `onMessage` is triggered with a notification, construct our own
       // local notification to show to users using the created channel.
       if (notification != null && android != null) {
-        print('messaaaaaaaaaaaaage: ' + notification.title);
-
-        print('notification hashsss ' + notification.hashCode.toString());
-        print('boooodddd: ' + notification.body);
-        print('channel id: ' + channel.id);
-        print('channel name: ' + channel.name);
-        print('channel desc: ' + channel.description);
-
+        print('notifs now : ' + notifs.length.toString());
+        var obj = {
+          "read_by_user": false,
+          "description": notification.body,
+          "creation_date": Timestamp.now(),
+          "title": notification.title
+        };
+        _userNetwork.RegisterNotification(
+            Get.find<AuthController>().currentuser.id, obj);
+        model.Notification nt = model.Notification.fromFire(obj);
+        notifs.add(nt);
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification.title,
@@ -163,7 +178,7 @@ class HomeController extends GetxController {
                 channel.id,
                 channel.name,
                 channelDescription: channel.description,
-                icon: "@mipmap/ic_launcher",
+                icon: "@mipmap/ic_launcher_new",
                 // other properties...
               ),
             ));
@@ -171,6 +186,15 @@ class HomeController extends GetxController {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      // RemoteNotification notification = message.notification;
+      // var obj = {
+      //   "read_by_user": false,
+      //   "description": notification.body,
+      //   " creation_date": Timestamp.now(),
+      //   "title": notification.title
+      // };
+      // model.Notification nt = model.Notification.fromFire(obj);
+      // notifs.add(nt);
       if (message.data != null) {
         Get.toNamed(message.data['route']);
       }

@@ -22,6 +22,8 @@ import '../modules/e_service/bindings/e_service_binding.dart';
 import '../modules/e_service/views/e_service_view.dart';
 import '../modules/favorites/bindings/favorites_binding.dart';
 import '../modules/favorites/views/favorites_view.dart';
+import '../modules/feedback/bindings/feedback_binding.dart';
+import '../modules/feedback/views/feedback_view.dart';
 import '../modules/help_privacy/bindings/help_privacy_binding.dart';
 import '../modules/help_privacy/views/help_view.dart';
 import '../modules/help_privacy/views/privacy_view.dart';
@@ -31,8 +33,6 @@ import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
-import '../modules/rating/bindings/rating_binding.dart';
-import '../modules/rating/views/rating_view.dart';
 import '../modules/root/bindings/root_binding.dart';
 import '../modules/root/views/root_view.dart';
 import '../modules/search/views/search_view.dart';
@@ -51,9 +51,9 @@ class AppPages {
     GetPage(name: Routes.ROOT, page: () => RootView(), binding: RootBinding()),
     GetPage(name: Routes.HOME, page: () => Home2View()),
     GetPage(
-        name: Routes.RATING,
-        page: () => RatingView(),
-        binding: RatingBinding()),
+        name: Routes.FEEDBACK,
+        page: () => FeedbackView(),
+        binding: FeedbackBinding()),
     GetPage(name: Routes.CHAT, page: () => ChatsView()),
     GetPage(
         name: Routes.SETTINGS,

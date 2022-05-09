@@ -37,15 +37,15 @@ class MessagesView extends GetView<MessagesController> {
                             'No Data...',
                           );
                         } else {
+                          Chat _chat = Chat();
+                          print(snapshot.data.docs.length);
                           for (var i = 0; i < snapshot.data.docs.length; i++) {
-                            Chat _chat = Chat();
                             _chat.id = snapshot.data.docs[i].id;
                             _userNetwork
                                 .getUserById(
                                     snapshot.data.docs[i].data()['user'].id)
                                 .then((value) {
                               _chat.user = value;
-                              print('useeeeeeeerrrrr ' + value.printUser());
                             });
 
                             // _messageNetwork
@@ -56,7 +56,7 @@ class MessagesView extends GetView<MessagesController> {
 
                             val.chats.add(_chat);
                           }
-
+                          Future.delayed(Duration(seconds: 3));
                           return ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: val.chats.length,
@@ -71,8 +71,7 @@ class MessagesView extends GetView<MessagesController> {
                                 return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16.0),
-                                    child: ChatMessageItem(
-                                        chat: val.chats[index]));
+                                    child: ChatMessageItem(chat: _chat));
                               }));
                         }
                       }),

@@ -79,10 +79,10 @@ class LoginView extends GetView<AuthController> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Image.asset(
-                    'assets/icon/icon.png',
+                    'assets/img/planc_2.png',
                     fit: BoxFit.cover,
-                    width: 100,
-                    height: 100,
+                    width: 65,
+                    height: 115,
                   ),
                 ),
               ),

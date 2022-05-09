@@ -4,7 +4,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'app/models/Notification.dart';
+import 'app/models/User.dart';
 import 'app/modules/auth/controllers/auth_controller.dart';
 import 'app/modules/category/controllers/category_controller.dart';
 import 'app/modules/e_service/controllers/e_service_controller.dart';
@@ -24,6 +26,7 @@ void initServices() async {
   await Get.putAsync(() => GlobalService().init());
 
   await Get.putAsync(() => AuthService().init());
+  await Get.put(AuthController());
 
   await Get.putAsync(() => SettingsService().init());
 
@@ -37,7 +40,12 @@ void initServices() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initServices();
-
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var useremail = prefs.get('email');
+  if (useremail != null) {
+    var userpass = prefs.get('pass');
+    Get.find<AuthController>().verifylogin(useremail, userpass);
+  }
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,

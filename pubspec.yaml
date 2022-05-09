@@ -97,6 +97,9 @@ flutter:
     - assets/icon/
     - assets/locales/
     - assets/banner_headers.json
+    - assets/img/planc_1.png
+    - assets/img/planc_2.png
+    - assets/img/feedback.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

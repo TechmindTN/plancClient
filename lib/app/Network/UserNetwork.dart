@@ -5,6 +5,7 @@ import 'package:home_services/app/models/Role.dart';
 import '../models/Chat.dart';
 import '../models/Client.dart';
 import '../models/Message.dart';
+import '../models/Notification.dart';
 import '../models/User.dart';
 import 'MessageNetwork.dart';
 
@@ -159,18 +160,40 @@ class UserNetwork {
     return users;
   }
 
-  // Future<List<Chat>> getUserChats(String id) async {
-  //   List<Chat> ChatList = [];
-  //   var ref = getUserRef(id);
-  //   QuerySnapshot q = await usersRef.doc(id).collection('Chat').get();
-  //   q.docs.forEach((element) async {
-  //     Chat c = Chat();
-  //     c.id = element.id;
-  //     var user = await getUserById(element.data()['user'].id);
-  //     List<Message> list = _messageNetwork.getChatMessages(c.id, id);
-  //     c.user = (user);
-  //     c.conversation = list;
-  //     ChatList.add(c);
-  //   });
-  // }
+  Future<List<Notification>> getNotifications(String id) async {
+    List<Notification> notifs = [];
+    Notification notif;
+    QuerySnapshot q = await usersRef.doc(id).collection('Notification').get();
+    print("notif length " + q.docs.length.toString());
+    q.docs.forEach((element) {
+      print('data notif ' + element.data().toString());
+      notif = Notification.fromFire(element.data());
+      notif.id = element.id;
+      notifs.add(notif);
+      print('notif here ' + notif.toString());
+    });
+    notifs.add(notif);
+
+    return notifs;
+  }
+
+  void RegisterNotification(String id, data) async {
+    await usersRef.doc(id).collection('Notification').add(data);
+    print("notification registered !");
+  }
+
+  Future<List<Chat>> getUserChats(String id) async {
+    List<Chat> ChatList = [];
+    var ref = getUserRef(id);
+    QuerySnapshot q = await usersRef.doc(id).collection('Chat').get();
+    q.docs.forEach((element) async {
+      Chat c = Chat();
+      c.id = element.id;
+      var user = await getUserById(element.data()['user'].id);
+      Stream<List<Message>> list = _messageNetwork.getChatMessages(c.id, id);
+      c.user = (user);
+      c.conversation = list as List<Message>;
+      ChatList.add(c);
+    });
+  }
 }

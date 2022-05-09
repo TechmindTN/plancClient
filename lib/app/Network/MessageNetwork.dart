@@ -19,7 +19,16 @@ class MessageNetwork {
   }
 
   Stream<List<Message>> getChatMessages(String id, String uid) {
+    Stream<List> msg;
     Stream<DocumentSnapshot> q =
         UserRef.doc(uid).collection('Chat').doc(id).snapshots();
+    q.forEach((element) {
+      Message m = Message.fromFire(element.data());
+      msg.listen((event) {
+        event.add(m);
+      });
+    });
+
+    return msg;
   }
 }
