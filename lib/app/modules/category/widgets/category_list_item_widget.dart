@@ -23,7 +23,7 @@ class CategoryListItemWidget extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       decoration: Ui.getBoxDecoration(
           border: Border.fromBorderSide(BorderSide.none),
-          color: Colors.orangeAccent),
+          color: Ui.parseColor('#00CED1')),
 
       // gradient: new LinearGradient(
       //     // colors: [category.color.withOpacity(0.6), category.color.withOpacity(0.1)],

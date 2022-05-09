@@ -45,6 +45,9 @@ class EntrepriseWidget extends GetWidget<HomeController> {
               ],
             ),
           ),
+          SizedBox(
+            height: 5,
+          ),
           CategoriesCarouselWidget(),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),

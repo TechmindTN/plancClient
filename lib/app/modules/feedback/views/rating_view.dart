@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import '../../../../common/ui.dart';
 import '../../../global_widgets/block_button_widget.dart';
 import '../../../services/auth_service.dart';
-import '../controllers/rating_controller.dart';
+import '../controllers/feedback_controller.dart';
 
-class RatingView extends GetView<RatingController> {
+class FeedbackView extends GetView<FeedbackController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

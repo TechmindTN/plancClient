@@ -84,7 +84,7 @@ class ChatScreen extends GetWidget<MessagesController> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection('messages')
+                  .collection('Message')
                   .orderBy('time')
                   .snapshots(),
               builder: (context, snapshot) {

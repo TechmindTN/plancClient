@@ -241,6 +241,19 @@ class MainDrawerWidget extends StatelessWidget {
               }
             },
           ),
+          DrawerLinkWidget(
+            icon: Icons.chat_outlined,
+            text: "Feedback",
+            onTap: (e) {
+              if (user.email == null) {
+                Get.showSnackbar(
+                    Ui.ErrorSnackBar(message: 'You must login before !'.tr));
+                return null;
+              } else {
+                Get.offAndToNamed(Routes.FEEDBACK);
+              }
+            },
+          ),
           ListTile(
             dense: true,
             title: Text(

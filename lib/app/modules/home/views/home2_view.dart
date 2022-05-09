@@ -76,10 +76,12 @@ class Home2View extends GetView<HomeController> {
                 // pinned: true,
                 floating: true,
                 iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-                title: Text(
-                  "Plan C",
-                  // Get.find<SettingsService>().setting.value.appName,
-                  style: Get.textTheme.headline6,
+                title: ClipRect(
+                  child: Container(
+                    height: 55,
+                    alignment: Alignment.topCenter,
+                    child: Image.asset("assets/img/planc_1.png"),
+                  ),
                 ),
                 centerTitle: true,
                 automaticallyImplyLeading: false,
@@ -283,11 +285,11 @@ class Home2View extends GetView<HomeController> {
               child: TabBar(
                   indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(5), // Creates border
-                      color: Colors.orange),
+                      color: Ui.parseColor('#00B6BF')),
                   labelPadding: EdgeInsets.all(0),
                   unselectedLabelStyle: TextStyle(fontSize: 15),
                   indicatorWeight: 1.0,
-                  unselectedLabelColor: Colors.orange,
+                  unselectedLabelColor: Ui.parseColor('#00B6BF'),
                   labelColor: Colors.white,
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.bold,

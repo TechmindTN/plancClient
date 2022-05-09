@@ -28,6 +28,8 @@ abstract class Routes {
   static const SEARCH = '/search';
   static const NOTIFICATIONS = '/notifications';
   static const FAVORITES = '/favorites';
+  static const FEEDBACK = '/feedback';
+
   static const HELP = '/help';
   static const BILL = '/bill';
   static const PRIVACY = '/privacy';

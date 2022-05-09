@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../common/ui.dart';
-import '../../../their_models/notification_model.dart' as model;
+import '../../../models/Notification.dart' as model;
 
 class NotificationItemWidget extends StatelessWidget {
   NotificationItemWidget({Key key, this.notification, this.onDismissed})
@@ -40,10 +40,7 @@ class NotificationItemWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(12),
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        decoration: Ui.getBoxDecoration(
-            color: this.notification.read
-                ? Get.theme.primaryColor
-                : Get.theme.focusColor.withOpacity(0.15)),
+        decoration: Ui.getBoxDecoration(color: Get.theme.primaryColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -105,18 +102,26 @@ class NotificationItemWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Text(
-                    this.notification.type.tr,
+                    this.notification.title,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
-                    style: Theme.of(context).textTheme.bodyText1.merge(
-                        TextStyle(
-                            fontWeight: notification.read
-                                ? FontWeight.w300
-                                : FontWeight.w600)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .merge(TextStyle(fontWeight: FontWeight.w300)),
+                  ),
+                  Text(
+                    this.notification.description,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .merge(TextStyle(fontWeight: FontWeight.w100)),
                   ),
                   Text(
                     DateFormat('d, MMMM y | HH:mm')
-                        .format(this.notification.createdAt),
+                        .format(this.notification.creation_date.toDate()),
                     style: Theme.of(context).textTheme.caption,
                   )
                 ],

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../Network/MessageNetwork.dart';
+import '../../../Network/UserNetwork.dart';
 import '../../../models/Chat.dart';
 import '../../../models/Message.dart';
 
@@ -13,7 +15,8 @@ import '../widgets/chat_message_item_widget.dart';
 
 // ignore: must_be_immutable
 class ChatsView extends GetView<MessagesController> {
-  final _myListKey = GlobalKey<AnimatedListState>();
+  MessageNetwork _messageNetwork = MessageNetwork();
+  UserNetwork _userNetwork = UserNetwork();
   Message _message;
   CollectionReference usersRef = FirebaseFirestore.instance.collection('User');
 
@@ -37,21 +40,19 @@ class ChatsView extends GetView<MessagesController> {
                             'No Data...',
                           );
                         } else {
+                          print('chat data ' + snapshot.data.docs.toString());
                           return ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: snapshot.data.docs.length,
                               itemBuilder: ((context, index) {
-                                // ServiceProvider provider =
-                                //     ServiceProvider.fromFire(
-                                //         snapshot.data.docs[index]);
-                                //  eServiceController.getThisProvider(provider,snapshot.data.docs[index].id);
                                 Chat _chat =
                                     Chat.fromFire(snapshot.data.docs[index]);
+
                                 val.chats.add(_chat);
-                                return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: ChatMessageItem(chat: _chat));
+                                // return Padding(
+                                //     padding: const EdgeInsets.symmetric(
+                                //         horizontal: 16.0),
+                                //     child: ChatMessageItem(chat: _chat));
                               }));
                         }
                       }),
