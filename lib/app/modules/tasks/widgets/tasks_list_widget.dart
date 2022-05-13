@@ -138,7 +138,7 @@ class TasksListWidget extends StatelessWidget {
                                   style: Get.textTheme.bodyText1,
                                 ),
                               ),
-                              Text(_task.bill.total_price.toString() + ' TND',
+                              Text(_task.bill?.total_price.toString() + ' TND',
                                   style: Get.textTheme.headline6),
                             ],
                           ),

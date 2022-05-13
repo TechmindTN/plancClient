@@ -110,7 +110,7 @@ class FeedbackView extends GetView<FeedbackController> {
                       .collection('Feedback')
                       .add(data);
                 },
-                child: Text('Send'),
+                child: Text('Send'.tr),
               ),
             )
 

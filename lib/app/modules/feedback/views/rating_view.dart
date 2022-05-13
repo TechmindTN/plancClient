@@ -1,14 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import '../../../../common/ui.dart';
+import '../../../Network/UserNetwork.dart';
 import '../../../global_widgets/block_button_widget.dart';
 import '../../../services/auth_service.dart';
+import '../../auth/controllers/auth_controller.dart';
 import '../controllers/feedback_controller.dart';
 
-class FeedbackView extends GetView<FeedbackController> {
+class RatingView extends GetView<FeedbackController> {
+  double rate = 0.0;
+  String review = '';
+  UserNetwork _userNetwork = UserNetwork();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +60,7 @@ class FeedbackView extends GetView<FeedbackController> {
                     Wrap(children: [
                       Text("Hi,".tr),
                       Text(
-                        Get.find<AuthService>().user.value.email,
+                        Get.find<AuthController>().currentuser.email,
                         style: Get.textTheme.bodyText2
                             .merge(TextStyle(color: Get.theme.accentColor)),
                       )
@@ -70,7 +77,7 @@ class FeedbackView extends GetView<FeedbackController> {
                         height: 70,
                         width: 70,
                         fit: BoxFit.cover,
-                        imageUrl: controller.task.value.eService.profile_photo,
+                        imageUrl: controller.task.value.provider.profile_photo,
                         placeholder: (context, url) => Image.asset(
                           'assets/img/loading.gif',
                           fit: BoxFit.cover,
@@ -83,22 +90,44 @@ class FeedbackView extends GetView<FeedbackController> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      controller.task.value.eService.name,
+                      controller.task.value.provider.name,
                       style: Get.textTheme.headline6,
                     ),
                     SizedBox(height: 30),
-                    Wrap(
-                      spacing: 8,
-                      children: Ui.getStarsList(4.5, size: 38),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Great!".tr,
-                      style: Get.textTheme.bodyText1,
-                    ),
+                    // Wrap(
+                    //   spacing: 8,
+                    //   children: Ui.getStarsList(4.5, size: 38),
+                    // ),
+                    // SizedBox(height: 10),
+                    // Text(
+                    //   "Great!".tr,
+                    //   style: Get.textTheme.bodyText1,
+                    // ),
+                    Center(
+                        child: Expanded(
+                            child: SmoothStarRating(
+                      rating: 0,
+                      isReadOnly: false,
+                      size: 40,
+                      borderColor: Colors.yellow[700],
+                      filledIconData: Icons.star,
+                      halfFilledIconData: Icons.star_half,
+                      defaultIconData: Icons.star_border,
+                      starCount: 5,
+                      allowHalfRating: true,
+                      spacing: 2.0,
+                      color: Colors.yellow[700],
+                      onRated: (value) {
+                        print("rating value -> $value");
+                        rate = value;
+                        // print("rating value dd -> ${value.truncate()}");
+                      },
+                    ))),
                     SizedBox(height: 20),
                     TextField(
                       onChanged: (text) {
+                        review = text;
+                        print(review);
                         // _con.productsReviews[index].review = text;
                       },
                       maxLines: 2,
@@ -131,7 +160,14 @@ class FeedbackView extends GetView<FeedbackController> {
                       .merge(TextStyle(color: Get.theme.primaryColor)),
                 ),
                 color: Get.theme.accentColor,
-                onPressed: () {
+                onPressed: () async {
+                  var ref = await _userNetwork
+                      .getUserRef(Get.find<AuthController>().currentuser.id);
+                  FirebaseFirestore.instance
+                      .collection("Provider")
+                      .doc(controller.task.value.provider.id)
+                      .collection("Review")
+                      .add({"user": ref, "rate": rate, "review": review});
                   Get.back();
                 }),
           )

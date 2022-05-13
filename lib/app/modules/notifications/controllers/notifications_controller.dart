@@ -21,6 +21,7 @@ class NotificationsController extends GetxController {
     notifications = <Notification>[];
     uid = Get.find<AuthController>().currentuser.id;
     if (uid != null) {
+      notifications.clear();
       notifications = Get.find<HomeController>().notifs.value;
     }
     super.onInit();

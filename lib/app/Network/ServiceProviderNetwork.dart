@@ -116,14 +116,13 @@ class ServiceProviderNetwork {
     });
   }
 
-  Future<ServiceProvider> getProviderByUser(User user) async {
+  Future<ServiceProvider> getProviderByUserRef(DocumentReference ref) async {
     try {
       print('hello from network');
 
       ServiceProvider serviceProvider;
-      DocumentReference userref = await userServices.getUserRef(user.id);
       QuerySnapshot snapshot =
-          await providersRef.where('user', isEqualTo: userref).get();
+          await providersRef.where('user', isEqualTo: ref).get();
       print('hello from network 2');
       // snapshot..docs.first;
       // DocumentSnapshot snapshot = await providersRef.doc(id).get();
@@ -197,7 +196,7 @@ class ServiceProviderNetwork {
         password: '',
         username: '');
 
-    user = await userServices.getUserById(user.id ?? '');
+    user = await userServices.getUserById(user.id);
     serviceProvider.user = user;
     // serviceProvider.user = user;
 

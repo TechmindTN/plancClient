@@ -109,8 +109,8 @@ class RegisterView2 extends GetView<AuthController> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 child: Image.asset(
-                  'assets/icon/icon.png',
-                  fit: BoxFit.cover,
+                  'assets/img/planc_2.png',
+                  fit: BoxFit.scaleDown,
                   width: 100,
                   height: 100,
                 ),
@@ -191,10 +191,10 @@ class RegisterView2 extends GetView<AuthController> {
                         isExpanded: true,
                         value: controller.gender.value,
                         icon: const Icon(Icons.arrow_drop_down),
-                        style: const TextStyle(color: Colors.orangeAccent),
+                        style: TextStyle(color: Ui.parseColor('#00B6BF')),
                         underline: Container(
                           height: 2,
-                          color: Colors.orangeAccent,
+                          color: Ui.parseColor('#00B6BF'),
                         ),
                         onChanged: (String newValue) {
                           controller.gender.value = newValue;
