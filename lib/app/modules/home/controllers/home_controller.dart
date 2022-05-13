@@ -73,7 +73,6 @@ class HomeController extends GetxController {
   List cards = [];
   RxList notifs = [].obs;
   static int i = 1;
-
   HomeController() {
     _userRepo = new UserRepository();
     _sliderRepo = new SliderRepository();
@@ -104,7 +103,7 @@ class HomeController extends GetxController {
     Get.put<EServiceController>(EServiceController());
     if (Get.find<AuthController>().currentProfile.first_name != null) {
       client.value = Get.find<AuthController>().currentProfile;
-      interventions.value.clear();
+      interventions.clear();
       interventions.value =
           await _interventionNetwork.getInterventionsList(client.value.id);
       notifs.clear();
@@ -112,7 +111,6 @@ class HomeController extends GetxController {
           .getNotifications(Get.find<AuthController>().currentuser.id)
           .then((value) {
         notifs.value = value;
-        print('notiiiififf: ' + value.toString());
       });
     }
 
@@ -131,6 +129,7 @@ class HomeController extends GetxController {
     prov = await eServiceController.getProviders();
 
     await refreshHome();
+
     FirebaseMessaging.instance.getInitialMessage();
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
@@ -151,27 +150,23 @@ class HomeController extends GetxController {
     var initializationSettings =
         InitializationSettings(android: initialzationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
 
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
       if (notification != null && android != null) {
-        print('notifs now : ' + notifs.length.toString());
-        print(i);
         if (i % 2 != 0) {
           i++;
-
           var obj = {
             "read_by_user": false,
             "description": notification.body,
             "creation_date": Timestamp.now(),
             "title": notification.title
           };
-
           _userNetwork.RegisterNotification(
               Get.find<AuthController>().currentuser.id, obj);
-
           model.Notification nt = model.Notification.fromFire(obj);
           notifs.add(nt);
           flutterLocalNotificationsPlugin.show(
@@ -194,17 +189,28 @@ class HomeController extends GetxController {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('msg');
+      // RemoteNotification notification = message.notification;
+      // var obj = {
+      //   "read_by_user": false,
+      //   "description": notification.body,
+      //   " creation_date": Timestamp.now(),
+      //   "title": notification.title
+      // };
+      // model.Notification nt = model.Notification.fromFire(obj);
+      // notifs.add(nt);
       if (message.data != null) {
         Get.toNamed(message.data['route']);
       }
     });
-    Get.find<TasksController>().onInit();
+
     super.onInit();
   }
 
-  Future back(RemoteMessage msg) async {
-    print('msggg');
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    print('Handling a background message ${message.messageId}');
   }
 
   Future<void> refreshIntervention() async {

@@ -36,7 +36,7 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.blueGrey.withOpacity(0.01),
+                        color: Colors.blueGrey.withOpacity(0.3),
                         blurRadius: 2,
                         spreadRadius: 1,
                         offset: Offset(0, 2), // changes position of shadow
