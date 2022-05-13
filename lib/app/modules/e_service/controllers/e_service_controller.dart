@@ -39,6 +39,20 @@ class EServiceController extends GetxController {
     }
   }
 
+  verifyChat(list) async {
+    QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection("Chat")
+        .where('users', isEqualTo: list)
+        .limit(1)
+        .get();
+
+    if (snaps.docs.length == 0) {
+      return null;
+    } else {
+      return snaps.docs[0].id;
+    }
+  }
+
   Future<List<ServiceProvider>> getProviders() async {
     // // ServiceProvider serviceProviders
     // List<ServiceProvider> serviceProviders=await providerServices.getProvidersList();

@@ -140,8 +140,8 @@ class ConfirmationView extends GetView<CheckoutController> {
           ),
           color: Get.theme.accentColor,
           onPressed: () {
-            Get.find<HomeController>()..refreshIntervention();
-            Get.toNamed(Routes.ROOT);
+            Get.find<HomeController>().refreshIntervention();
+            Get.offAndToNamed(Routes.ROOT);
           }).paddingOnly(bottom: 20, right: 20, left: 20),
     );
   }
