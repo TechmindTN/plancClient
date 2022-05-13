@@ -27,7 +27,6 @@ class BillView extends GetView<TasksController> {
           icon: new Icon(Icons.sort, color: Get.theme.hintColor),
           onPressed: () => {Scaffold.of(context).openDrawer()},
         ),
-        actions: [NotificationsButtonWidget()],
       ),
       body: BillWidget(
         bill: bill,

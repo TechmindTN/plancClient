@@ -172,7 +172,6 @@ class UserNetwork {
       notifs.add(notif);
       print('notif here ' + notif.toString());
     });
-    notifs.add(notif);
 
     return notifs;
   }

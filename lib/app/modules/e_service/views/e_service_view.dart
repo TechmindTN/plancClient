@@ -9,6 +9,7 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import '../../../../common/ui.dart';
 import '../../../Network/MediaNetwork.dart';
+import '../../../Network/UserNetwork.dart';
 import '../../../global_widgets/block_button_widget.dart';
 import '../../../global_widgets/circular_loading_widget.dart';
 
@@ -16,6 +17,8 @@ import '../../../models/Media.dart';
 import '../../../models/Provider.dart';
 import '../../../routes/app_pages.dart';
 import '../../auth/controllers/auth_controller.dart';
+import '../../messages/controllers/messages_controller.dart';
+import '../../messages/views/chats_view.dart';
 import '../controllers/e_service_controller.dart';
 import '../widgets/e_provider_item_widget.dart';
 import '../widgets/e_service_til_widget.dart';
@@ -32,6 +35,7 @@ class EServiceView extends GetView<EServiceController> {
   @override
   Widget build(BuildContext context) {
     MediaNetwork mediaServices = MediaNetwork();
+    UserNetwork _userNetwork = UserNetwork();
     print('name: ' + prov.name);
     print('id: ' + prov.id);
     List<dynamic> images = [];
@@ -122,6 +126,55 @@ class EServiceView extends GetView<EServiceController> {
                         ),
                         SizedBox(
                           height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Add a message',
+                                style: Get.textTheme.bodyText1),
+                            IconButton(
+                                icon: Icon(Icons.message),
+                                onPressed: () async {
+                                  var list = [];
+
+                                  var ref1 = await _userNetwork
+                                      .getUserRef(prov.user.id);
+                                  var ref2 = await _userNetwork.getUserRef(
+                                      Get.find<AuthController>()
+                                          .currentuser
+                                          .id);
+
+                                  list.add(ref1);
+                                  list.add(ref2);
+
+                                  var ok = await controller.verifyChat(list);
+
+                                  if (ok == null) {
+                                    FirebaseFirestore.instance
+                                        .collection('Chat')
+                                        .add({
+                                      "createdAt": Timestamp.now(),
+                                      "users": list
+                                    }).then((value) => Get.to(ChatsView(
+                                              chat_id: value.id,
+                                              user: prov.user,
+                                              provider: prov,
+                                            )));
+                                  } else {
+                                    Get.find<MessagesController>()
+                                        .receiver
+                                        .add(prov.user);
+                                    Get.find<MessagesController>()
+                                        .receiver_provider
+                                        .add(prov);
+                                    Get.to(ChatsView(
+                                      chat_id: ok,
+                                      user: prov.user,
+                                      provider: prov,
+                                    ));
+                                  }
+                                })
+                          ],
                         ),
                         //   Row(
                         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

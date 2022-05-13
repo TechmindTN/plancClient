@@ -46,6 +46,7 @@ void main() async {
     var userpass = prefs.get('pass');
     Get.find<AuthController>().verifylogin(useremail, userpass);
   }
+
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,

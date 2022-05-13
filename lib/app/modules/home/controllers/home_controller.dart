@@ -72,6 +72,7 @@ class HomeController extends GetxController {
   RxList<Asset> images = <Asset>[].obs;
   List cards = [];
   RxList notifs = [].obs;
+  static int i = 1;
 
   HomeController() {
     _userRepo = new UserRepository();
@@ -106,7 +107,7 @@ class HomeController extends GetxController {
       interventions.value.clear();
       interventions.value =
           await _interventionNetwork.getInterventionsList(client.value.id);
-      notifs.value.clear();
+      notifs.clear();
       await _userNetwork
           .getNotifications(Get.find<AuthController>().currentuser.id)
           .then((value) {
@@ -130,7 +131,6 @@ class HomeController extends GetxController {
     prov = await eServiceController.getProviders();
 
     await refreshHome();
-
     FirebaseMessaging.instance.getInitialMessage();
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
@@ -151,63 +151,60 @@ class HomeController extends GetxController {
     var initializationSettings =
         InitializationSettings(android: initialzationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
 
-      // If `onMessage` is triggered with a notification, construct our own
-      // local notification to show to users using the created channel.
       if (notification != null && android != null) {
         print('notifs now : ' + notifs.length.toString());
-        var obj = {
-          "read_by_user": false,
-          "description": notification.body,
-          "creation_date": Timestamp.now(),
-          "title": notification.title
-        };
-        _userNetwork.RegisterNotification(
-            Get.find<AuthController>().currentuser.id, obj);
-        model.Notification nt = model.Notification.fromFire(obj);
-        notifs.add(nt);
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                icon: "@mipmap/ic_launcher_new",
-                // other properties...
-              ),
-            ));
+        print(i);
+        if (i % 2 != 0) {
+          i++;
+
+          var obj = {
+            "read_by_user": false,
+            "description": notification.body,
+            "creation_date": Timestamp.now(),
+            "title": notification.title
+          };
+
+          _userNetwork.RegisterNotification(
+              Get.find<AuthController>().currentuser.id, obj);
+
+          model.Notification nt = model.Notification.fromFire(obj);
+          notifs.add(nt);
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  icon: "@mipmap/ic_launcher_new",
+                  // other properties...
+                ),
+              ));
+        } else {
+          i++;
+        }
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      // RemoteNotification notification = message.notification;
-      // var obj = {
-      //   "read_by_user": false,
-      //   "description": notification.body,
-      //   " creation_date": Timestamp.now(),
-      //   "title": notification.title
-      // };
-      // model.Notification nt = model.Notification.fromFire(obj);
-      // notifs.add(nt);
+      print('msg');
       if (message.data != null) {
         Get.toNamed(message.data['route']);
       }
     });
-
+    Get.find<TasksController>().onInit();
     super.onInit();
   }
 
-  Future<void> _firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
-    // If you're going to use other Firebase services in the background, such as Firestore,
-    // make sure you call `initializeApp` before using other Firebase services.
-    print('Handling a background message ${message.messageId}');
+  Future back(RemoteMessage msg) async {
+    print('msggg');
   }
 
   Future<void> refreshIntervention() async {

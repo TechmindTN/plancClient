@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../common/ui.dart';
 import '../../../models/Notification.dart' as model;
+import '../../auth/controllers/auth_controller.dart';
+import '../../home/controllers/home_controller.dart';
+import '../controllers/notifications_controller.dart';
 
 class NotificationItemWidget extends StatelessWidget {
   NotificationItemWidget({Key key, this.notification, this.onDismissed})
@@ -15,7 +19,7 @@ class NotificationItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // AuthService _authService = Get.find<AuthService>();
     return Dismissible(
-      key: Key(this.notification.hashCode.toString()),
+      key: UniqueKey(),
       background: Container(
         padding: EdgeInsets.all(12),
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -33,6 +37,17 @@ class NotificationItemWidget extends StatelessWidget {
       ),
       onDismissed: (direction) {
         onDismissed(this.notification);
+
+        Get.find<HomeController>().notifs.remove(this.notification);
+        Get.find<NotificationsController>()
+            .notifications
+            .remove(this.notification);
+        FirebaseFirestore.instance
+            .collection('User')
+            .doc(Get.find<AuthController>().currentuser.id)
+            .collection("Notification")
+            .doc(this.notification.id)
+            .delete();
         // Then show a snackbar
         Get.showSnackbar(
             Ui.SuccessSnackBar(message: "The notification is deleted".tr));

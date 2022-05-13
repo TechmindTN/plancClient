@@ -65,7 +65,9 @@ class TasksController extends GetxController {
     // _interventionNetwork
     //   bookings.value.add(i);
     // });
-    bookings.clear();
+    if (bookings.length > 0) {
+      bookings.clear();
+    }
     for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
       if (Get.find<HomeController>().interventions.value[i].states ==
           "pending") {
@@ -105,7 +107,9 @@ class TasksController extends GetxController {
   // }
 
   getOngoingTasks({bool showMessage = false}) {
-    OngoingTasks.clear();
+    if (OngoingTasks.length > 0) {
+      OngoingTasks.clear();
+    }
     for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
       if (Get.find<HomeController>().interventions.value[i].states ==
           "ongoing") {
@@ -121,7 +125,9 @@ class TasksController extends GetxController {
   }
 
   Future<void> getCompletedTasks({bool showMessage = false}) async {
-    CompletedTasks.clear();
+    if (CompletedTasks.length > 0) {
+      CompletedTasks.clear();
+    }
 
     for (var i = 0; i < Get.find<HomeController>().interventions.length; i++) {
       if (Get.find<HomeController>().interventions.value[i].states ==

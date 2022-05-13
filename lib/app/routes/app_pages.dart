@@ -24,6 +24,8 @@ import '../modules/favorites/bindings/favorites_binding.dart';
 import '../modules/favorites/views/favorites_view.dart';
 import '../modules/feedback/bindings/feedback_binding.dart';
 import '../modules/feedback/views/feedback_view.dart';
+import '../modules/feedback/views/rating_view.dart';
+
 import '../modules/help_privacy/bindings/help_privacy_binding.dart';
 import '../modules/help_privacy/views/help_view.dart';
 import '../modules/help_privacy/views/privacy_view.dart';
@@ -53,6 +55,10 @@ class AppPages {
     GetPage(
         name: Routes.FEEDBACK,
         page: () => FeedbackView(),
+        binding: FeedbackBinding()),
+    GetPage(
+        name: Routes.RATING,
+        page: () => RatingView(),
         binding: FeedbackBinding()),
     GetPage(name: Routes.CHAT, page: () => ChatsView()),
     GetPage(

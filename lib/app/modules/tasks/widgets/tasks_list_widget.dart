@@ -8,6 +8,7 @@ import 'package:intl/intl.dart' show DateFormat;
 import '../../../../common/ui.dart';
 import '../../../models/Intervention.dart';
 import '../../../routes/app_pages.dart';
+import '../../feedback/views/rating_view.dart';
 import '../controllers/tasks_controller.dart';
 import '../views/informations_view.dart';
 import 'task_row_widget.dart';
@@ -178,10 +179,13 @@ class TasksListWidget extends StatelessWidget {
                                                                   3,
                                                                   _task
                                                                       .provider);
-                                                          controller.update();
 
                                                           Navigator.pop(
                                                               context);
+                                                          controller.update();
+                                                          Get.toNamed(
+                                                              Routes.RATING,
+                                                              arguments: _task);
                                                         },
                                                         child: Text('Yes'.tr),
                                                       ),
@@ -197,7 +201,7 @@ class TasksListWidget extends StatelessWidget {
                                     )),
                                   ],
                                 )
-                              : SizedBox()
+                              : SizedBox(),
                           // Wrap(
                           //   spacing: 10,
                           //   children: [
