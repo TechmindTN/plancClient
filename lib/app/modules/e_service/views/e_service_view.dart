@@ -8,14 +8,18 @@ import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import '../../../../common/ui.dart';
+import '../../../Network/ClientNetwork.dart';
 import '../../../Network/MediaNetwork.dart';
+import '../../../Network/ServiceProviderNetwork.dart';
 import '../../../Network/UserNetwork.dart';
 import '../../../global_widgets/block_button_widget.dart';
 import '../../../global_widgets/circular_loading_widget.dart';
 
+import '../../../models/Client.dart';
 import '../../../models/Media.dart';
 import '../../../models/Provider.dart';
 import '../../../routes/app_pages.dart';
+import '../../../their_models/review_model.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../messages/controllers/messages_controller.dart';
 import '../../messages/views/chats_view.dart';
@@ -135,13 +139,14 @@ class EServiceView extends GetView<EServiceController> {
                             IconButton(
                                 icon: Icon(Icons.message),
                                 onPressed: () async {
+                                  print('id user: ' + prov.user.id);
                                   var list = [];
 
-                                  var ref1 = await _userNetwork
-                                      .getUserRef(prov.user.id);
-                                  var ref2 = await _userNetwork.getUserRef(
+                                  var ref1 = FirebaseFirestore.instance
+                                      .doc('Provider/' + prov.id);
+                                  var ref2 = await ClientNetwork().getClientRef(
                                       Get.find<AuthController>()
-                                          .currentuser
+                                          .currentProfile
                                           .id);
 
                                   list.add(ref1);
@@ -157,19 +162,11 @@ class EServiceView extends GetView<EServiceController> {
                                       "users": list
                                     }).then((value) => Get.to(ChatsView(
                                               chat_id: value.id,
-                                              user: prov.user,
                                               provider: prov,
                                             )));
                                   } else {
-                                    Get.find<MessagesController>()
-                                        .receiver
-                                        .add(prov.user);
-                                    Get.find<MessagesController>()
-                                        .receiver_provider
-                                        .add(prov);
                                     Get.to(ChatsView(
                                       chat_id: ok,
-                                      user: prov.user,
                                       provider: prov,
                                     ));
                                   }
@@ -406,24 +403,49 @@ class EServiceView extends GetView<EServiceController> {
                           ),
                         ]),
                         Divider(height: 35, thickness: 1.3),
-                        Obx(() {
-                          if (controller.reviews.isEmpty) {
-                            return CircularLoadingWidget(height: 100);
-                          }
-                          return ListView.separated(
-                            padding: EdgeInsets.all(0),
-                            itemBuilder: (context, index) {
-                              return ReviewItemWidget(
-                                  review: controller.reviews.elementAt(index));
-                            },
-                            separatorBuilder: (context, index) {
-                              return Divider(height: 35, thickness: 1.3);
-                            },
-                            itemCount: controller.reviews.length,
-                            primary: false,
-                            shrinkWrap: true,
-                          );
-                        }),
+                        FutureBuilder(
+                            future: FirebaseFirestore.instance
+                                .collection('Provider')
+                                .doc(prov.id)
+                                .collection('Review')
+                                .get(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                      ConnectionState.none &&
+                                  snapshot.hasData == null) {
+                                //print('project snapshot data is: ${snapshot.data}');
+                                return CircularLoadingWidget(height: 100);
+                              }
+
+                              var reviewslist = snapshot.data?.docs;
+
+                              return ListView.separated(
+                                padding: EdgeInsets.all(0),
+                                itemBuilder: (context, index) {
+                                  _userNetwork
+                                      .getClientByUserRef(
+                                          reviewslist[index]["user"])
+                                      .then((value) {
+                                    controller.reviews.add(Review(
+                                        review: reviewslist[index]['review'],
+                                        rate: reviewslist[index]['rate'],
+                                        client: value));
+                                    controller.update();
+                                  });
+
+                                  return GetBuilder<EServiceController>(
+                                      init: EServiceController(),
+                                      builder: (val) => ReviewItemWidget(
+                                          review: controller.reviews[index]));
+                                },
+                                separatorBuilder: (context, index) {
+                                  return Divider(height: 35, thickness: 1.3);
+                                },
+                                itemCount: reviewslist.length,
+                                primary: false,
+                                shrinkWrap: true,
+                              );
+                            }),
                       ],
                     ),
                     actions: [

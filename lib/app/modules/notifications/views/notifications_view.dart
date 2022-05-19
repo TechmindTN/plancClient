@@ -65,10 +65,9 @@ class NotificationsView extends GetView<NotificationsController> {
                   // Message _message = _messages.elementAt(index);
                   // printInfo(info: _message.toMap().toString());
                   return NotificationItemWidget(
-                    notification: val.notifications.elementAt(index),
+                    notification: val.notifications.value.elementAt(index),
                     onDismissed: (conversation) {
-                      val.notifications.removeAt(index);
-                      val.update();
+                      val.notifications.value.removeAt(index);
                     },
                   );
                 });

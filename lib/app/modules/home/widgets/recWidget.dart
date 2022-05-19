@@ -19,7 +19,9 @@ Widget RecWidget(_service, eServiceController, {String id}) {
   MediaNetwork mediaServices = MediaNetwork();
 
   // provider.branches=await branchServices.getBranchListByProvider(provider.id);
-  // provider.user=await userServices.getUserById(_service.id);
+  userServices
+      .getUserById(_service['user'].id)
+      .then((val) => provider.user = val);
 
   // print(provider.branches.first.address);
   if (id == null) {

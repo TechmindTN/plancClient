@@ -76,7 +76,7 @@ class MessagesView extends GetView<MessagesController> {
             body: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("Chat")
-                    .where('users', arrayContains: controller.userRef)
+                    .where('users', arrayContains: controller.clientRef)
                     .orderBy('LastMsgAt', descending: true)
                     .snapshots(),
                 builder: (ctx, chatSnapshot) {
@@ -90,81 +90,98 @@ class MessagesView extends GetView<MessagesController> {
                     //  var Lastmsg = FirebaseFirestore.instance
                     // .collection("Chat")
                     // .where('users', arrayContains: controller.userRef)
-
+                    int i = 0;
                     return ListView.builder(
                         itemCount: chatDocs?.length,
                         // ignore: missing_return
                         itemBuilder: (ctx, index) {
-                          chatDocs[index]["users"].forEach((el) {
-                            if (el.id != controller.user.id) {
-                              print('el.id ' + el.id);
-                              controller.userNetwork
-                                  .getUserById(el.id)
-                                  .then((value) {
-                                controller.receiver.add(value);
-                                controller.update();
-                              });
-                              _providerNetwork
-                                  .getProviderByUserRef(el)
-                                  .then((value2) {
-                                controller.receiver_provider.add(value2);
-                                controller.update();
-                              });
-                            }
-                          });
-                          return GetBuilder<MessagesController>(
-                              init: MessagesController(),
-                              builder: (val) => Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(children: [
-                                      InkWell(
-                                          child: Container(
-                                            height: 80,
-                                            child: Column(children: [
-                                              Row(
+                          print('chat n° ' +
+                              i.toString() +
+                              ' ' +
+                              chatDocs[index].id.toString());
+
+                          i++;
+                          if (chatDocs[index]["users"]
+                              .contains(controller.clientRef)) {
+                            chatDocs[index]["users"].forEach((el) {
+                              if (el.id != controller.user.id) {
+                                // print('el.id ' + el.id);
+                                // controller.userNetwork
+                                //     .getUserById(el.id)
+                                //     .then((value) {
+                                //   controller.receiver.add(value);
+                                //   controller.update();
+                                // });
+                                // _providerNetwork
+                                //     .getProviderByUserRef(el)
+                                //     .then((value2) {
+                                //   controller.receiver_provider.add(value2);
+                                //   controller.update();
+                                // });
+                                _providerNetwork
+                                    .getProviderById(el.id)
+                                    .then((value) {
+                                  controller.receiver_provider.add(value);
+                                  controller.update();
+                                });
+                              }
+                            });
+                            return GetBuilder<MessagesController>(
+                                init: MessagesController(),
+                                builder: (val) => Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(children: [
+                                        InkWell(
+                                            child: Container(
+                                              height: 80,
+                                              child: Column(children: [
+                                                Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      CircleAvatar(
+                                                        backgroundImage:
+                                                            NetworkImage(val
+                                                                .receiver_provider[
+                                                                    index]
+                                                                .profile_photo),
+                                                      ),
+                                                      SizedBox(width: 15),
+                                                      Text(
+                                                        val
+                                                                .receiver_provider[
+                                                                    index]
+                                                                .name ??
+                                                            '',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w800),
+                                                      ),
+                                                    ]),
+                                                Row(
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                      MainAxisAlignment.center,
                                                   children: [
-                                                    CircleAvatar(
-                                                      backgroundImage:
-                                                          NetworkImage(val
-                                                              .receiver_provider
-                                                              .value[index]
-                                                              .profile_photo),
-                                                    ),
-                                                    SizedBox(width: 15),
-                                                    Text(
-                                                      val.receiver.value[index]
-                                                              .username ??
-                                                          '',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w800),
-                                                    ),
-                                                  ]),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text("Last message",
-                                                      style: TextStyle(
-                                                          color: Colors.grey)),
-                                                ],
-                                              )
-                                            ]),
-                                          ),
-                                          onTap: () {
-                                            Get.to(() => ChatsView(
-                                                chat_id: chatDocs[index].id,
-                                                user: controller
-                                                    .receiver.value[index],
-                                                provider: controller
-                                                    .receiver_provider
-                                                    .value[index]));
-                                          }),
-                                      Divider(height: 8, thickness: 1),
-                                    ]),
-                                  ));
+                                                    Text("Last message",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.grey)),
+                                                  ],
+                                                )
+                                              ]),
+                                            ),
+                                            onTap: () {
+                                              Get.to(() => ChatsView(
+                                                  chat_id: chatDocs[index].id,
+                                                  provider: controller
+                                                          .receiver_provider[
+                                                      index]));
+                                            }),
+                                        Divider(height: 8, thickness: 1),
+                                      ]),
+                                    ));
+                          }
                         });
                   }
                 })));

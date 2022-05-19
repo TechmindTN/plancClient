@@ -25,7 +25,7 @@ class ReviewItemWidget extends StatelessWidget {
                   height: 65,
                   width: 65,
                   fit: BoxFit.cover,
-                  imageUrl: review.user.mediaThumb,
+                  imageUrl: review.client.profile_photo,
                   placeholder: (context, url) => Image.asset(
                     'assets/img/loading.gif',
                     fit: BoxFit.cover,
@@ -42,7 +42,7 @@ class ReviewItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      review.user.name,
+                      review.client.first_name ?? "",
                       overflow: TextOverflow.fade,
                       softWrap: false,
                       maxLines: 2,
@@ -52,7 +52,7 @@ class ReviewItemWidget extends StatelessWidget {
                           .merge(TextStyle(color: Theme.of(context).hintColor)),
                     ),
                     Text(
-                      review.user.bio,
+                      review.client.country ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.caption,
                     ),

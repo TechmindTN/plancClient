@@ -8,7 +8,7 @@ import '../../auth/controllers/auth_controller.dart';
 import '../../home/controllers/home_controller.dart';
 
 class NotificationsController extends GetxController {
-  List<Notification> notifications;
+  RxList<Notification> notifications = <Notification>[].obs;
   NotificationRepository _notificationRepository;
   UserNetwork _userNetwork = UserNetwork();
   String uid;
@@ -18,11 +18,10 @@ class NotificationsController extends GetxController {
 
   @override
   void onInit() async {
-    notifications = <Notification>[];
     uid = Get.find<AuthController>().currentuser.id;
     if (uid != null) {
       notifications.clear();
-      notifications = Get.find<HomeController>().notifs.value;
+      notifications.value = Get.find<HomeController>().notifs.value;
     }
     super.onInit();
   }

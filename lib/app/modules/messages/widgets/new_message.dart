@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 import '../../../../common/ui.dart';
 import '../../auth/controllers/auth_controller.dart';
@@ -11,28 +14,53 @@ class NewMessage extends GetWidget<MessagesController> {
   NewMessage({Key key, this.chat_id}) : super(key: key);
 
   RxString _enteredMessage = ''.obs;
+  RxString _imagelink = ''.obs;
   final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     void _sendMessage() async {
-      final _currentUsre = Get.find<AuthController>().currentuser;
-      print('chat id ' + chat_id);
-      FirebaseFirestore.instance
-          .collection('Chat')
-          .doc(chat_id)
-          .update({'LastMsgAt': Timestamp.now()});
-      FirebaseFirestore.instance
-          .collection("Chat")
-          .doc(chat_id)
-          .collection("messages")
-          .add({
-        'text': _enteredMessage.value,
-        'createdAt': Timestamp.now(),
-        'userId': _currentUsre.id,
-      }).then((value) => print('document ref' + value.id));
-      _enteredMessage.value = '';
-      _controller.clear();
+      if (_enteredMessage.value.trim() != '' ||
+          controller.file.value != File('')) {
+        final _currentUsre = Get.find<AuthController>().currentuser;
+        print('chat id ' + chat_id);
+        FirebaseFirestore.instance
+            .collection('Chat')
+            .doc(chat_id)
+            .update({'LastMsgAt': Timestamp.now()});
+
+        if (_enteredMessage.value != '') {
+          FirebaseFirestore.instance
+              .collection("Chat")
+              .doc(chat_id)
+              .collection("messages")
+              .add({
+            'content': _enteredMessage.value,
+            'type': "text",
+            'createdAt': Timestamp.now(),
+            'userId': _currentUsre.id,
+          }).then((value) => print('document ref' + value.id));
+          _enteredMessage.value = '';
+          _controller.clear();
+        } else {
+          // ignore: missing_return
+          await controller.uploadFile(controller.file.value).then((value) {
+            FirebaseFirestore.instance
+                .collection("Chat")
+                .doc(chat_id)
+                .collection("messages")
+                .add({
+              'content': value,
+              'type': "file",
+              'createdAt': Timestamp.now(),
+              'userId': _currentUsre.id
+            });
+            controller.file.value = File('');
+          });
+        }
+      } else {
+        return null;
+      }
     }
 
     return Container(
@@ -60,17 +88,23 @@ class NewMessage extends GetWidget<MessagesController> {
                 ),
                 onChanged: (value) {
                   _enteredMessage.value = value;
-                  print(_enteredMessage.value);
                 },
               ),
             ),
-            Obx(() => IconButton(
-                  icon: const Icon(Icons.send),
-                  color: Colors.white,
-                  onPressed: _enteredMessage.value.trim().isEmpty
-                      ? null
-                      : _sendMessage,
-                ))
+            Row(children: [
+              IconButton(
+                onPressed: () async {
+                  await controller.changeImage();
+                },
+                icon: const Icon(Icons.filter),
+                color: Colors.white,
+              ),
+              IconButton(
+                icon: const Icon(Icons.send),
+                color: Colors.white,
+                onPressed: _sendMessage,
+              ),
+            ])
           ],
         ),
       ),

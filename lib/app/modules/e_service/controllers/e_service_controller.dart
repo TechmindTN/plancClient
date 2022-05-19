@@ -8,6 +8,7 @@ import '../../../../common/ui.dart';
 import '../../../Network/BranchNetwork.dart';
 import '../../../Network/ServiceProviderNetwork.dart';
 import '../../../Network/UserNetwork.dart';
+import '../../../models/Client.dart';
 import '../../../models/Provider.dart';
 import '../../../repositories/e_service_repository.dart';
 
@@ -21,7 +22,8 @@ class EServiceController extends GetxController {
   EServiceRepository _eServiceRepository;
   BranchNetwork branchServices = BranchNetwork();
   UserNetwork userServices = UserNetwork();
-
+  Client c;
+  Review r;
   EServiceController() {
     _eServiceRepository = new EServiceRepository();
   }

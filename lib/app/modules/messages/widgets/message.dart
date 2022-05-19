@@ -13,10 +13,8 @@ import '../widgets/message_bubble.dart';
 
 class Messsages extends StatelessWidget {
   final chat_id;
-  final User receiver_user;
   final ServiceProvider receiver_client;
-  const Messsages(
-      {Key key, this.chat_id, this.receiver_client, this.receiver_user})
+  const Messsages({Key key, this.chat_id, this.receiver_client})
       : super(key: key);
 
   @override
@@ -52,10 +50,11 @@ class Messsages extends StatelessWidget {
                 // ignore: missing_return
                 itemBuilder: (ctx, index) {
                   return MessageBubble(
-                    chatDocs[index]['text'],
+                    chatDocs[index]['content'],
+                    chatDocs[index]["type"],
                     chatDocs[index]['userId'] == user.id
                         ? user.username
-                        : receiver_user.username,
+                        : receiver_client.name,
                     client.profile_photo,
                     receiver_client.profile_photo,
                     chatDocs[index]['userId'] == user.id,

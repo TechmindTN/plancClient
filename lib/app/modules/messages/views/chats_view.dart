@@ -21,9 +21,8 @@ import '../widgets/new_message.dart';
 // ignore: must_be_immutable
 class ChatsView extends GetView<MessagesController> {
   final chat_id;
-  final User user;
   final ServiceProvider provider;
-  ChatsView({this.chat_id, this.user, this.provider});
+  ChatsView({this.chat_id, this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class ChatsView extends GetView<MessagesController> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            user.username,
+            provider.name,
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Ui.parseColor('#00B6BF'),
@@ -79,12 +78,14 @@ class ChatsView extends GetView<MessagesController> {
                 child: Messsages(
                   chat_id: chat_id,
                   receiver_client: provider,
-                  receiver_user: user,
                 ),
               ),
               NewMessage(
                 chat_id: chat_id,
               ),
+              // Visibility(
+              //   visible: false,
+              //   child: Container(child: ,))
             ],
           ),
         ),

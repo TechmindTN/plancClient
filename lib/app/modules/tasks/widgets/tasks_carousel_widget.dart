@@ -319,7 +319,7 @@ class TasksCarouselWidget extends StatelessWidget {
                                                   val.selectedTask.value.bill);
                                         },
                                         child: Text(
-                                          'Voir Facture',
+                                          'View Bill'.tr,
                                           textAlign: TextAlign.end,
                                         )))
                               ]),

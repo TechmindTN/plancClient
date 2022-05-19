@@ -33,7 +33,7 @@ class CategoriesCarouselWidget extends GetWidget<HomeController> {
                       end: 20, start: index == 0 ? 25 : 0, bottom: 3, top: 3),
                   padding: EdgeInsets.symmetric(vertical: 12),
                   decoration: new BoxDecoration(
-                    color: Colors.white,
+                    color: Get.theme.scaffoldBackgroundColor,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.blueGrey.withOpacity(0.3),
