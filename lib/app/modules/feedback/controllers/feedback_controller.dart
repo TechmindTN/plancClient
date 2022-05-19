@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:home_services/app/their_models/task_model.dart';
+import '../../../models/Intervention.dart';
 
 import '../../../models/Intervention.dart';
 

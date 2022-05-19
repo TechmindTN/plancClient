@@ -194,7 +194,7 @@ class ServiceProviderNetwork {
         password: '',
         username: '');
 
-    user = await userServices.getUserById(user.id ?? '');
+    user = await userServices.getUserById(user.id);
     serviceProvider.user = user;
     // serviceProvider.user = user;
 

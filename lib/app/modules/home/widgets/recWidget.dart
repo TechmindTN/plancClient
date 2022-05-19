@@ -13,11 +13,12 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 Widget RecWidget(_service, eServiceController, {String id}) {
   //  var _service = controller.prov.elementAt(index);
   ServiceProvider provider = ServiceProvider.fromFire(_service);
-  // eServiceController.getThisProvider(provider,_service['user'].id);
   UserNetwork userServices = UserNetwork();
   BranchNetwork branchServices = BranchNetwork();
   MediaNetwork mediaServices = MediaNetwork();
-
+  userServices
+      .getUserById(_service["user"].id)
+      .then((value) => provider.user = value);
   // provider.branches=await branchServices.getBranchListByProvider(provider.id);
   userServices
       .getUserById(_service['user'].id)
