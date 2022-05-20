@@ -228,7 +228,8 @@ class BookEServiceView extends GetView<BookEServiceController> {
                         children: [
                           Expanded(
                             child: Text(
-                                "When would you like us to come to your address?",
+                                "When would you like us to come to your address?"
+                                    .tr,
                                 style: Get.textTheme.bodyText1),
                           ),
                           SizedBox(width: 10),
@@ -249,7 +250,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
                         children: [
                           Expanded(
                             child: Text(
-                                "At What's time you are free in your address?",
+                                "At What time you are free in your address?".tr,
                                 style: Get.textTheme.bodyText1),
                           ),
                           SizedBox(width: 10),
@@ -364,7 +365,6 @@ class BookEServiceView extends GetView<BookEServiceController> {
               onPressed: () async {
                 if (formGlobalKey.currentState.validate()) {
                   await controller.addIntervention();
-                  Get.toNamed(Routes.ROOT);
                 }
               }).paddingOnly(right: 20, left: 20),
     );

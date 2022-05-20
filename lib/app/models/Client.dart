@@ -17,6 +17,7 @@ class Client {
   int phone;
   String profile_photo;
   User user;
+  String fcmToken;
   Client(
       {this.first_name,
       this.last_name,
@@ -32,7 +33,8 @@ class Client {
       this.phone,
       this.profile_photo,
       this.id,
-      this.user});
+      this.user,
+      this.fcmToken});
 
   Client.fromFire(fire)
       : first_name = fire['first_name'],
@@ -45,9 +47,10 @@ class Client {
         location = fire['location'],
         home_address = fire['home_address'],
         phone = fire['phone'],
-        profile_photo = fire['profile_photo '],
+        profile_photo = fire['profile_photo'],
         id = null,
         gender = fire['gender'],
+        fcmToken = fire['fcmToken'],
         social_media = fire['social_media'];
 
   printClient() {
@@ -82,11 +85,11 @@ class Client {
         'gender': gender,
         'social_media': social_media,
         'state': state,
-        'profile_photo ': profile_photo,
+        'profile_photo': profile_photo,
         'location': location,
         'home_address': home_address,
         'age': age,
         'city': city,
-        
+        'fcmToken': fcmToken
       };
 }

@@ -24,6 +24,7 @@ dependencies:
   # GET
   get: 4.0.0-nullsafety.2
   get_storage: 2.0.1
+  shared_preferences: ^2.0.13
   # DIO
   dio: 4.0.0-beta7
   dio_http_cache:
@@ -41,15 +42,15 @@ dependencies:
   webview_flutter: 2.0.2
   flutter_html: 2.0.0-nullsafety.0
   # FIREBASE
-  firebase_messaging: 9.0.0
+  firebase_messaging: 11.2.0
   cloud_firestore: 1.0.1
   firebase_auth: 1.0.1
-  firebase_core: 1.0.1
+  firebase_core: 1.10.0
   # GOOGLE MAPS
   google_maps_flutter: 2.0.1
   smooth_star_rating: ^1.1.1
   multi_image_picker2: ^5.0.0
-  # permission_handler: ^9.2.0
+  permission_handler: ^9.2.0
   # google_maps_place_picker: any
     # git:
       # url: git://github.com/SmarterVision/google_maps_place_picker.git
@@ -62,7 +63,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   geocoding: ^2.0.4
   geolocator: ^8.2.0
-
+  flutter_local_notifications: ^9.5.0
 dependency_overrides:
   path_provider: 2.0.1
   change_app_package_name: ^1.0.0
@@ -96,6 +97,9 @@ flutter:
     - assets/icon/
     - assets/locales/
     - assets/banner_headers.json
+    - assets/img/planc_1.png
+    - assets/img/planc_2.png
+    - assets/img/feedback.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

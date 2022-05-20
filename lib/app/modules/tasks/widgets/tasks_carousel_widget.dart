@@ -7,7 +7,9 @@ import 'package:home_services/app/their_models/task_model.dart';
 import '../../../../common/ui.dart';
 import '../../../global_widgets/circular_loading_widget.dart';
 import '../../../models/Intervention.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/tasks_controller.dart';
+import '../views/bill_view.dart';
 import 'task_row_widget.dart';
 
 class TasksCarouselWidget extends StatelessWidget {
@@ -39,13 +41,12 @@ class TasksCarouselWidget extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: controller.bookings.length,
                 itemBuilder: (_, index) {
-                  if (index == 0) {
-                    controller.selectedTask.value = controller.bookings.first;
-                    controller.update();
-                  }
-
                   var _service = controller.bookings.elementAt(index).provider;
                   var _task = controller.bookings.elementAt(index);
+                  if (index == 0) {
+                    controller.selectedTask.value = controller.bookings.first;
+                  }
+                  controller.update();
                   return GestureDetector(
                     onTap: () {
                       controller.selectedTask.value = _task;
@@ -287,8 +288,87 @@ class TasksCarouselWidget extends StatelessWidget {
                           value: val.selectedTask.value.description,
                           hasDivider: true),
                       TaskRowWidget(
-                          description: "Status".tr,
-                          value: val.selectedTask.value.states),
+                        description: "Status".tr,
+                        value: val.selectedTask.value.states.tr,
+                        hasDivider: true,
+                      ),
+                      val.selectedTask.value.bill != null
+                          ? Column(children: [
+                              TaskRowWidget(
+                                description: "Total price",
+                                value: val.selectedTask.value.bill.total_price
+                                        .toString() +
+                                    ' tnd',
+                                hasDivider: true,
+                              ),
+                              Row(children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      'Bill'.tr,
+                                      style: Get.textTheme.bodyText1,
+                                    )),
+                                Expanded(
+                                    flex: 2,
+                                    child: TextButton(
+                                        style: ButtonStyle(
+                                            alignment: Alignment.bottomRight),
+                                        onPressed: () {
+                                          Get.toNamed(Routes.BILL,
+                                              arguments:
+                                                  val.selectedTask.value.bill);
+                                        },
+                                        child: Text(
+                                          'View Bill'.tr,
+                                          textAlign: TextAlign.end,
+                                        )))
+                              ]),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                      child: ElevatedButton(
+                                    onPressed: () async {
+                                      val.selectedTask.value.states = 'ongoing';
+                                      val.OngoingTasks.add(
+                                          val.selectedTask.value);
+
+                                      val.update();
+                                      await val.updateFireintervention(
+                                          val.selectedTask.value.id,
+                                          1,
+                                          val.selectedTask.value.provider);
+                                      DefaultTabController.of(context)
+                                          .animateTo(1);
+                                    },
+                                    child: Text('Accept'),
+                                  )),
+                                  Expanded(
+                                      child: ElevatedButton(
+                                    onPressed: () async {
+                                      val.selectedTask.value.states = 'refused';
+                                      val.CompletedTasks.add(
+                                          val.selectedTask.value);
+                                      val.update();
+                                      await val.updateFireintervention(
+                                          val.selectedTask.value.id,
+                                          2,
+                                          val.selectedTask.value.provider);
+                                      val.update();
+                                      val.bookings.refresh();
+                                      DefaultTabController.of(context)
+                                          .animateTo(2);
+                                    },
+                                    child: Text('Decline'),
+                                  ))
+                                ],
+                              )
+                            ])
+                          : SizedBox()
                     ],
                   ),
                 );

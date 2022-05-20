@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/modules/e_service/controllers/e_service_controller.dart';
@@ -7,15 +9,20 @@ import 'package:home_services/app/their_models/address_model.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/slide_model.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/ui.dart';
+import '../../../../main.dart';
 import '../../../Network/CategoryNetwork.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../Network/InterventionNetwork.dart';
 import '../../../Network/UserNetwork.dart';
+import '../../../models/Chat.dart';
 import '../../../models/Client.dart';
 import '../../../models/Intervention.dart';
+import '../../../models/Notification.dart' as model;
 import '../../../models/Provider.dart';
 import '../../../models/User.dart';
 import '../../../repositories/category_repository.dart';
@@ -30,6 +37,7 @@ import '../../category/controllers/category_controller.dart';
 import '../../profile/controllers/profile_controller.dart';
 import '../../profile/views/profile_view.dart';
 import '../../tasks/controllers/tasks_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeController extends GetxController {
   CategoryNetwork _categoryNetwork = CategoryNetwork();
@@ -58,7 +66,13 @@ class HomeController extends GetxController {
   var client = Client().obs;
   final List list = [];
   final List list1 = [];
+  List allproviders = [];
+  RxSet<Marker> providers_markers = Set<Marker>().obs;
+  SharedPreferences prefs;
   RxList<Asset> images = <Asset>[].obs;
+  List cards = [];
+  RxList notifs = [].obs;
+  static int i = 1;
   HomeController() {
     _userRepo = new UserRepository();
     _sliderRepo = new SliderRepository();
@@ -68,7 +82,19 @@ class HomeController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    getPresentAddress();
+    await Permission.location.status.then((val) {
+      if (val.isDenied) {
+        Permission.locationWhenInUse.request().then((value) {
+          if (value.isGranted) {
+            getPresentAddress();
+          }
+        });
+      } else {
+        if (val.isGranted) {
+          getPresentAddress();
+        }
+      }
+    });
     // _getAddressFromLatLng();
 
     pro.value = await _userNetwork.getUsersByRole('Professionel');
@@ -77,9 +103,15 @@ class HomeController extends GetxController {
     Get.put<EServiceController>(EServiceController());
     if (Get.find<AuthController>().currentProfile.first_name != null) {
       client.value = Get.find<AuthController>().currentProfile;
-      interventions.value.clear();
+      interventions.clear();
       interventions.value =
           await _interventionNetwork.getInterventionsList(client.value.id);
+      notifs.clear();
+      await _userNetwork
+          .getNotifications(Get.find<AuthController>().currentuser.id)
+          .then((value) {
+        notifs.value = value;
+      });
     }
 
     //   var index = 0;
@@ -97,7 +129,94 @@ class HomeController extends GetxController {
     prov = await eServiceController.getProviders();
 
     await refreshHome();
+
+    FirebaseMessaging.instance.getInitialMessage();
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      description:
+          'This channel is used for important notifications.', // description
+      importance: Importance.max,
+    );
+    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    var initialzationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initialzationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
+      if (notification != null && android != null) {
+        if (i % 2 != 0) {
+          i++;
+          var obj = {
+            "read_by_user": false,
+            "description": notification.body,
+            "creation_date": Timestamp.now(),
+            "title": notification.title
+          };
+          _userNetwork.RegisterNotification(
+              Get.find<AuthController>().currentuser.id, obj);
+          model.Notification nt = model.Notification.fromFire(obj);
+          notifs.add(nt);
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  icon: "@mipmap/ic_launcher_new",
+                  // other properties...
+                ),
+              ));
+        } else {
+          i++;
+        }
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      // RemoteNotification notification = message.notification;
+      // var obj = {
+      //   "read_by_user": false,
+      //   "description": notification.body,
+      //   " creation_date": Timestamp.now(),
+      //   "title": notification.title
+      // };
+      // model.Notification nt = model.Notification.fromFire(obj);
+      // notifs.add(nt);
+      if (message.data != null) {
+        Get.toNamed(message.data['route']);
+      }
+    });
+
     super.onInit();
+  }
+
+  Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    print('Handling a background message ${message.messageId}');
+  }
+
+  Future<void> refreshIntervention() async {
+    interventions.value.clear();
+    interventions.value =
+        await _interventionNetwork.getInterventionsList(client.value.id);
   }
 
   getPresentAddress() {
@@ -120,9 +239,9 @@ class HomeController extends GetxController {
         await placemarkFromCoordinates(position.latitude, position.longitude);
 
     Placemark place = placemarks[0];
-
+    print('place ' + place.toJson().toString());
     presentAddress.value =
-        "${place.locality}, ${place.postalCode}, ${place.country}";
+        "${place.street}, ${place.subAdministrativeArea}, ${place.locality}, ${place.country}";
   }
 
   Future<void> loadAssets() async {
@@ -153,7 +272,7 @@ class HomeController extends GetxController {
   }
 
   Future refreshHome({bool showMessage = false}) async {
-    // await getSlider();
+    await getSlider();
     // await getAddresses();
     await getCategories();
     // await getFeatured();
@@ -180,6 +299,7 @@ class HomeController extends GetxController {
   Future getSlider() async {
     try {
       slider.value = await _sliderRepo.getHomeSlider();
+      update();
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }

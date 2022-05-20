@@ -85,8 +85,8 @@ class RegisterView extends GetView<AuthController> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 child: Image.asset(
-                  'assets/icon/icon.png',
-                  fit: BoxFit.cover,
+                  'assets/img/planc_2.png',
+                  fit: BoxFit.scaleDown,
                   width: 100,
                   height: 100,
                 ),
@@ -157,7 +157,10 @@ class RegisterView extends GetView<AuthController> {
                     if (text == null || text.isEmpty) {
                       return 'field is empty'.tr;
                     }
-                    _pass = text;
+                    if (text != _pass) {
+                      return 'Not matching !';
+                    }
+
                     return null;
                   },
                 );

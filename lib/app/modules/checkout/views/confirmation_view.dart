@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 
 import '../../../global_widgets/block_button_widget.dart';
 import '../../../global_widgets/main_drawer_widget.dart';
+import '../../../routes/app_pages.dart';
+import '../../home/controllers/home_controller.dart';
 import "../../root/controllers/root_controller.dart";
+import '../../tasks/controllers/tasks_controller.dart';
 import '../controllers/checkout_controller.dart';
 
 class ConfirmationView extends GetView<CheckoutController> {
@@ -92,7 +95,7 @@ class ConfirmationView extends GetView<CheckoutController> {
             Opacity(
               opacity: 0.3,
               child: Text(
-                "Your task has been successfully submitted, you will receive a confirmation soon",
+                "Your task has been successfully submitted!".tr,
                 textAlign: TextAlign.center,
                 style: Get.textTheme.headline4,
               ),
@@ -124,7 +127,7 @@ class ConfirmationView extends GetView<CheckoutController> {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  "My Bookings".tr,
+                  "Done".tr,
                   textAlign: TextAlign.center,
                   style: Get.textTheme.headline6.merge(
                     TextStyle(color: Get.theme.primaryColor),
@@ -137,7 +140,8 @@ class ConfirmationView extends GetView<CheckoutController> {
           ),
           color: Get.theme.accentColor,
           onPressed: () {
-            Get.find<RootController>().changePageOutRoot(1);
+            Get.find<HomeController>().refreshIntervention();
+            Get.offAndToNamed(Routes.ROOT);
           }).paddingOnly(bottom: 20, right: 20, left: 20),
     );
   }

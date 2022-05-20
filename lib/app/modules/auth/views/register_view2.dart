@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/modules/auth/views/register_view.dart';
@@ -108,8 +109,8 @@ class RegisterView2 extends GetView<AuthController> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 child: Image.asset(
-                  'assets/icon/icon.png',
-                  fit: BoxFit.cover,
+                  'assets/img/planc_2.png',
+                  fit: BoxFit.scaleDown,
                   width: 100,
                   height: 100,
                 ),
@@ -190,10 +191,10 @@ class RegisterView2 extends GetView<AuthController> {
                         isExpanded: true,
                         value: controller.gender.value,
                         icon: const Icon(Icons.arrow_drop_down),
-                        style: const TextStyle(color: Colors.orangeAccent),
+                        style: TextStyle(color: Ui.parseColor('#00B6BF')),
                         underline: Container(
                           height: 2,
-                          color: Colors.orangeAccent,
+                          color: Ui.parseColor('#00B6BF'),
                         ),
                         onChanged: (String newValue) {
                           controller.gender.value = newValue;
@@ -290,6 +291,7 @@ class RegisterView2 extends GetView<AuthController> {
                   onPressed: () async {
                     if (formGlobalKey.currentState.validate()) {
                       DocumentReference user = controller.data;
+                      var token = await FirebaseMessaging.instance.getToken();
 
                       Client c = Client(
                           first_name: _firstname,
@@ -300,6 +302,7 @@ class RegisterView2 extends GetView<AuthController> {
                               controller.position.longitude),
                           social_media: _Social,
                           gender: controller.gender.value,
+                          fcmToken: token,
                           age: int.parse(age));
                       var data = await controller.registerClient(c, user);
                       if (await controller.verifylogin(

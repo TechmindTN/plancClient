@@ -52,7 +52,7 @@ class Home2View extends GetView<HomeController> {
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            if (controller.client.value.first_name != null) {
+            if (_authController.currentProfile.first_name != null) {
               Get.toNamed(Routes.BOOK_E_SERVICE);
               controller.onInit();
             } else {
@@ -76,15 +76,17 @@ class Home2View extends GetView<HomeController> {
                 // pinned: true,
                 floating: true,
                 iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-                title: Text(
-                  "Plan C",
-                  // Get.find<SettingsService>().setting.value.appName,
-                  style: Get.textTheme.headline6,
+                title: ClipRect(
+                  child: Container(
+                    height: 55,
+                    alignment: Alignment.topCenter,
+                    child: Image.asset("assets/img/planc_1.png"),
+                  ),
                 ),
                 centerTitle: true,
                 automaticallyImplyLeading: false,
                 leading: new IconButton(
-                  icon: new Icon(Icons.sort, color: Colors.black87),
+                  icon: new Icon(Icons.sort, color: Get.theme.focusColor),
                   onPressed: () => {Scaffold.of(context).openDrawer()},
                 ),
                 actions: [NotificationsButtonWidget()],
@@ -96,23 +98,23 @@ class Home2View extends GetView<HomeController> {
                         Stack(
                       alignment: AlignmentDirectional.bottomStart,
                       children: <Widget>[
-                        CarouselSlider(
-                          options: CarouselOptions(
-                            autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 5),
-                            height: 310,
-                            viewportFraction: 1.0,
-                            onPageChanged: (index, reason) {
-                              controller.currentSlide.value = index;
-                              controller.update();
-                            },
-                          ),
-                          items: controller.slider.map((Slide slide) {
-                            controller.update();
+                        Obx(() => CarouselSlider(
+                              options: CarouselOptions(
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 5),
+                                height: 310,
+                                viewportFraction: 1.0,
+                                onPageChanged: (index, reason) {
+                                  controller.currentSlide.value = index;
+                                  controller.update();
+                                },
+                              ),
+                              items: controller.slider.map((Slide slide) {
+                                controller.update();
 
-                            return SlideItemWidget(slide: slide);
-                          }).toList(),
-                        ),
+                                return SlideItemWidget(slide: slide);
+                              }).toList(),
+                            )),
                         Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 70, horizontal: 20),
@@ -149,8 +151,7 @@ class Home2View extends GetView<HomeController> {
                     AddressWidget(),
                     Image.asset("assets/img/banner2.jpg"),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                      padding: EdgeInsets.only(top: 20),
                       child: _tabSection(context),
                     ),
 
@@ -268,56 +269,52 @@ class Home2View extends GetView<HomeController> {
 
   Widget _tabSection(BuildContext context) {
     var color1, color2;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(5), boxShadow: [
-          BoxShadow(
-              color: Color.fromARGB(255, 255, 255, 255),
-              spreadRadius: 3,
-              offset: Offset(0, 5))
-        ]),
-        child: DefaultTabController(
-          length: 2,
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: TabBar(
-                    indicator: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(5), // Creates border
-                        color: Colors.orange),
-                    labelPadding: EdgeInsets.all(0),
-                    unselectedLabelStyle: TextStyle(fontSize: 15),
-                    indicatorWeight: 1.0,
-                    unselectedLabelColor: Colors.orange,
-                    labelColor: Colors.white,
-                    labelStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    tabs: [
-                      Tab(text: "Suppliers".tr),
-                      Tab(text: "Professionals".tr),
-                    ]),
-              ),
-              Container(
-                //Add this to give height
-                height: 625,
-                child: TabBarView(children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                    child: EntrepriseWidget(),
+    return Container(
+      decoration:
+          BoxDecoration(color: Get.theme.scaffoldBackgroundColor, boxShadow: [
+        BoxShadow(
+            color: Color.fromARGB(255, 255, 255, 255),
+            spreadRadius: 3,
+            offset: Offset(0, 5))
+      ]),
+      child: DefaultTabController(
+        length: 2,
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: TabBar(
+                  indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5), // Creates border
+                      color: Ui.parseColor('#00B6BF')),
+                  labelPadding: EdgeInsets.all(0),
+                  unselectedLabelStyle: TextStyle(fontSize: 15),
+                  indicatorWeight: 1.0,
+                  unselectedLabelColor: Ui.parseColor('#00B6BF'),
+                  labelColor: Colors.white,
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
-                    child: ProWidget(),
-                  ),
-                ]),
-              ),
-            ],
-          ),
+                  tabs: [
+                    Tab(text: "Suppliers".tr),
+                    Tab(text: "Professionals".tr),
+                  ]),
+            ),
+            Container(
+              //Add this to give height
+              height: 620,
+              child: TabBarView(children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                  child: EntrepriseWidget(),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                  child: ProWidget(),
+                ),
+              ]),
+            ),
+          ],
         ),
       ),
     );

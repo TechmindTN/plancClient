@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,11 +11,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Network/ClientNetwork.dart';
 import '../../../models/Client.dart';
 import '../../../models/User.dart' as user;
 import '../../../Network/UserNetwork.dart';
 import '../../home/controllers/home_controller.dart';
+import '../../notifications/controllers/notifications_controller.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -32,10 +37,14 @@ class AuthController extends GetxController {
   LatLng position;
   List<Placemark> marks = [];
   Set<Marker> markers = Set();
-  Set<Marker> providers_markers = Set();
-  Future<void> onInit() {
+  SharedPreferences prefs;
+  Future<void> onInit() async {
     file = File('');
-
+    // prefs = await SharedPreferences.getInstance();
+    // if (prefs.get('user') != null) {
+    //   var saveduser = user.User.fromFire(json.decode(prefs.get('user')));
+    //   verifylogin(saveduser.email, saveduser.password);
+    // }
     // im = Image.file(file);
     currentuser = user.User();
     currentProfile = Client();
@@ -44,6 +53,8 @@ class AuthController extends GetxController {
 
   Future<bool> verifylogin(String email, String pass) async {
     UserNetwork _userNetwork = UserNetwork();
+    ClientNetwork _clientNetwork = ClientNetwork();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool ok = true;
     var data = await _userNetwork.getUserByEmailPassword(email, pass);
@@ -53,12 +64,18 @@ class AuthController extends GetxController {
     if (currentuser == null || currentuser.email == null) {
       return false;
     }
+    prefs.setString('email', email);
+    prefs.setString('pass', pass);
+    var token = await FirebaseMessaging.instance.getToken();
     var d = _userNetwork.getUserRef(currentuser.id);
     await _userNetwork
         .getClientByUserRef(d)
         .then((value) => currentProfile = value);
+    await _clientNetwork.updateFcmToken(currentProfile.id, token);
 
     Get.find<HomeController>().onInit();
+
+    // prefs.setString('user', json.encode(currentuser.tofire()));
     return ok;
     // if (data == null) return false;
     // return true;

@@ -9,6 +9,8 @@ import '../../../models/User.dart';
 import '../../../routes/app_pages.dart';
 import '../../../services/auth_service.dart';
 import '../../auth/controllers/auth_controller.dart';
+import '../../home/controllers/home_controller.dart';
+import '../../home/views/home2_view.dart';
 import '../../root/controllers/root_controller.dart';
 import '../controllers/account_controller.dart';
 import '../widgets/account_link_widget.dart';
@@ -198,8 +200,9 @@ class AccountView extends GetView<AccountController> {
                     onTap: (e) {
                       Get.find<AuthController>().currentuser = User();
                       Get.find<AuthController>().currentProfile = Client();
-                      controller.update();
-                      Get.offAllNamed(Routes.ROOT);
+                      Get.find<HomeController>().onInit();
+                      Get.offAndToNamed(Routes.ROOT);
+                      Get.find<RootController>().changePageInRoot(0);
                     },
                   ),
                 ],

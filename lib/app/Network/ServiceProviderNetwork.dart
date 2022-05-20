@@ -51,13 +51,17 @@ class ServiceProviderNetwork {
         // List<Category> categories = [];
         // serviceProvider.categories = categories;
         List<Category> categories = [];
-        List<dynamic> drList = snapshot.docs.first['categories'];
+        List<dynamic> drList = element['categories'];
+        print('service prov name ' +
+            serviceProvider.name +
+            'drlist' +
+            drList.toString());
         drList.forEach((element) async {
           Category category =
               await categoryServices.getCategoryById(element.id);
           categories.add(category);
         });
-        serviceProvider.categories = categories;
+
         // drList.forEach((value) async {
         //   Category category = Category(name: '', parent: null, id: value.id);
         //   category = await categoryServices.getCategoryById(category.id ?? '');
@@ -85,7 +89,11 @@ class ServiceProviderNetwork {
 
         serviceProvider.categories = categories;
         providers.add(serviceProvider);
-
+        print('prov length all ' + providers.length.toString());
+        print('service prov name ' +
+            serviceProvider.name +
+            'catlist' +
+            serviceProvider.categories.toString());
         // index++;
       });
       print('providers done');
@@ -108,14 +116,11 @@ class ServiceProviderNetwork {
     });
   }
 
-  Future<ServiceProvider> getProviderByUser(User user) async {
+  Future<ServiceProvider> getProviderByUserRef(DocumentReference ref) async {
     try {
-      print('hello from network');
-
       ServiceProvider serviceProvider;
-      DocumentReference userref = await userServices.getUserRef(user.id);
       QuerySnapshot snapshot =
-          await providersRef.where('user', isEqualTo: userref).get();
+          await providersRef.where('user', isEqualTo: ref).get();
       print('hello from network 2');
       // snapshot..docs.first;
       // DocumentSnapshot snapshot = await providersRef.doc(id).get();
@@ -189,12 +194,22 @@ class ServiceProviderNetwork {
         password: '',
         username: '');
 
-    user = await userServices.getUserById(user.id ?? '');
+    user = await userServices.getUserById(user.id);
     serviceProvider.user = user;
     // serviceProvider.user = user;
 
     serviceProvider.categories = categories;
 
     return serviceProvider;
+  }
+
+  Future<List<ServiceProvider>> getProvidersByCategory(
+      List<ServiceProvider> list, DocumentReference dr) {
+    List<ServiceProvider> category_providers;
+    list.forEach((element) {
+      if (element.categories.contains(dr)) {
+        category_providers.add(element);
+      }
+    });
   }
 }

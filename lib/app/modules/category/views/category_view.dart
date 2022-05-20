@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/ui.dart';
 import '../../../global_widgets/home_search_bar_widget.dart';
 import '../../home/widgets/address_widget.dart';
 import '../controllers/category_controller.dart';
 import '../widgets/services_list_widget.dart';
+import '../../search/widgets/search_services_list_widget.dart';
 
 class CategoryView extends GetView<CategoryController> {
   @override
@@ -29,7 +31,7 @@ class CategoryView extends GetView<CategoryController> {
               floating: true,
               iconTheme: IconThemeData(color: Get.theme.primaryColor),
               title: Text(
-                controller.category.value.name,
+                controller.category.value.name ?? '',
                 style: Get.textTheme.headline6
                     .merge(TextStyle(color: Get.theme.primaryColor)),
               ),
@@ -50,7 +52,7 @@ class CategoryView extends GetView<CategoryController> {
                           width: double.infinity,
                           padding: EdgeInsets.only(top: 75, bottom: 115),
                           decoration: new BoxDecoration(
-                            color: Colors.orangeAccent,
+                            color: Ui.parseColor('#00CED1'),
                             // gradient: new LinearGradient(
                             //     // colors: [controller.category.value.color.withOpacity(1), controller.category.value.color.withOpacity(0.2)],
                             //     begin: AlignmentDirectional.topStart,
@@ -82,7 +84,6 @@ class CategoryView extends GetView<CategoryController> {
                           )
                           // ),
                           ),
-                      AddressWidget().paddingOnly(bottom: 75),
                     ],
                   )).marginOnly(bottom: 42),
             ),
@@ -122,6 +123,16 @@ class CategoryView extends GetView<CategoryController> {
                                 checkmarkColor: Get.theme.primaryColor,
                                 onSelected: (bool value) {
                                   controller.toggleSelected(_filter);
+                                  if (controller
+                                      .isSelected(CategoryFilter.ALL)) {
+                                    controller.sortAll();
+                                  }
+
+                                  if (controller
+                                      .isSelected(CategoryFilter.RATING)) {
+                                    controller.sortRating();
+                                  }
+
                                   controller.getEServicesOfCategory(
                                       filter: controller.selected.value);
                                 },
@@ -132,7 +143,9 @@ class CategoryView extends GetView<CategoryController> {
                   ),
                   Container(
                     height: 445,
-                    child: ServicesListWidget()),
+                    child:
+                        SearchServicesListWidget(services: controller.services),
+                  ),
                 ],
               ),
             ),

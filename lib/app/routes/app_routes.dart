@@ -3,6 +3,8 @@ part of 'app_pages.dart';
 abstract class Routes {
   static const PRE = "/";
   static const LOGIN = '/login';
+  static const HOME = '/home';
+
   static const REGISTER = '/register';
   static const REGISTER2 = '/register2';
   static const FORGOT_PASSWORD = '/forgot_password';
@@ -26,7 +28,10 @@ abstract class Routes {
   static const SEARCH = '/search';
   static const NOTIFICATIONS = '/notifications';
   static const FAVORITES = '/favorites';
+  static const FEEDBACK = '/feedback';
+
   static const HELP = '/help';
+  static const BILL = '/bill';
   static const PRIVACY = '/privacy';
   static const E_PROVIDER = '/e-provider';
   static const E_PROVIDER_E_SERVICES = '/e-provider/e-services';

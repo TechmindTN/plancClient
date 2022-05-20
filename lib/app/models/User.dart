@@ -42,7 +42,5 @@ class User {
         'username': username,
         'email': email,
         'password': password,
-        'creation_date': creation_date,
-        'last_login': last_login,
       };
 }

@@ -9,6 +9,11 @@ import 'package:home_services/app/models/Category.dart';
 import 'package:home_services/app/models/Client.dart';
 import 'package:home_services/app/models/Intervention.dart';
 
+import '../models/Media.dart';
+import '../models/Provider.dart';
+import 'MediaNetwork.dart';
+import 'NotifAPI.dart';
+
 class InterventionNetwork {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   CollectionReference InterventionsRef =
@@ -22,12 +27,21 @@ class InterventionNetwork {
   UserNetwork userServices = UserNetwork();
   ClientNetwork clientServices = ClientNetwork();
   BillNetwork billServices = BillNetwork();
+  MediaNetwork mediaServices = MediaNetwork();
 
   CategoryNetwork categoryServices = CategoryNetwork();
   ServiceProviderNetwork providerServices = ServiceProviderNetwork();
 
-  Future<DocumentReference> addIntervention(data) async {
+  Future<DocumentReference> addIntervention(data, ok) async {
     var d = await InterventionsRef.add(data);
+
+    await providerServices.getProviderById(data["provider"].id).then((value) {
+      Api().sendFcm(
+          'Demande d\'intervention',
+          'un client a demandé votre intervention !',
+          'dIZuudoNSG-uQMT4pHyHLC:APA91bG1fHVW7OKseXRsNO1UTX6JNfuPHgmEnBAHrf2gKnFfwy51l3E1GBqV0Il-Af_DCdgD4zqdQlBHyYbY_MWAjYtvo3ifeZGtX-oFx0Yf9HBCNfUYcC3Jq59OPOb_9wHxhvHsP63I');
+    });
+
     return d;
   }
 
@@ -53,7 +67,9 @@ class InterventionNetwork {
       // interventions.add(intervention);
       intervention.id = element.id;
       // intervention.id = element.id;
-
+      intervention.media = [];
+      intervention.media =
+          await mediaServices.getMediaListByIntervention(intervention.id);
       //get Branches
       if (dr != null) {
         intervention.provider = await providerServices.getProviderById(dr.id);
@@ -73,9 +89,11 @@ class InterventionNetwork {
 
       //get bill
       dr = element['bill'];
+      if (dr != null) {
+        Bill bill = await billServices.getBillById(dr.id);
+        intervention.bill = bill;
+      }
 
-      // Bill bill = await billServices.getBillById(dr.id);
-      // intervention.bill = bill;
       interventions.add(intervention);
     });
     print('leeen' + interventions.length.toString());
@@ -111,7 +129,35 @@ class InterventionNetwork {
 
     Bill bill = await billServices.getBillById(dr.id);
     intervention.bill = bill;
-    print(intervention.description);
+
+    print('media intervention ' + intervention.media.length.toString());
     return intervention;
+  }
+
+  Future<void> updateIntervention(
+      String id, int number, ServiceProvider prov) async {
+    switch (number) {
+      case 1:
+        await InterventionsRef.doc(id).update({"states": "ongoing"});
+        Api().sendFcm(
+            'Facture acceptée',
+            'un client a accepté la facture que vous avez suggesté !',
+            prov.fcmToken);
+        break;
+      case 2:
+        await InterventionsRef.doc(id).update({"states": "refused"});
+        Api().sendFcm(
+            'Facture refusée',
+            'un client a refusé la facture que vous avez suggesté !',
+            prov.fcmToken);
+
+        break;
+      case 3:
+        await InterventionsRef.doc(id).update({"states": "completed"});
+        Api().sendFcm('affaire cloturé',
+            'une intervention est affirmé par le client !', prov.fcmToken);
+
+        break;
+    }
   }
 }

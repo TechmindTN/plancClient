@@ -2,16 +2,16 @@
     "results": [
       {
         "media": [{
-          "url": "https://turanizmir.com/en/wp-content/uploads/2021/03/https___specials-images.forbesimg.com_imageserve_1171642478_0x0.jpg",
-          "thumb": "https://turanizmir.com/en/wp-content/uploads/2021/03/https___specials-images.forbesimg.com_imageserve_1171642478_0x0.jpg",
-          "icon": "https://turanizmir.com/en/wp-content/uploads/2021/03/https___specials-images.forbesimg.com_imageserve_1171642478_0x0.jpg",
+          "url": "https://havencr.com/wp-content/uploads/2019/02/construction-services-in-rancho-cucamonga.jpg",
+          "thumb": "https://havencr.com/wp-content/uploads/2019/02/construction-services-in-rancho-cucamonga.jpg",
+          "icon": "https://havencr.com/wp-content/uploads/2019/02/construction-services-in-rancho-cucamonga.jpg",
           "name": "slide0001"
         }],
         "_id": "5fedb0e77315210022c2bec3",
         "title": "Construction",
-        "description": "Assign a Handyman at Work to Fix the Household",
+        "description": "Affecter un constructeur au travail",
         "order": 1,
-        "textColor": "#333333",
+        "textColor": "#ffffff",
         "createdAt": "2020-12-31T11:07:19.621Z",
         "updatedAt": "2020-12-31T11:07:19.621Z",
         "id": "5fedb0e77315210022c2bec3"
@@ -34,16 +34,16 @@
       },
       {
         "media": [{
-          "url": "https://img.freepik.com/vecteurs-libre/gens-dans-batiment-illustration-vectorielle-plane-technologie-construction-personnages-constructeur-travailleur-dessin-anime-travaillant-outils-professionnels-architecte-tenant-construction_169479-1171.jpg",
-          "thumb": "https://img.freepik.com/vecteurs-libre/gens-dans-batiment-illustration-vectorielle-plane-technologie-construction-personnages-constructeur-travailleur-dessin-anime-travaillant-outils-professionnels-architecte-tenant-construction_169479-1171.jpg",
-          "icon": "https://img.freepik.com/vecteurs-libre/gens-dans-batiment-illustration-vectorielle-plane-technologie-construction-personnages-constructeur-travailleur-dessin-anime-travaillant-outils-professionnels-architecte-tenant-construction_169479-1171.jpg",
+          "url": "https://www.mesdepanneurs.fr/sites/mesdepanneurs.fr/files/field/image/bricolage-quincaillerie-marseille.jpg",
+          "thumb": "https://www.mesdepanneurs.fr/sites/mesdepanneurs.fr/files/field/image/bricolage-quincaillerie-marseille.jpg",
+          "icon": "https://www.mesdepanneurs.fr/sites/mesdepanneurs.fr/files/field/image/bricolage-quincaillerie-marseille.jpg",
           "name": "slide03"
         }],
         "_id": "5fedb12a7315210022c2bec5",
-        "title": "Cleaners",
-        "description": "Add Hands to Your Cleaning Chores",
+        "title": "Bricolage",
+        "description": "Appelez le bricoleur quand vous voulez",
         "order": 3,
-        "textColor": "#333333",
+        "textColor": "#ffffff",
         "createdAt": "2020-12-31T11:08:26.785Z",
         "updatedAt": "2020-12-31T11:08:26.785Z",
         "id": "5fedb12a7315210022c2bec5"

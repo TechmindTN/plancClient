@@ -25,6 +25,7 @@ class NotificationsView extends GetView<NotificationsController> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
+          print('length notifs' + controller.notifications.length.toString());
           await controller.refreshNotifications(showMessage: true);
         },
         child: ListView(
@@ -43,32 +44,34 @@ class NotificationsView extends GetView<NotificationsController> {
   }
 
   Widget notificationsList() {
-    return Obx(() {
-      if (!controller.notifications.isNotEmpty) {
-        return CircularLoadingWidget(
-          height: 300,
-          onCompleteText: "Notification List is Empty".tr,
-        );
-      } else {
-        var _notifications = controller.notifications;
-        return ListView.separated(
-            itemCount: _notifications.length,
-            separatorBuilder: (context, index) {
-              return SizedBox(height: 7);
-            },
-            shrinkWrap: true,
-            primary: false,
-            itemBuilder: (context, index) {
-              // Message _message = _messages.elementAt(index);
-              // printInfo(info: _message.toMap().toString());
-              return NotificationItemWidget(
-                notification: controller.notifications.elementAt(index),
-                onDismissed: (conversation) {
-                  controller.notifications.removeAt(index);
+    return GetBuilder<NotificationsController>(
+        init: NotificationsController(),
+        builder: (val) {
+          if (controller.notifications.isEmpty) {
+            return CircularLoadingWidget(
+              height: 300,
+              onCompleteText: "Notification List is Empty".tr,
+            );
+          } else {
+            var _notifications = controller.notifications;
+            return ListView.separated(
+                itemCount: _notifications.length,
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 7);
                 },
-              );
-            });
-      }
-    });
+                shrinkWrap: true,
+                primary: false,
+                itemBuilder: (context, index) {
+                  // Message _message = _messages.elementAt(index);
+                  // printInfo(info: _message.toMap().toString());
+                  return NotificationItemWidget(
+                    notification: val.notifications.value.elementAt(index),
+                    onDismissed: (conversation) {
+                      val.notifications.value.removeAt(index);
+                    },
+                  );
+                });
+          }
+        });
   }
 }

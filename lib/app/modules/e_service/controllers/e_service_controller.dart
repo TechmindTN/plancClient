@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/review_model.dart';
@@ -7,6 +8,7 @@ import '../../../../common/ui.dart';
 import '../../../Network/BranchNetwork.dart';
 import '../../../Network/ServiceProviderNetwork.dart';
 import '../../../Network/UserNetwork.dart';
+import '../../../models/Client.dart';
 import '../../../models/Provider.dart';
 import '../../../repositories/e_service_repository.dart';
 
@@ -20,9 +22,37 @@ class EServiceController extends GetxController {
   EServiceRepository _eServiceRepository;
   BranchNetwork branchServices = BranchNetwork();
   UserNetwork userServices = UserNetwork();
-
+  Client c;
+  Review r;
   EServiceController() {
     _eServiceRepository = new EServiceRepository();
+  }
+  verifyChat(list) async {
+    QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection("Chat")
+        .where('users', isEqualTo: list)
+        .limit(1)
+        .get();
+
+    if (snaps.docs.length == 0) {
+      return null;
+    } else {
+      return snaps.docs[0].id;
+    }
+  }
+
+  verifyChat(list) async {
+    QuerySnapshot snaps = await FirebaseFirestore.instance
+        .collection("Chat")
+        .where('users', isEqualTo: list)
+        .limit(1)
+        .get();
+
+    if (snaps.docs.length == 0) {
+      return null;
+    } else {
+      return snaps.docs[0].id;
+    }
   }
 
   Future<List<ServiceProvider>> getProviders() async {
@@ -34,7 +64,7 @@ class EServiceController extends GetxController {
     //   // providers.add(rxProvider);
     // });
     List<ServiceProvider> sp = await providerServices.getProvidersList();
-
+    print('spl ' + sp.length.toString());
     return sp;
   }
 
@@ -54,9 +84,8 @@ class EServiceController extends GetxController {
     await getEService();
     await getReviews();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(
-          message:
-              eService.value.title + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(
+          Ui.SuccessSnackBar(message: "page refreshed successfully".tr));
     }
   }
 

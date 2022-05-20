@@ -22,16 +22,19 @@ import '../modules/e_service/bindings/e_service_binding.dart';
 import '../modules/e_service/views/e_service_view.dart';
 import '../modules/favorites/bindings/favorites_binding.dart';
 import '../modules/favorites/views/favorites_view.dart';
+import '../modules/feedback/bindings/feedback_binding.dart';
+import '../modules/feedback/views/feedback_view.dart';
+import '../modules/feedback/views/rating_view.dart';
+
 import '../modules/help_privacy/bindings/help_privacy_binding.dart';
 import '../modules/help_privacy/views/help_view.dart';
 import '../modules/help_privacy/views/privacy_view.dart';
+import '../modules/home/views/home2_view.dart';
 import '../modules/messages/views/chats_view.dart';
 import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
-import '../modules/rating/bindings/rating_binding.dart';
-import '../modules/rating/views/rating_view.dart';
 import '../modules/root/bindings/root_binding.dart';
 import '../modules/root/views/root_view.dart';
 import '../modules/search/views/search_view.dart';
@@ -39,6 +42,7 @@ import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/language_view.dart';
 import '../modules/settings/views/settings_view.dart';
 import '../modules/settings/views/theme_mode_view.dart';
+import '../modules/tasks/views/bill_view.dart';
 
 part 'app_routes.dart';
 
@@ -47,10 +51,15 @@ class AppPages {
 
   static final routes = [
     GetPage(name: Routes.ROOT, page: () => RootView(), binding: RootBinding()),
+    GetPage(name: Routes.HOME, page: () => Home2View()),
+    GetPage(
+        name: Routes.FEEDBACK,
+        page: () => FeedbackView(),
+        binding: FeedbackBinding()),
     GetPage(
         name: Routes.RATING,
         page: () => RatingView(),
-        binding: RatingBinding()),
+        binding: FeedbackBinding()),
     GetPage(name: Routes.CHAT, page: () => ChatsView()),
     GetPage(
         name: Routes.SETTINGS,
@@ -86,6 +95,7 @@ class AppPages {
         name: Routes.REGISTER2,
         page: () => RegisterView2(),
         binding: AuthBinding()),
+    GetPage(name: Routes.BILL, page: () => BillView(), binding: AuthBinding()),
     GetPage(
         name: Routes.FORGOT_PASSWORD,
         page: () => ForgotPasswordView(),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../modules/auth/controllers/auth_controller.dart';
+import '../modules/home/controllers/home_controller.dart';
 import '../routes/app_pages.dart';
 import '../services/auth_service.dart';
 
-class NotificationsButtonWidget extends StatelessWidget {
+class NotificationsButtonWidget extends GetWidget<HomeController> {
   const NotificationsButtonWidget({
     this.iconColor,
     this.labelColor,
@@ -18,7 +20,7 @@ class NotificationsButtonWidget extends StatelessWidget {
     return MaterialButton(
       elevation: 0,
       onPressed: () {
-        if (Get.find<AuthService>().isAuth == true) {
+        if (Get.find<AuthController>().currentuser.email != null) {
           Get.toNamed(Routes.NOTIFICATIONS);
         } else {
           Get.toNamed(Routes.LOGIN);
@@ -32,21 +34,21 @@ class NotificationsButtonWidget extends StatelessWidget {
             color: iconColor ?? Get.theme.hintColor,
             size: 28,
           ),
-          Container(
-            child: Text(
-              "0",
-              textAlign: TextAlign.center,
-              style: Get.textTheme.caption.merge(
-                TextStyle(color: Get.theme.primaryColor, fontSize: 10),
-              ),
-            ),
-            padding: EdgeInsets.all(0),
-            decoration: BoxDecoration(
-                color: labelColor ?? Get.theme.accentColor,
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            constraints: BoxConstraints(
-                minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
-          ),
+          Obx(() => Container(
+                child: Text(
+                  Get.find<HomeController>().notifs.length.toString() ?? " ",
+                  textAlign: TextAlign.center,
+                  style: Get.textTheme.caption.merge(
+                    TextStyle(color: Get.theme.primaryColor, fontSize: 10),
+                  ),
+                ),
+                padding: EdgeInsets.all(0),
+                decoration: BoxDecoration(
+                    color: labelColor ?? Get.theme.accentColor,
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                constraints: BoxConstraints(
+                    minWidth: 15, maxWidth: 15, minHeight: 15, maxHeight: 15),
+              )),
         ],
       ),
       color: Colors.transparent,

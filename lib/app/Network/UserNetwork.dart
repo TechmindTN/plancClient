@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:home_services/app/Network/RoleNetwork.dart';
 import 'package:home_services/app/models/Role.dart';
 
+import '../models/Chat.dart';
 import '../models/Client.dart';
+import '../models/Message.dart';
+import '../models/Notification.dart';
 import '../models/User.dart';
+import 'MessageNetwork.dart';
 
 class UserNetwork {
   static DocumentReference dr;
@@ -13,6 +17,7 @@ class UserNetwork {
   CollectionReference clientRef =
       FirebaseFirestore.instance.collection('Client');
   RoleNetwork roleServices = RoleNetwork();
+  MessageNetwork _messageNetwork = MessageNetwork();
 
   getClientRoleByName(String name) async {
     Role r;
@@ -112,6 +117,7 @@ class UserNetwork {
   Future<DocumentReference> addUser(User u) async {
     // var added=await usersRef.add(data).then((value) { print('User Added: '+value.id);
     var data = u.tofire();
+    data['creation_date'] = Timestamp.now();
     Role r = await getClientRoleByName("Client");
     DocumentReference rf = await getRoleRef(r.id);
     data['role'] = rf;
@@ -152,5 +158,41 @@ class UserNetwork {
     });
 
     return users;
+  }
+
+  Future<List<Notification>> getNotifications(String id) async {
+    List<Notification> notifs = [];
+    Notification notif;
+    QuerySnapshot q = await usersRef.doc(id).collection('Notification').get();
+    print("notif length " + q.docs.length.toString());
+    q.docs.forEach((element) {
+      print('data notif ' + element.data().toString());
+      notif = Notification.fromFire(element.data());
+      notif.id = element.id;
+      notifs.add(notif);
+      print('notif here ' + notif.toString());
+    });
+
+    return notifs;
+  }
+
+  void RegisterNotification(String id, data) async {
+    await usersRef.doc(id).collection('Notification').add(data);
+    print("notification registered !");
+  }
+
+  Future<List<Chat>> getUserChats(String id) async {
+    List<Chat> ChatList = [];
+    var ref = getUserRef(id);
+    QuerySnapshot q = await usersRef.doc(id).collection('Chat').get();
+    q.docs.forEach((element) async {
+      Chat c = Chat();
+      c.id = element.id;
+      var user = await getUserById(element.data()['user'].id);
+      Stream<List<Message>> list = _messageNetwork.getChatMessages(c.id, id);
+      c.user = (user);
+      c.conversation = list as List<Message>;
+      ChatList.add(c);
+    });
   }
 }

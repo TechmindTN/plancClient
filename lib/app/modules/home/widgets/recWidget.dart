@@ -13,13 +13,16 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 Widget RecWidget(_service, eServiceController, {String id}) {
   //  var _service = controller.prov.elementAt(index);
   ServiceProvider provider = ServiceProvider.fromFire(_service);
-  // eServiceController.getThisProvider(provider,_service['user'].id);
   UserNetwork userServices = UserNetwork();
   BranchNetwork branchServices = BranchNetwork();
   MediaNetwork mediaServices = MediaNetwork();
-
+  userServices
+      .getUserById(_service["user"].id)
+      .then((value) => provider.user = value);
   // provider.branches=await branchServices.getBranchListByProvider(provider.id);
-  // provider.user=await userServices.getUserById(_service.id);
+  userServices
+      .getUserById(_service['user'].id)
+      .then((val) => provider.user = val);
 
   // print(provider.branches.first.address);
   if (id == null) {
@@ -29,13 +32,13 @@ Widget RecWidget(_service, eServiceController, {String id}) {
   }
   return GestureDetector(
     onTap: () async {
-      provider.media = await mediaServices.getMediaListByProvider(provider.id);
+      // provider.media = await mediaServices.getMediaListByProvider(provider.id);
       eServiceController.serviceProvider.value = provider;
       // Get.toNamed(Routes.E_SERVICE, arguments: provider);
       Get.to(EServiceView(provider));
     },
     child: Container(
-      width: 160,
+      width: 155,
       // margin: EdgeInsetsDirectional.only(
       //     end: 20, start: index == 0 ? 20 : 0, top: 20, bottom: 10),
       // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -43,7 +46,11 @@ Widget RecWidget(_service, eServiceController, {String id}) {
         borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-              color: Get.theme.focusColor.withOpacity(0.07), spreadRadius: 10)
+            color: Colors.blueGrey.withOpacity(0.01),
+            blurRadius: 2,
+            spreadRadius: 1,
+            offset: Offset(0, 2), // changes position of shadow
+          ),
         ],
       ),
       child: Column(

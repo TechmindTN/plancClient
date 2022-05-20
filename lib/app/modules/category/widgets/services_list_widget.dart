@@ -22,25 +22,24 @@ class ServicesListWidget extends GetView<CategoryController> {
       if (controller.services.isEmpty) {
         return CircularLoadingWidget(height: 300);
       } else {
-       
-      print("many cats "+Get.find<HomeController>().categories.length.toString());
-      int index=0;
-              List<ServiceProvider> filtered=[];
+        print("many cats " +
+            Get.find<HomeController>().categories.length.toString());
+        int index = 0;
+        List<ServiceProvider> filtered = [];
 
-      Get.find<HomeController>().categories.forEach((element) { 
-        bool a;
-        controller.services.forEach((element2) {
- element2.categories.forEach((value){
-          if(controller.category.value.name==value.name){
-            filtered.add(element2);
-          
-        }
+        Get.find<HomeController>().categories.forEach((element) {
+          bool a;
+          controller.services.forEach((element2) {
+            element2.categories.forEach((value) {
+              if (controller.category.value.name == value.name) {
+                filtered.add(element2);
+              }
+            });
+          });
+
+          index++;
         });
-         });
-       
-        index++;
-      });
-        
+
         return GetBuilder<CategoryController>(
             init: CategoryController(),
             builder: (value) => ListView.builder(
@@ -50,18 +49,19 @@ class ServicesListWidget extends GetView<CategoryController> {
                 itemCount: filtered.length,
                 itemBuilder: ((_, index) {
                   // return Obx(() {
-                    var _service = filtered.elementAt(index);
-                    if (filtered.length>0) {
-                      Map<String,dynamic> data=_service.tofire();
-                      data['id']=_service.id;
-                      return Padding(
-                        padding: const EdgeInsets.only(right:48.0,
-                        left: 48,
-                        bottom: 24),
-                        child: RecWidget(data,Get.find<EServiceController>(),id: _service.id),
-                      );
-                    }
-                    else{return Center(child:Text("Pas de data"));}
+                  var _service = filtered.elementAt(index);
+                  if (filtered.length > 0) {
+                    Map<String, dynamic> data = _service.tofire();
+                    data['id'] = _service.id;
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          right: 48.0, left: 48, bottom: 24),
+                      child: RecWidget(data, Get.find<EServiceController>(),
+                          id: _service.id),
+                    );
+                  } else {
+                    return Center(child: Text("Pas de data"));
+                  }
                   // });
                 })));
       }
