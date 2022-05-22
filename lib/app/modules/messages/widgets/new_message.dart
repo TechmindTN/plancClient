@@ -56,6 +56,7 @@ class NewMessage extends GetWidget<MessagesController> {
               'userId': _currentUsre.id
             });
             controller.file.value = File('');
+            controller.update();
           });
         }
       } else {

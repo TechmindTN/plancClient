@@ -126,6 +126,7 @@ class MessagesView extends GetView<MessagesController> {
                                 });
                               }
                             });
+                            print('here');
                             return GetBuilder<MessagesController>(
                                 init: MessagesController(),
                                 builder: (val) => Padding(

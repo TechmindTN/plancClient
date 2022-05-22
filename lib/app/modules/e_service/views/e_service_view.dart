@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/ui.dart';
 import '../../../Network/ClientNetwork.dart';
@@ -123,9 +124,14 @@ class EServiceView extends GetView<EServiceController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(prov.phone.toString() ?? '12345678',
+                            Text(prov.phone.toString(),
                                 style: Get.textTheme.bodyText1),
-                            Icon(Icons.phone_outlined)
+                            IconButton(
+                                icon: Icon(Icons.phone_outlined),
+                                onPressed: () async {
+                                  await controller
+                                      .makePhoneCall(prov.phone.toString());
+                                })
                           ],
                         ),
                         SizedBox(

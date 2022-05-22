@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../global_widgets/notifications_button_widget.dart';
+import '../../../models/Intervention.dart';
+import '../../home/controllers/home_controller.dart';
 import '../controllers/tasks_controller.dart';
 import '../widgets/tasks_carousel_widget.dart';
 import '../widgets/tasks_list_widget.dart';
@@ -102,7 +104,11 @@ class TasksView extends GetView<TasksController> {
             children: [
               RefreshIndicator(
                 onRefresh: () async {
-                  await controller.bookings.refresh();
+                  await Get.find<HomeController>().refreshIntervention();
+                  controller.selectedTask.value = Intervention();
+
+                  await controller.refreshTasks();
+                  return CircularProgressIndicator();
                 },
                 child: SingleChildScrollView(
                   child: TasksCarouselWidget(),

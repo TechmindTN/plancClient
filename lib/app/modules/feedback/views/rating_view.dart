@@ -104,8 +104,7 @@ class RatingView extends GetView<FeedbackController> {
                     //   style: Get.textTheme.bodyText1,
                     // ),
                     Center(
-                        child: Expanded(
-                            child: SmoothStarRating(
+                        child: SmoothStarRating(
                       rating: 0,
                       isReadOnly: false,
                       size: 40,
@@ -122,7 +121,7 @@ class RatingView extends GetView<FeedbackController> {
                         rate = value;
                         // print("rating value dd -> ${value.truncate()}");
                       },
-                    ))),
+                    )),
                     SizedBox(height: 20),
                     TextField(
                       onChanged: (text) {

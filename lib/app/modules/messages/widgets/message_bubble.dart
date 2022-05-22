@@ -69,10 +69,70 @@ class MessageBubble extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 16, color: Colors.white),
                         )
-                      : Container(
-                          height: 100,
-                          width: 200,
-                          child: Image.network(content)),
+                      : Center(
+                          child: InkWell(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return Dialog(
+                                      insetPadding: EdgeInsets.all(0),
+                                      backgroundColor: Colors.transparent,
+                                      child: Container(
+                                        color:
+                                            Colors.transparent.withOpacity(0.3),
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.7,
+                                        child: Image.network(
+                                          content,
+                                          // scale: 20,
+
+                                          fit: BoxFit.fill,
+                                          // width: MediaQuery.of(context).size.width*0.9,
+                                          // height: MediaQuery.of(context).size.height*0.8,
+
+                                          // scale: 0.1,
+                                        ),
+                                      ));
+                                });
+                            //Get.toNamed(Routes.CATEGORY, arguments: _category);
+                          },
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            child: Stack(
+                              alignment: AlignmentDirectional.topStart,
+                              children: [
+                                ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    child: Image.network(
+                                      content,
+                                      height: 100,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    )
+                                    // child: CachedNetworkImage(
+                                    //   height: 100,
+                                    //   width: double.infinity,
+                                    //   fit: BoxFit.cover,
+                                    //   imageUrl: media,
+                                    //   placeholder: (context, url) => Image.asset(
+                                    //     'assets/img/loading.gif',
+                                    //     fit: BoxFit.cover,
+                                    //     width: double.infinity,
+                                    //     height: 100,
+                                    //   ),
+                                    //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                                    // ),
+                                    ),
+                              ],
+                            ),
+                          ),
+                        ))
                 ],
               ),
             )

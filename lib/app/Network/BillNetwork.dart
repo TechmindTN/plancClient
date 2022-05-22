@@ -74,6 +74,21 @@ class BillNetwork {
         };
         bill.materials.add(matMap);
       });
+    } else {
+      QuerySnapshot matsnaps =
+          await billsRef.doc(id).collection('Material').get();
+      matsnaps.docs.forEach((element) async {
+        Material material = await materialServices
+            .getMaterialById(element.data()['material'].id);
+        Material mat = Material.fromFire(element.data());
+        mat.id = element.id;
+        Map<String, dynamic> matMap = {
+          "material": material,
+          "quantity": element.data()['count'],
+          "total_price": element.data()['price'],
+        };
+        bill.materials.add(matMap);
+      });
     }
     //get bill payment
     if (snapshot.data().containsKey('payment') && snapshot['payment'] != null) {

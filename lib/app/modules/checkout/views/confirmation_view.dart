@@ -5,6 +5,7 @@ import '../../../global_widgets/block_button_widget.dart';
 import '../../../global_widgets/main_drawer_widget.dart';
 import '../../../routes/app_pages.dart';
 import '../../home/controllers/home_controller.dart';
+import '../../home/views/home2_view.dart';
 import "../../root/controllers/root_controller.dart";
 import '../../tasks/controllers/tasks_controller.dart';
 import '../controllers/checkout_controller.dart';
@@ -103,11 +104,11 @@ class ConfirmationView extends GetView<CheckoutController> {
           ],
         ),
       ),
-      bottomNavigationBar: buildBlockButtonWidget(),
+      bottomNavigationBar: buildBlockButtonWidget(context),
     );
   }
 
-  Widget buildBlockButtonWidget() {
+  Widget buildBlockButtonWidget(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
@@ -141,7 +142,11 @@ class ConfirmationView extends GetView<CheckoutController> {
           color: Get.theme.accentColor,
           onPressed: () {
             Get.find<HomeController>().refreshIntervention();
-            Get.offAndToNamed(Routes.ROOT);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Home2View()),
+                (route) => false);
+            // Get.offAndToNamed(Routes.HOME);
           }).paddingOnly(bottom: 20, right: 20, left: 20),
     );
   }

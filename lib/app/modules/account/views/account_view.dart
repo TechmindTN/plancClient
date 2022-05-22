@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/ui.dart';
 import '../../../global_widgets/notifications_button_widget.dart';
@@ -11,7 +12,9 @@ import '../../../services/auth_service.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../home/views/home2_view.dart';
+import '../../messages/controllers/messages_controller.dart';
 import '../../root/controllers/root_controller.dart';
+import '../../tasks/controllers/tasks_controller.dart';
 import '../controllers/account_controller.dart';
 import '../widgets/account_link_widget.dart';
 
@@ -197,9 +200,16 @@ class AccountView extends GetView<AccountController> {
                   AccountLinkWidget(
                     icon: Icon(Icons.logout, color: Get.theme.accentColor),
                     text: Text("Logout".tr),
-                    onTap: (e) {
+                    onTap: (e) async {
                       Get.find<AuthController>().currentuser = User();
                       Get.find<AuthController>().currentProfile = Client();
+                      Get.find<MessagesController>().receiver_provider.clear();
+                      Get.find<HomeController>().interventions.clear();
+                      Get.find<TasksController>().refreshTasks();
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.remove('email');
+                      prefs.remove('pass');
                       Get.find<HomeController>().onInit();
                       Get.offAndToNamed(Routes.ROOT);
                       Get.find<RootController>().changePageInRoot(0);

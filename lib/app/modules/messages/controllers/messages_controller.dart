@@ -35,9 +35,6 @@ class MessagesController extends GetxController {
   RxList<User> receiver = <User>[].obs;
   List<ServiceProvider> receiver_provider = [];
   DocumentReference clientRef;
-  Rx<Image> im = Image.network(
-    'https://icon-library.com/images/no-photo-available-icon/no-photo-available-icon-20.jpg',
-  ).obs;
 
   MessagesController() {
     userNetwork = new UserNetwork();

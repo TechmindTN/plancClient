@@ -3,8 +3,8 @@ class Material {
   final String name;
   final String supplier;
   final double price;
-  final String description;
-  final List<dynamic> media;
+  String description;
+  List<dynamic> media;
 
   Material(
       {this.id,
@@ -18,8 +18,6 @@ class Material {
       : name = fire['name'],
         supplier = fire['supplier'],
         price = fire['price'].toDouble(),
-        description = fire['description'],
-        media = fire['media'],
         id = null;
 
   printMaterial() {

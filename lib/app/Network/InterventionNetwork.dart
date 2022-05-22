@@ -34,14 +34,14 @@ class InterventionNetwork {
 
   Future<DocumentReference> addIntervention(data, ok) async {
     var d = await InterventionsRef.add(data);
-
-    await providerServices.getProviderById(data["provider"].id).then((value) {
-      Api().sendFcm(
-          'Demande d\'intervention',
-          'un client a demandé votre intervention !',
-          'dIZuudoNSG-uQMT4pHyHLC:APA91bG1fHVW7OKseXRsNO1UTX6JNfuPHgmEnBAHrf2gKnFfwy51l3E1GBqV0Il-Af_DCdgD4zqdQlBHyYbY_MWAjYtvo3ifeZGtX-oFx0Yf9HBCNfUYcC3Jq59OPOb_9wHxhvHsP63I');
-    });
-
+    if (data["provider"] != null) {
+      await providerServices.getProviderById(data["provider"].id).then((value) {
+        Api().sendFcm(
+            'Demande d\'intervention',
+            'un client a demandé votre intervention !',
+            'dIZuudoNSG-uQMT4pHyHLC:APA91bG1fHVW7OKseXRsNO1UTX6JNfuPHgmEnBAHrf2gKnFfwy51l3E1GBqV0Il-Af_DCdgD4zqdQlBHyYbY_MWAjYtvo3ifeZGtX-oFx0Yf9HBCNfUYcC3Jq59OPOb_9wHxhvHsP63I');
+      });
+    }
     return d;
   }
 

@@ -9,6 +9,7 @@ import '../../../their_models/task_model.dart';
 import '../../../routes/app_pages.dart';
 import '../../auth/bindings/auth_binding.dart';
 import '../../auth/controllers/auth_controller.dart';
+import '../../home/views/home2_view.dart';
 import '../controllers/book_e_service_controller.dart';
 
 class BookEServiceView extends GetView<BookEServiceController> {
@@ -32,7 +33,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
           ),
           elevation: 0,
         ),
-        bottomNavigationBar: buildBlockButtonWidget(),
+        bottomNavigationBar: buildBlockButtonWidget(context),
         body: ListView(
           children: [
             Form(
@@ -304,7 +305,7 @@ class BookEServiceView extends GetView<BookEServiceController> {
         ));
   }
 
-  Widget buildBlockButtonWidget() {
+  Widget buildBlockButtonWidget(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(
@@ -365,6 +366,10 @@ class BookEServiceView extends GetView<BookEServiceController> {
               onPressed: () async {
                 if (formGlobalKey.currentState.validate()) {
                   await controller.addIntervention();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home2View()),
+                      (route) => false);
                 }
               }).paddingOnly(right: 20, left: 20),
     );
