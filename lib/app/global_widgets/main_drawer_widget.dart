@@ -5,13 +5,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../common/ui.dart';
 import '../models/Client.dart';
 import '../models/User.dart';
 import '../modules/auth/controllers/auth_controller.dart';
 import '../modules/home/controllers/home_controller.dart';
+import '../modules/messages/controllers/messages_controller.dart';
 import '../modules/root/controllers/root_controller.dart' show RootController;
+import '../modules/tasks/controllers/tasks_controller.dart';
 import '../routes/app_pages.dart';
 import '../services/settings_service.dart';
 import 'drawer_link_widget.dart';
@@ -137,11 +140,21 @@ class MainDrawerWidget extends StatelessWidget {
                           children: <Widget>[
                             MaterialButton(
                               elevation: 0,
-                              onPressed: () {
+                              onPressed: () async {
                                 Get.find<AuthController>().currentuser = User();
                                 Get.find<AuthController>().currentProfile =
                                     Client();
-
+                                Get.find<MessagesController>()
+                                    .receiver_provider
+                                    .clear();
+                                Get.find<HomeController>()
+                                    .interventions
+                                    .clear();
+                                Get.find<TasksController>().refreshTasks();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.remove('email');
+                                prefs.remove('pass');
                                 Get.offAllNamed(Routes.ROOT);
                                 _authController.update();
                                 Get.find<HomeController>().onInit();

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:home_services/app/their_models/e_service_model.dart';
 import 'package:home_services/app/their_models/review_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/ui.dart';
 
@@ -41,18 +42,12 @@ class EServiceController extends GetxController {
     }
   }
 
-  verifyChat(list) async {
-    QuerySnapshot snaps = await FirebaseFirestore.instance
-        .collection("Chat")
-        .where('users', isEqualTo: list)
-        .limit(1)
-        .get();
-
-    if (snaps.docs.length == 0) {
-      return null;
-    } else {
-      return snaps.docs[0].id;
-    }
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 
   Future<List<ServiceProvider>> getProviders() async {

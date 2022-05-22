@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -83,9 +84,17 @@ class ChatsView extends GetView<MessagesController> {
               NewMessage(
                 chat_id: chat_id,
               ),
-              // Visibility(
-              //   visible: false,
-              //   child: Container(child: ,))
+              GetBuilder<MessagesController>(
+                  init: MessagesController(),
+                  builder: (val) => Visibility(
+                      visible: val.file.value.toString() != File('').toString()
+                          ? true
+                          : false,
+                      child: Container(
+                        child: Image.file(val.file.value),
+                        height: 100,
+                        width: 200,
+                      )))
             ],
           ),
         ),

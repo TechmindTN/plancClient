@@ -74,8 +74,7 @@ class FeedbackView extends GetView<FeedbackController> {
               height: 50,
             ),
             Center(
-                child: Expanded(
-                    child: SmoothStarRating(
+                child: SmoothStarRating(
               rating: 0,
               isReadOnly: false,
               size: 40,
@@ -92,7 +91,7 @@ class FeedbackView extends GetView<FeedbackController> {
                 rate = value;
                 // print("rating value dd -> ${value.truncate()}");
               },
-            ))),
+            )),
             SizedBox(
               height: 30,
             ),
@@ -104,11 +103,14 @@ class FeedbackView extends GetView<FeedbackController> {
                   var data = {
                     "user": ref,
                     "message": description.text,
-                    "rate": rate ?? 0
+                    "rate": rate ?? null
                   };
                   await FirebaseFirestore.instance
                       .collection('Feedback')
                       .add(data);
+                  description.clear();
+
+                  Navigator.pop(context);
                 },
                 child: Text('Send'.tr),
               ),

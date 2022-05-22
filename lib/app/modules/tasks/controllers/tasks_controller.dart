@@ -74,6 +74,8 @@ class TasksController extends GetxController {
         bookings.value.add(Get.find<HomeController>().interventions.value[i]);
       }
     }
+    bookings
+        .sort(((a, b) => b.datetime.toDate().compareTo(a.datetime.toDate())));
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
@@ -117,6 +119,8 @@ class TasksController extends GetxController {
             .add(Get.find<HomeController>().interventions.value[i]);
       }
     }
+    OngoingTasks.sort(
+        ((a, b) => b.datetime.toDate().compareTo(a.datetime.toDate())));
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
@@ -137,7 +141,8 @@ class TasksController extends GetxController {
         CompletedTasks.add(Get.find<HomeController>().interventions.value[i]);
       }
     }
-
+    CompletedTasks.sort(
+        ((a, b) => b.datetime.toDate().compareTo(a.datetime.toDate())));
     if (showMessage) {
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Task page refreshed successfully".tr));
