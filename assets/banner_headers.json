@@ -1,0 +1,56 @@
+{
+    "results": [
+      {
+        "media": [{
+          "url": "https://havencr.com/wp-content/uploads/2019/02/construction-services-in-rancho-cucamonga.jpg",
+          "thumb": "https://havencr.com/wp-content/uploads/2019/02/construction-services-in-rancho-cucamonga.jpg",
+          "icon": "https://havencr.com/wp-content/uploads/2019/02/construction-services-in-rancho-cucamonga.jpg",
+          "name": "slide0001"
+        }],
+        "_id": "5fedb0e77315210022c2bec3",
+        "title": "Construction",
+        "description": "Affecter un constructeur au travail",
+        "order": 1,
+        "textColor": "#ffffff",
+        "createdAt": "2020-12-31T11:07:19.621Z",
+        "updatedAt": "2020-12-31T11:07:19.621Z",
+        "id": "5fedb0e77315210022c2bec3"
+      },
+      {
+        "media": [{
+          "url": "https://img.freepik.com/vecteurs-libre/vector-cartoon-illustration-du-processus-construction-batiments_1441-267.jpg?size=626&ext=jpg",
+          "thumb": "https://img.freepik.com/vecteurs-libre/vector-cartoon-illustration-du-processus-construction-batiments_1441-267.jpg?size=626&ext=jpg",
+          "icon": "https://img.freepik.com/vecteurs-libre/vector-cartoon-illustration-du-processus-construction-batiments_1441-267.jpg?size=626&ext=jpg",
+          "name": "slide02"
+        }],
+        "_id": "5fedb1117315210022c2bec4",
+        "title": "Réparation",
+        "description": "Réparez les trucs cassés en demandant les techniciens ",
+        "order": 2,
+        "textColor": "#333333", 
+        "createdAt": "2020-12-31T11:08:01.278Z",
+        "updatedAt": "2020-12-31T11:08:01.278Z",
+        "id": "5fedb1117315210022c2bec4"
+      },
+      {
+        "media": [{
+          "url": "https://www.mesdepanneurs.fr/sites/mesdepanneurs.fr/files/field/image/bricolage-quincaillerie-marseille.jpg",
+          "thumb": "https://www.mesdepanneurs.fr/sites/mesdepanneurs.fr/files/field/image/bricolage-quincaillerie-marseille.jpg",
+          "icon": "https://www.mesdepanneurs.fr/sites/mesdepanneurs.fr/files/field/image/bricolage-quincaillerie-marseille.jpg",
+          "name": "slide03"
+        }],
+        "_id": "5fedb12a7315210022c2bec5",
+        "title": "Bricolage",
+        "description": "Appelez le bricoleur quand vous voulez",
+        "order": 3,
+        "textColor": "#ffffff",
+        "createdAt": "2020-12-31T11:08:26.785Z",
+        "updatedAt": "2020-12-31T11:08:26.785Z",
+        "id": "5fedb12a7315210022c2bec5"
+      }
+    ],
+    "page": 1,
+    "limit": 10,
+    "totalPages": 1,
+    "totalResults": 3
+  }
