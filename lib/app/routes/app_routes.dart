@@ -29,7 +29,7 @@ abstract class Routes {
   static const NOTIFICATIONS = '/notifications';
   static const FAVORITES = '/favorites';
   static const FEEDBACK = '/feedback';
-
+  static const NETWORKERROR = '/network_error';
   static const HELP = '/help';
   static const BILL = '/bill';
   static const PRIVACY = '/privacy';

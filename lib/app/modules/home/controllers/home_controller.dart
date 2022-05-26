@@ -82,6 +82,7 @@ class HomeController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    Get.put<AuthController>(AuthController(), permanent: true);
     await Permission.location.status.then((val) {
       if (val.isDenied) {
         Permission.locationWhenInUse.request().then((value) {

@@ -77,7 +77,7 @@ class MessagesView extends GetView<MessagesController> {
                 stream: FirebaseFirestore.instance
                     .collection("Chat")
                     .where('users', arrayContains: controller.clientRef)
-                    .orderBy('LastMsgAt', descending: true)
+                    // .orderBy('createdAt', descending: true)
                     .snapshots(),
                 builder: (ctx, chatSnapshot) {
                   if (chatSnapshot.connectionState == ConnectionState.waiting) {

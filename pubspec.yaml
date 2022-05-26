@@ -21,15 +21,17 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_phoenix: ^1.0.0
+  connectivity_plus: ^2.3.0
   # GET
   get: 4.0.0-nullsafety.2
   get_storage: 2.0.1
   shared_preferences: ^2.0.13
   # DIO
-  dio: 4.0.0-beta7
-  dio_http_cache:
-    git:
-      url: git://github.com/shinayser/dio-http-cache.git
+  dio: 4.0.0
+  dio_http_cache: ^0.3.0
+    # git:
+    #   url: git://github.com/shinayser/dio-http-cache.git
   # FONT
   google_fonts: 2.0.0
   #IMAGES, SLIDERS, LAYOUTS

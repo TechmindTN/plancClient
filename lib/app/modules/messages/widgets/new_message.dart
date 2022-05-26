@@ -19,7 +19,9 @@ class NewMessage extends GetWidget<MessagesController> {
 
   @override
   Widget build(BuildContext context) {
+    String lastchat;
     void _sendMessage() async {
+       
       if (_enteredMessage.value.trim() != '' ||
           controller.file.value != File('')) {
         final _currentUsre = Get.find<AuthController>().currentuser;
@@ -28,7 +30,7 @@ class NewMessage extends GetWidget<MessagesController> {
             .collection('Chat')
             .doc(chat_id)
             .update({'LastMsgAt': Timestamp.now()});
-
+          lastchat=chat_id;
         if (_enteredMessage.value != '') {
           FirebaseFirestore.instance
               .collection("Chat")
@@ -62,6 +64,11 @@ class NewMessage extends GetWidget<MessagesController> {
       } else {
         return null;
       }
+      // if(lastchat!=chat_id){
+      //   controller.receiver_provider.clear();
+      
+      // }
+          
     }
 
     return Container(

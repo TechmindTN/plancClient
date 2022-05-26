@@ -31,6 +31,7 @@ import '../modules/help_privacy/views/help_view.dart';
 import '../modules/help_privacy/views/privacy_view.dart';
 import '../modules/home/views/home2_view.dart';
 import '../modules/messages/views/chats_view.dart';
+import '../modules/network_error/network_error.dart';
 import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -113,6 +114,12 @@ class AppPages {
         name: Routes.BOOK_E_SERVICE,
         page: () => BookEServiceView(),
         binding: BookEServiceBinding()),
+
+    GetPage(
+        name: Routes.NETWORKERROR,
+        page: () => NetworkError(),
+        // binding: BookEServiceBinding()
+        ),
     GetPage(
         name: Routes.CHECKOUT,
         page: () => CheckoutView(),
