@@ -2,12 +2,21 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../routes/app_pages.dart';
+import '../../services/settings_service.dart';
+import '../../services/translation_service.dart';
+import '../auth/controllers/auth_controller.dart';
 
 class NetworkError extends StatefulWidget{
   @override
@@ -16,7 +25,7 @@ class NetworkError extends StatefulWidget{
 
 class _NetworkErrorState extends State<NetworkError> {
 final Connectivity _connectivity = Connectivity();
-ConnectivityResult _connectionStatus ;
+ConnectivityResult _connectionStatus =ConnectivityResult.none;
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
 @override
 initState() {
@@ -61,16 +70,92 @@ _connectivitySubscription.cancel();
       _connectionStatus = result;
       if(_connectionStatus==ConnectivityResult.wifi){
         print('got connection WIFI');
-        Phoenix.rebirth(context);
         await initServices();
+        Phoenix.rebirth(context);
+        
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+  var useremail = prefs.get('email');
+  if (useremail != null) {
+    var userpass = prefs.get('pass');
+    Get.find<AuthController>().verifylogin(useremail, userpass);
+  }
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
         Future.delayed(Duration(seconds: 1),(){
+          runApp(
+    Phoenix(
+      child: GetMaterialApp(
+        // title: Get.find<SettingsService>().setting.value.appName,
+    
+        initialRoute: ini,
+        getPages: AppPages.routes,
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+        supportedLocales: Get.find<TranslationService>().supportedLocales(),
+        translationsKeys: Get.find<TranslationService>().translations,
+        locale: Get.find<TranslationService>().fallbackLocale,
+        fallbackLocale: Get.find<TranslationService>().fallbackLocale,
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.cupertino,
+        themeMode: Get.find<SettingsService>().getThemeMode(),
+        theme: Get.find<SettingsService>()
+            .getLightTheme(), //Get.find<SettingsService>().getLightTheme.value,
+        darkTheme: Get.find<SettingsService>().getDarkTheme(),
+      ),
+    ),
+  );
 Navigator.pushReplacementNamed(context, AppPages.INITIAL);
         });
         
         }
         else if(_connectionStatus==ConnectivityResult.mobile){
         print('got connection Mobile');
+          // print('got connection WIFI');
+        await initServices();
         Phoenix.rebirth(context);
+        
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+  var useremail = prefs.get('email');
+  if (useremail != null) {
+    var userpass = prefs.get('pass');
+    Get.find<AuthController>().verifylogin(useremail, userpass);
+  }
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+        Future.delayed(Duration(seconds: 1),(){
+          runApp(
+    Phoenix(
+      child: GetMaterialApp(
+        // title: Get.find<SettingsService>().setting.value.appName,
+    
+        initialRoute: ini,
+        getPages: AppPages.routes,
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+        supportedLocales: Get.find<TranslationService>().supportedLocales(),
+        translationsKeys: Get.find<TranslationService>().translations,
+        locale: Get.find<TranslationService>().fallbackLocale,
+        fallbackLocale: Get.find<TranslationService>().fallbackLocale,
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.cupertino,
+        themeMode: Get.find<SettingsService>().getThemeMode(),
+        theme: Get.find<SettingsService>()
+            .getLightTheme(), //Get.find<SettingsService>().getLightTheme.value,
+        darkTheme: Get.find<SettingsService>().getDarkTheme(),
+      ),
+    ),
+  );
+Navigator.pushReplacementNamed(context, AppPages.INITIAL);
+        });
+        
         }
         else if(_connectionStatus==ConnectivityResult.none){
         print('no connection ');}
@@ -97,7 +182,7 @@ Navigator.pushReplacementNamed(context, AppPages.INITIAL);
          
          ,
         child: Center(child: 
-        Text("No Internet Connection "+ _connectionStatus.toString() )),
+        Text("No Internet Connection: "+ _connectionStatus.toString() )),
       ),
     );
 

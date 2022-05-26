@@ -27,11 +27,12 @@ void initServices() async {
   // I am connected to a mobile network.
   Firebase.initializeApp();
 
+  await Get.putAsync(() => GlobalService().init());
   
 await Get.putAsync(() => AuthService().init());
   await Get.put(AuthController());
- 
-  await Get.putAsync(() => GlobalService().init());
+  await Get.put(TranslationService());
+//  await Get.put(GlobalService());
 
   
 

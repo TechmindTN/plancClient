@@ -102,6 +102,7 @@ class HomeController extends GetxController {
     entreprise.value = await _userNetwork.getUsersByRole('Entreprise');
 
     Get.put<EServiceController>(EServiceController());
+    Get.put<AuthController>(AuthController());
     if (Get.find<AuthController>().currentProfile.first_name != null) {
       client.value = Get.find<AuthController>().currentProfile;
       interventions.clear();
