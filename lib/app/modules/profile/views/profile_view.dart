@@ -52,18 +52,24 @@ class ProfileView extends GetView<ProfileController> {
           child: Row(
             children: [
               Expanded(
-                child: MaterialButton(
-                  elevation: 0,
-                  onPressed: () {
-                    controller.saveProfileForm(_profileForm);
-                  },
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  color: Get.theme.accentColor,
-                  child: Text("Save".tr,
-                      style: Get.textTheme.bodyText2
-                          .merge(TextStyle(color: Get.theme.primaryColor))),
+                child: GetBuilder<ProfileController>(
+                  builder: (controller) {
+                    return (!controller.loading)?MaterialButton(
+                      elevation: 0,
+                      onPressed: () {
+                        controller.loading=true;
+                        controller.update();
+                        controller.saveProfileForm(_profileForm);
+                      },
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      color: Get.theme.accentColor,
+                      child: Text("Save".tr,
+                          style: Get.textTheme.bodyText2
+                              .merge(TextStyle(color: Get.theme.primaryColor))),
+                    ):Center(child: CircularProgressIndicator(),);
+                  }
                 ),
               ),
               SizedBox(width: 10),
@@ -126,9 +132,9 @@ class ProfileView extends GetView<ProfileController> {
                 TextFieldWidget(
                   onSaved: (input) =>
                       controller.currentProfile.home_address = input,
-                  validator: (input) => input.length < 3
-                      ? "Should be more than 3 letters".tr
-                      : null,
+                  // validator: (input) => input.length < 3
+                  //     ? "Should be more than 3 letters".tr
+                  //     : null,
                   initialValue: controller.currentProfile.home_address,
                   hintText: "home address".tr,
                   labelText: "Home address".tr,
@@ -146,11 +152,11 @@ class ProfileView extends GetView<ProfileController> {
                 TextFieldWidget(
                   onSaved: (input) => controller
                       .currentProfile.social_media['facebook'] = input,
-                  validator: (input) => input.length < 3
-                      ? "Should be more than 3 chars".tr
-                      : null,
+                  // validator: (input) => input.length < 3
+                  //     ? "Should be more than 3 chars".tr
+                  //     : null,
                   initialValue:
-                      controller.currentProfile.social_media['facebook'] ?? '',
+                      (controller.currentProfile.social_media!=null)?controller.currentProfile.social_media['facebook'] ?? '':'',
                   hintText: "Facebook Account Username".tr,
                   labelText: "Facebook Account".tr,
                   iconData: Icons.facebook,
@@ -158,11 +164,11 @@ class ProfileView extends GetView<ProfileController> {
                 TextFieldWidget(
                   onSaved: (input) => controller
                       .currentProfile.social_media['instagram'] = input,
-                  validator: (input) => input.length < 3
-                      ? "Should be more than 3 chars".tr
-                      : null,
+                  // validator: (input) => input.length < 3
+                  //     ? "Should be more than 3 chars".tr
+                  //     : null,
                   initialValue:
-                      controller.currentProfile.social_media['instagram'],
+                      (controller.currentProfile.social_media!=null)?controller.currentProfile.social_media['instagram']:'',
                   hintText: "Instagram Account Username".tr,
                   labelText: "Instagram Account".tr,
                   iconData: Icons.message_rounded,
@@ -185,56 +191,56 @@ class ProfileView extends GetView<ProfileController> {
                 //   labelText: "Address".tr,
                 //   iconData: Icons.map_outlined,
                 // ),
-                Text("Change password".tr, style: Get.textTheme.headline5)
-                    .paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
-                Text(
-                        "Fill your old password and type new password and confirm it"
-                            .tr,
-                        style: Get.textTheme.caption)
-                    .paddingSymmetric(horizontal: 22, vertical: 5),
-                Obx(() {
-                  return TextFieldWidget(
-                    labelText: "Old Password".tr,
-                    hintText: "••••••••••••".tr,
-                    obscureText: controller.hidePassword.value,
-                    iconData: Icons.lock_outline,
-                    keyboardType: TextInputType.visiblePassword,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        controller.hidePassword.value =
-                            !controller.hidePassword.value;
-                      },
-                      color: Theme.of(context).focusColor,
-                      icon: Icon(controller.hidePassword.value
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined),
-                    ),
-                    isFirst: true,
-                    isLast: false,
-                  );
-                }),
-                Obx(() {
-                  return TextFieldWidget(
-                    labelText: "New Password".tr,
-                    hintText: "••••••••••••".tr,
-                    obscureText: controller.hidePassword.value,
-                    iconData: Icons.lock_outline,
-                    keyboardType: TextInputType.visiblePassword,
-                    isFirst: false,
-                    isLast: false,
-                  );
-                }),
-                Obx(() {
-                  return TextFieldWidget(
-                    labelText: "Confirm New Password".tr,
-                    hintText: "••••••••••••".tr,
-                    obscureText: controller.hidePassword.value,
-                    iconData: Icons.lock_outline,
-                    keyboardType: TextInputType.visiblePassword,
-                    isFirst: false,
-                    isLast: true,
-                  );
-                }),
+                // Text("Change password".tr, style: Get.textTheme.headline5)
+                //     .paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
+                // Text(
+                //         "Fill your old password and type new password and confirm it"
+                //             .tr,
+                //         style: Get.textTheme.caption)
+                //     .paddingSymmetric(horizontal: 22, vertical: 5),
+                // Obx(() {
+                //   return TextFieldWidget(
+                //     labelText: "Old Password".tr,
+                //     hintText: "••••••••••••".tr,
+                //     obscureText: controller.hidePassword.value,
+                //     iconData: Icons.lock_outline,
+                //     keyboardType: TextInputType.visiblePassword,
+                //     suffixIcon: IconButton(
+                //       onPressed: () {
+                //         controller.hidePassword.value =
+                //             !controller.hidePassword.value;
+                //       },
+                //       color: Theme.of(context).focusColor,
+                //       icon: Icon(controller.hidePassword.value
+                //           ? Icons.visibility_outlined
+                //           : Icons.visibility_off_outlined),
+                //     ),
+                //     isFirst: true,
+                //     isLast: false,
+                //   );
+                // }),
+                // Obx(() {
+                //   return TextFieldWidget(
+                //     labelText: "New Password".tr,
+                //     hintText: "••••••••••••".tr,
+                //     obscureText: controller.hidePassword.value,
+                //     iconData: Icons.lock_outline,
+                //     keyboardType: TextInputType.visiblePassword,
+                //     isFirst: false,
+                //     isLast: false,
+                //   );
+                // }),
+                // Obx(() {
+                //   return TextFieldWidget(
+                //     labelText: "Confirm New Password".tr,
+                //     hintText: "••••••••••••".tr,
+                //     obscureText: controller.hidePassword.value,
+                //     iconData: Icons.lock_outline,
+                //     keyboardType: TextInputType.visiblePassword,
+                //     isFirst: false,
+                //     isLast: true,
+                //   );
+                // }),
                 GetBuilder<ProfileController>(
                     init: ProfileController(),
                     builder: (value) {

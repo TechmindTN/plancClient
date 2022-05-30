@@ -16,6 +16,7 @@ import 'task_row_widget.dart';
 class TasksCarouselWidget extends StatelessWidget {
   final controller = Get.find<TasksController>();
   String _enteredMessage = '';
+  bool empty=false;
 
   TasksCarouselWidget({Key key}) : super(key: key);
 
@@ -42,7 +43,11 @@ class TasksCarouselWidget extends StatelessWidget {
                     .then((value) => Future.delayed(Duration(seconds: 2), () {
                           controller.bookings.refresh();
                         }));
-                return Center(child: CircularProgressIndicator());
+                        Future.delayed(Duration(seconds: 8),(){
+                          empty=true;
+                        });
+                return (!empty)?Center(child: CircularProgressIndicator()):Center(child: Text('No Interventions yet !'),);
+                
               } else {
                 return ListView.builder(
                     padding: EdgeInsets.only(bottom: 10),

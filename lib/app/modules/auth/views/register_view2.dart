@@ -46,10 +46,16 @@ class RegisterView2 extends GetView<AuthController> {
       controller.update();
     }
   }
+  final ScrollController scrollController=ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        // if(controller.file!=null&&!controller.file.isBlank&&controller.file.path!=''){
+                        scrollController.animateTo(scrollController.position.maxScrollExtent-2, duration: Duration(seconds: 1), curve: Curves.easeIn);
+                      // }
+        },),
       appBar: AppBar(
         title: Text(
           "Register".tr,
@@ -61,7 +67,10 @@ class RegisterView2 extends GetView<AuthController> {
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      body: ListView(primary: true, children: [
+      body: ListView(
+        controller: scrollController,
+        // primary: true, 
+        children: [
         Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
@@ -125,7 +134,7 @@ class RegisterView2 extends GetView<AuthController> {
               SizedBox(
                 height: 50,
               ),
-              getImageHeaderWidget(context),
+              getImageHeaderWidget(context,scrollController),
               // _image != null
               //     ? SizedBox(width: 80, height: 80, child: Image.file(_image))
               //     : SizedBox(height: 80, width: 80),
@@ -212,21 +221,21 @@ class RegisterView2 extends GetView<AuthController> {
                       ),
                     ),
                   ]))),
-              TextFieldWidget(
-                labelText: "Age".tr,
-                hintText: "##".tr,
-                keyboardType: TextInputType.number,
-                iconData: Icons.numbers,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  age = text;
-                  return null;
-                },
-              ),
+              // TextFieldWidget(
+              //   labelText: "Age".tr,
+              //   hintText: "##".tr,
+              //   keyboardType: TextInputType.number,
+              //   iconData: Icons.numbers,
+              //   isLast: false,
+              //   isFirst: false,
+              //   validator: (text) {
+              //     if (text == null || text.isEmpty) {
+              //       return 'field is empty'.tr;
+              //     }
+              //     age = text;
+              //     return null;
+              //   },
+              // ),
               TextFieldWidget(
                 labelText: "Phone Number".tr,
                 hintText: "+1 223 665 7896".tr,
@@ -242,40 +251,40 @@ class RegisterView2 extends GetView<AuthController> {
                   return null;
                 },
               ),
-              GetBuilder<AuthController>(builder: (_authController) {
-                return MapSelect(context, _authController, _addressmap);
-              }),
+              // GetBuilder<AuthController>(builder: (_authController) {
+              //   return MapSelect(context, _authController, _addressmap);
+              // }),
 
-              TextFieldWidget(
-                labelText: "Facebook Account".tr,
-                hintText: "facebook username".tr,
-                keyboardType: TextInputType.name,
-                iconData: Icons.facebook,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  _Social["facebook"] = text;
-                  return null;
-                },
-              ),
-              TextFieldWidget(
-                labelText: "Instagram Account".tr,
-                hintText: "Instagram username".tr,
-                keyboardType: TextInputType.name,
-                iconData: Icons.messenger_rounded,
-                isLast: false,
-                isFirst: false,
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'field is empty'.tr;
-                  }
-                  _Social["instagram"] = text;
-                  return null;
-                },
-              ),
+              // TextFieldWidget(
+              //   labelText: "Facebook Account".tr,
+              //   hintText: "facebook username".tr,
+              //   keyboardType: TextInputType.name,
+              //   iconData: Icons.facebook,
+              //   isLast: false,
+              //   isFirst: false,
+              //   validator: (text) {
+              //     if (text == null || text.isEmpty) {
+              //       return 'field is empty'.tr;
+              //     }
+              //     _Social["facebook"] = text;
+              //     return null;
+              //   },
+              // ),
+              // TextFieldWidget(
+              //   labelText: "Instagram Account".tr,
+              //   hintText: "Instagram username".tr,
+              //   keyboardType: TextInputType.name,
+              //   iconData: Icons.messenger_rounded,
+              //   isLast: false,
+              //   isFirst: false,
+              //   validator: (text) {
+              //     if (text == null || text.isEmpty) {
+              //       return 'field is empty'.tr;
+              //     }
+              //     _Social["instagram"] = text;
+              //     return null;
+              //   },
+              // ),
             ])),
       ]),
       bottomNavigationBar: Row(
@@ -287,44 +296,59 @@ class RegisterView2 extends GetView<AuthController> {
             children: [
               SizedBox(
                 width: Get.width,
-                child: BlockButtonWidget(
-                  onPressed: () async {
-                    if (formGlobalKey.currentState.validate()) {
-                      DocumentReference user = controller.data;
-                      var token = await FirebaseMessaging.instance.getToken();
+                child: GetBuilder<AuthController>(
+                  builder: (controller) {
+                    return (!controller.loading)?BlockButtonWidget(
+                      onPressed: () async {
+                        controller.loading=true;
+                        controller.update();
+                        if (formGlobalKey.currentState.validate()) {
+                          DocumentReference user = controller.data;
+                          var token = await FirebaseMessaging.instance.getToken();
 
-                      Client c = Client(
-                          first_name: _firstname,
-                          last_name: _lastname,
-                          phone: (int.parse(_phone)),
-                          home_address: _addressmap.text,
-                          location: GeoPoint(controller.position.latitude,
-                              controller.position.longitude),
-                          social_media: _Social,
-                          gender: controller.gender.value,
-                          fcmToken: token,
-                          age: int.parse(age));
-                      var data = await controller.registerClient(c, user);
-                      if (await controller.verifylogin(
-                              controller.u1.email, controller.u1.password) ==
-                          true) {
-                        Get.offAllNamed(Routes.ROOT);
-                      } else {
-                        final snack = SnackBar(
-                          content: Text('Problem while registering !'),
-                          backgroundColor: Colors.orangeAccent,
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snack);
-                      }
-                    }
-                  },
-                  color: Get.theme.accentColor,
-                  text: Text(
-                    "Register".tr,
-                    style: Get.textTheme.headline6
-                        .merge(TextStyle(color: Get.theme.primaryColor)),
-                  ),
-                ).paddingOnly(top: 15, bottom: 5, right: 20, left: 20),
+                          Client c = Client(
+                              first_name: _firstname,
+                              last_name: _lastname,
+                              phone: (int.parse(_phone)),
+                              home_address: null,
+                              // _addressmap.text,
+                              location: null, 
+                              // GeoPoint(controller.position.latitude,
+                              //     controller.position.longitude),
+                              social_media: null, 
+                              // _Social,
+                              gender: controller.gender.value,
+                              fcmToken: token,
+                              age:null, 
+                              // int.parse(age)
+                              );
+                          var data = await controller.registerClient(c, user);
+                          if (await controller.verifylogin(
+                                  controller.u1.email, controller.u1.password) ==
+                              true) {
+                                controller.loading=false;
+                        controller.update();
+                            Get.offAllNamed(Routes.ROOT);
+                          } else {
+                            controller.loading=false;
+                        controller.update();
+                            final snack = SnackBar(
+                              content: Text('Problem while registering !'),
+                              backgroundColor: Colors.orangeAccent,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snack);
+                          }
+                        }
+                      },
+                      color: Get.theme.accentColor,
+                      text: Text(
+                        "Register".tr,
+                        style: Get.textTheme.headline6
+                            .merge(TextStyle(color: Get.theme.primaryColor)),
+                      ),
+                    ).paddingOnly(top: 15, bottom: 5, right: 20, left: 20):Center(child: CircularProgressIndicator());
+                  }
+                ),
               ),
             ],
           ),
@@ -333,7 +357,7 @@ class RegisterView2 extends GetView<AuthController> {
     );
   }
 
-  Widget getImageHeaderWidget(context) {
+  Widget getImageHeaderWidget(context,ScrollController scrollController) {
     return Container(
       height: 350,
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
@@ -370,7 +394,13 @@ class RegisterView2 extends GetView<AuthController> {
                 FloatingActionButton(
                     onPressed: () async {
                       controller.changeImage();
-
+                      
+                      Future.delayed(Duration(seconds: 5),(){
+                        if(controller.file!=null&&controller.file.path!=''){
+                        print('got image');
+                        scrollController.animateTo(scrollController.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.easeIn);
+                      }
+                      });
                       controller.update();
 
                       // storeimage.printInfo();

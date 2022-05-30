@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../common/ui.dart';
 import '../../../global_widgets/block_button_widget.dart';
+import '../../../global_widgets/circular_loading_widget.dart';
 import '../../../global_widgets/text_field_widget.dart';
 import '../../../models/User.dart' as user;
 import '../../../their_models/setting_model.dart';
@@ -37,7 +38,8 @@ class RegisterView extends GetView<AuthController> {
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      body: ListView(primary: true, children: [
+      body: ListView(
+        primary: true, children: [
         Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
@@ -176,71 +178,80 @@ class RegisterView extends GetView<AuthController> {
             children: [
               SizedBox(
                 width: Get.width,
-                child: BlockButtonWidget(
-                  onPressed: () async {
-                    UserCredential userCredential;
-                    if (formGlobalKey.currentState.validate()) {
-                      try {
-                        userCredential =
-                            await auth.createUserWithEmailAndPassword(
-                          email: _email,
-                          password: _pass,
-                        );
-                        controller.currentfireuser = userCredential.user;
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'weak-password') {
-                          print('The password provided is too weak.');
-                          Get.showSnackbar(Ui.ErrorSnackBar(
-                              message: 'The password provided is too weak.'));
-                        } else if (e.code == 'email-already-in-use') {
-                          Get.showSnackbar(Ui.ErrorSnackBar(
-                              message:
-                                  'The account already exists for that email.'));
-                          print('The account already exists for that email.');
-                        } else {
-                          print('cooooooode' + e.code);
-                        }
-                        return null;
-                      }
+                child: GetBuilder<AuthController>(
+                  builder: (controller) {
+                    return (!controller.loading)?BlockButtonWidget(
+                      onPressed: () async {
+                        UserCredential userCredential;
+                        if (formGlobalKey.currentState.validate()) {
+                          try {
+                            controller.loading=true;
+                            controller.update();
+                            userCredential =
+                                await auth.createUserWithEmailAndPassword(
+                              email: _email,
+                              password: _pass,
+                            );
+                            controller.currentfireuser = userCredential.user;
+                          } on FirebaseAuthException catch (e) {
+                            controller.loading=false;
+                            controller.update();
+                            if (e.code == 'weak-password') {
+                              print('The password provided is too weak.');
+                              Get.showSnackbar(Ui.ErrorSnackBar(
+                                  message: 'The password provided is too weak.'));
+                            } else if (e.code == 'email-already-in-use') {
+                              Get.showSnackbar(Ui.ErrorSnackBar(
+                                  message:
+                                      'The account already exists for that email.'));
+                              print('The account already exists for that email.');
+                            } else {
+                              print('cooooooode' + e.code);
+                            }
+                            return null;
+                          }
 
-                      try {
-                        if (userCredential.user != null &&
-                            !userCredential.user.emailVerified) {
-                          await userCredential.user.sendEmailVerification();
+                          try {
+                            if (userCredential.user != null &&
+                                !userCredential.user.emailVerified) {
+                              await userCredential.user.sendEmailVerification();
+                            }
+                          } catch (e) {
+                            print(e);
+                            return null;
+                          }
+                          ;
+                          if (userCredential.user != null) {
+                            print('verif' +
+                                userCredential.user.emailVerified.toString());
+                            print('user' + userCredential.toString());
+                            controller.u1 = user.User(
+                                email: _email,
+                                password: _pass,
+                                username: _email,
+                                creation_date: Timestamp.now());
+                            controller.registerUser(controller.u1);
+                            controller.loading=false;
+                            controller.update();
+                            navigator.pushAndRemoveUntil<void>(
+                              MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      RegisterView2()),
+                              ModalRoute.withName('/'),
+                            );
+                            // Get.offAllNamed(Routes.REGISTER2);
+                          }
                         }
-                      } catch (e) {
-                        print(e);
-                        return null;
-                      }
-                      ;
-                      if (userCredential.user != null) {
-                        print('verif' +
-                            userCredential.user.emailVerified.toString());
-                        print('user' + userCredential.toString());
-                        controller.u1 = user.User(
-                            email: _email,
-                            password: _pass,
-                            username: _email,
-                            creation_date: Timestamp.now());
-                        controller.registerUser(controller.u1);
-
-                        navigator.pushAndRemoveUntil<void>(
-                          MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  RegisterView2()),
-                          ModalRoute.withName('/'),
-                        );
-                        // Get.offAllNamed(Routes.REGISTER2);
-                      }
-                    }
-                  },
-                  color: Get.theme.accentColor,
-                  text: Text(
-                    "Continue".tr,
-                    style: Get.textTheme.headline6
-                        .merge(TextStyle(color: Get.theme.primaryColor)),
-                  ),
-                ).paddingOnly(top: 15, bottom: 5, right: 20, left: 20),
+                      },
+                      color: Get.theme.accentColor,
+                      text: Text(
+                        "Continue".tr,
+                        style: Get.textTheme.headline6
+                            .merge(TextStyle(color: Get.theme.primaryColor)),
+                      ),
+                    ).paddingOnly(top: 15, bottom: 5, right: 20, left: 20):CircularLoadingWidget();
+                  }
+                ),
               ),
               TextButton(
                 onPressed: () {

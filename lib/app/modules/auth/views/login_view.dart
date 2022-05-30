@@ -145,26 +145,36 @@ class LoginView extends GetView<AuthController> {
                       ),
                     ],
                   ).paddingSymmetric(horizontal: 20),
-                  BlockButtonWidget(
-                    onPressed: () async {
-                      if (formGlobalKey.currentState.validate()) {
-                        if (await controller.verifylogin(_email, _pass) ==
-                            true) {
-                          print('user logged');
-                          Get.offAllNamed(Routes.ROOT);
-                        } else {
-                          Get.showSnackbar(Ui.ErrorSnackBar(
-                              message: 'No user with these credentials !'));
-                        }
-                      }
-                    },
-                    color: Get.theme.accentColor,
-                    text: Text(
-                      "Login".tr,
-                      style: Get.textTheme.headline6
-                          .merge(TextStyle(color: Get.theme.primaryColor)),
-                    ),
-                  ).paddingSymmetric(vertical: 10, horizontal: 20),
+                  GetBuilder<AuthController>(
+                    builder: (controller) {
+                      return (!controller.loading)?BlockButtonWidget(
+                        onPressed: () async {
+                          controller.loading=true;
+                          controller.update();
+                          if (formGlobalKey.currentState.validate()) {
+                            if (await controller.verifylogin(_email, _pass) ==
+                                true) {
+                                  controller.loading=false;
+                          controller.update();
+                              print('user logged');
+                              Get.offAllNamed(Routes.ROOT);
+                            } else {
+                              controller.loading=false;
+                          controller.update();
+                              Get.showSnackbar(Ui.ErrorSnackBar(
+                                  message: 'No user with these credentials !'));
+                            }
+                          }
+                        },
+                        color: Get.theme.accentColor,
+                        text: Text(
+                          "Login".tr,
+                          style: Get.textTheme.headline6
+                              .merge(TextStyle(color: Get.theme.primaryColor)),
+                        ),
+                      ).paddingSymmetric(vertical: 10, horizontal: 20):CircularProgressIndicator();
+                    }
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

@@ -22,28 +22,47 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 var ini=AppPages.INITIAL;
 
 void initServices() async {
-  Get.log('starting services ...');
-  
-  // I am connected to a mobile network.
+
+
+Get.log('starting services ...');
   Firebase.initializeApp();
 
+  await Get.putAsync(() => TranslationService().init());
   await Get.putAsync(() => GlobalService().init());
-  
-await Get.putAsync(() => AuthService().init());
-  await Get.put(AuthController());
-  await Get.put(TranslationService());
-//  await Get.put(GlobalService());
 
-  
+  await Get.putAsync(() => AuthService().init());
+  await Get.put(AuthController());
 
   await Get.putAsync(() => SettingsService().init());
 
   if (await Geolocator.isLocationServiceEnabled() == false) {
     Geolocator.openLocationSettings();
   }
-  
 
   Get.log('All services started...');
+
+//   Get.log('starting services ...');
+//    await Get.put(TranslationService());
+//   // I am connected to a mobile network.
+//   Firebase.initializeApp();
+
+//   await Get.putAsync(() => GlobalService().init());
+  
+// await Get.putAsync(() => AuthService().init());
+//   await Get.put(AuthController());
+ 
+// //  await Get.put(GlobalService());
+
+  
+
+//   await Get.putAsync(() => SettingsService().init());
+
+//   if (await Geolocator.isLocationServiceEnabled() == false) {
+//     Geolocator.openLocationSettings();
+//   }
+  
+
+//   Get.log('All services started...');
 }
 
 void main() async {
@@ -66,7 +85,8 @@ if (connectivityResult == ConnectivityResult.mobile) {
     badge: true,
     sound: true,
   );
-} else if (connectivityResult == ConnectivityResult.wifi) {
+} else 
+if (connectivityResult == ConnectivityResult.wifi) {
   await initServices();
    SharedPreferences prefs = await SharedPreferences.getInstance();
   var useremail = prefs.get('email');
@@ -95,7 +115,20 @@ else{
   //   Geolocator.openLocationSettings();
   // }
 }
-  
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await initServices();
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // var useremail = prefs.get('email');
+  // if (useremail != null) {
+  //   var userpass = prefs.get('pass');
+  //   Get.find<AuthController>().verifylogin(useremail, userpass);
+  // }
+
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
   
  
   runApp(
@@ -105,7 +138,10 @@ else{
     
         initialRoute: ini,
         getPages: AppPages.routes,
-        localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate,
+         GlobalCupertinoLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+        ],
         supportedLocales: Get.find<TranslationService>().supportedLocales(),
         translationsKeys: Get.find<TranslationService>().translations,
         locale: Get.find<TranslationService>().fallbackLocale,

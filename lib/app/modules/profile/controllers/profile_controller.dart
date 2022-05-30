@@ -16,6 +16,7 @@ import '../../account/controllers/account_controller.dart';
 import '../../auth/controllers/auth_controller.dart';
 
 class ProfileController extends GetxController {
+  bool loading =false;
   final hidePassword = true.obs;
   AuthController _authController = Get.find<AuthController>();
   CollectionReference clientRef =
@@ -44,8 +45,10 @@ class ProfileController extends GetxController {
       updateClient();
       Get.showSnackbar(
           Ui.SuccessSnackBar(message: "Profile saved successfully".tr));
+          loading=false;
       update();
     } else {
+      loading=false;
       Get.showSnackbar(Ui.ErrorSnackBar(
           message: "There are errors in some fields please correct them!".tr));
     }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ import '../../../main.dart';
 import '../../routes/app_pages.dart';
 import '../../services/settings_service.dart';
 import '../../services/translation_service.dart';
+import '../../their_models/media_model.dart';
 import '../auth/controllers/auth_controller.dart';
 
 class NetworkError extends StatefulWidget{
@@ -70,21 +72,22 @@ _connectivitySubscription.cancel();
       _connectionStatus = result;
       if(_connectionStatus==ConnectivityResult.wifi){
         print('got connection WIFI');
-        await initServices();
-        Phoenix.rebirth(context);
+        Firebase.initializeApp();
+        // await initServices();
+        // Phoenix.rebirth(context);
         
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-  var useremail = prefs.get('email');
-  if (useremail != null) {
-    var userpass = prefs.get('pass');
-    Get.find<AuthController>().verifylogin(useremail, userpass);
-  }
+  //       SharedPreferences prefs = await SharedPreferences.getInstance();
+  // var useremail = prefs.get('email');
+  // if (useremail != null) {
+  //   var userpass = prefs.get('pass');
+  //   Get.find<AuthController>().verifylogin(useremail, userpass);
+  // }
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
 
         Future.delayed(Duration(seconds: 1),(){
           runApp(
@@ -113,23 +116,23 @@ Navigator.pushReplacementNamed(context, AppPages.INITIAL);
         
         }
         else if(_connectionStatus==ConnectivityResult.mobile){
-        print('got connection Mobile');
-          // print('got connection WIFI');
-        await initServices();
-        Phoenix.rebirth(context);
+   print('got connection WIFI');
+   Firebase.initializeApp();
+  //       await initServices();
+  //       Phoenix.rebirth(context);
         
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-  var useremail = prefs.get('email');
-  if (useremail != null) {
-    var userpass = prefs.get('pass');
-    Get.find<AuthController>().verifylogin(useremail, userpass);
-  }
+  //       SharedPreferences prefs = await SharedPreferences.getInstance();
+  // var useremail = prefs.get('email');
+  // if (useremail != null) {
+  //   var userpass = prefs.get('pass');
+  //   Get.find<AuthController>().verifylogin(useremail, userpass);
+  // }
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
 
         Future.delayed(Duration(seconds: 1),(){
           runApp(
@@ -155,7 +158,6 @@ Navigator.pushReplacementNamed(context, AppPages.INITIAL);
   );
 Navigator.pushReplacementNamed(context, AppPages.INITIAL);
         });
-        
         }
         else if(_connectionStatus==ConnectivityResult.none){
         print('no connection ');}
@@ -166,23 +168,37 @@ Navigator.pushReplacementNamed(context, AppPages.INITIAL);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async{ 
-              var connectivityResult = await (Connectivity().checkConnectivity());
-
-          if (connectivityResult == ConnectivityResult.mobile) {
-            Phoenix.rebirth(context);
-  // I am connected to a mobile network.
- 
-} else if (connectivityResult == ConnectivityResult.wifi) {
-  Phoenix.rebirth(context);
-         }
-         
-         }
-         
-         ,
-        child: Center(child: 
-        Text("No Internet Connection: "+ _connectionStatus.toString() )),
+      body: (_connectionStatus==ConnectivityResult.none)?Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left:16.0),
+              child: Image.asset("assets/icon/wifi.png",
+              width: MediaQuery.of(context).size.width*0.5,
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height*0.01,),
+            Text("No Internet Connection",
+            style: TextStyle(
+              fontSize: 18
+            ),
+            ),
+          ],
+        ),
+      ):Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: MediaQuery.of(context).size.height*0.01,),
+            Text("Connection restored please wait",
+            style: TextStyle(
+              fontSize: 18
+            ),
+            ),
+          ],
+        ),
       ),
     );
 

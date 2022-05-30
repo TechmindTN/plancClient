@@ -21,6 +21,7 @@ import '../../home/controllers/home_controller.dart';
 import '../../notifications/controllers/notifications_controller.dart';
 
 class AuthController extends GetxController {
+  bool loading = false;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   final hidePassword = true.obs;
