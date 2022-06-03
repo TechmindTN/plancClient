@@ -5,8 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
@@ -33,7 +35,7 @@ class AuthController extends GetxController {
   Client currentProfile;
   var currentfireuser = FirebaseAuth.instance.currentUser;
   RxString gender = 'Male'.obs;
-  DocumentReference data;
+  DocumentReference dataref;
   user.User u1 = user.User();
   LatLng position;
   List<Placemark> marks = [];
@@ -59,6 +61,7 @@ class AuthController extends GetxController {
 
     bool ok = true;
     var data = await _userNetwork.getUserByEmailPassword(email, pass);
+    dataref=await _userNetwork.getUserRef(data.id);
     data != null ? currentuser = data : ok = false;
     print(currentuser);
     print(ok);
@@ -72,9 +75,14 @@ class AuthController extends GetxController {
     await _userNetwork
         .getClientByUserRef(d)
         .then((value) => currentProfile = value);
+        if(currentProfile!=null){
+          // Get.put(HomeController());
+          // Get.put(EServiceController());
+// Get.find<HomeController>().onInit();
+        
     await _clientNetwork.updateFcmToken(currentProfile.id, token);
-
-    Get.find<HomeController>().onInit();
+        }
+    
 
     // prefs.setString('user', json.encode(currentuser.tofire()));
     return ok;
@@ -83,9 +91,15 @@ class AuthController extends GetxController {
   }
 
   registerUser(user.User u) async {
+    SharedPreferences prefs=await SharedPreferences.getInstance();
     UserNetwork _userNetwork = UserNetwork();
 
-    await _userNetwork.addUser(u).then((dr) => data = dr);
+    await _userNetwork.addUser(u).then((dr) { dataref = dr;
+    // prefs.set('usr', dr);
+    });
+     prefs.setString('email', u.email);
+    prefs.setString('pass', u.password);
+    
   }
 
   registerClient(Client c, DocumentReference d) async {
@@ -96,8 +110,11 @@ class AuthController extends GetxController {
       url = value;
     });
     c.profile_photo = url;
+    // DocumentReference dr=DocumentReference();
     var data = _userNetwork.addClient(c, d);
   }
+
+  
 
   Future<String> uploadFile() async {
     final filename = basename(file.path);
@@ -114,13 +131,89 @@ class AuthController extends GetxController {
     return urlDownload;
   }
 
+
+
+
+
+ changeCameraImage() async {
+    final ImagePicker _picker = ImagePicker();
+
+    final XFile pickedimage =
+        await _picker.pickImage(source: ImageSource.camera);
+    file = File(pickedimage.path);
+    CroppedFile croppedFile = await ImageCropper().cropImage(
+      sourcePath: file.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    File f=File(croppedFile.path);
+    file=f;
+    // file.path=croppedFile.path;
+    im.value = Image.file(f);
+    update();
+    print("this");
+    print(im);
+
+    //       storeimage=Container(
+    //         height: 150,
+    //         child: Image(
+    //   image: FileImage(im,
+
+    //   ),
+    // ),
+    //       );
+    //print(storeimage);
+  }
+
+
+
   changeImage() async {
     final ImagePicker _picker = ImagePicker();
 
     final XFile pickedimage =
         await _picker.pickImage(source: ImageSource.gallery);
     file = File(pickedimage.path);
-    im.value = Image.file(file);
+    CroppedFile croppedFile = await ImageCropper().cropImage(
+      sourcePath: file.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    File f=File(croppedFile.path);
+    file=f;
+    // file.path=croppedFile.path;
+    im.value = Image.file(f);
     update();
     print("this");
     print(im);

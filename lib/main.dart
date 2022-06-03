@@ -77,7 +77,11 @@ if (connectivityResult == ConnectivityResult.mobile) {
   var useremail = prefs.get('email');
   if (useremail != null) {
     var userpass = prefs.get('pass');
-    Get.find<AuthController>().verifylogin(useremail, userpass);
+    if(await Get.find<AuthController>().verifylogin(useremail, userpass)){
+      if (Get.find<AuthController>().currentProfile==null){
+        ini=Routes.REGISTER2;
+        
+      }}
   }
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -92,7 +96,12 @@ if (connectivityResult == ConnectivityResult.wifi) {
   var useremail = prefs.get('email');
   if (useremail != null) {
     var userpass = prefs.get('pass');
-    Get.find<AuthController>().verifylogin(useremail, userpass);
+    if(await Get.find<AuthController>().verifylogin(useremail, userpass)){
+      if (Get.find<AuthController>().currentProfile==null){
+        ini=Routes.REGISTER2;
+        
+      }
+    }
   }
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(

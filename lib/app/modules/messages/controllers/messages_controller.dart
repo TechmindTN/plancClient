@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import '../../../Network/ChatNetwork.dart';
@@ -55,6 +56,7 @@ class MessagesController extends GetxController {
   @override
   void onClose() {
     chatTextController.dispose();
+    Rx<File> file = File('').obs;
   }
 
   Future<String> uploadFile(file) async {
@@ -74,10 +76,34 @@ class MessagesController extends GetxController {
 
   Future changeImage() async {
     final ImagePicker _picker = ImagePicker();
-
     final XFile pickedimage =
         await _picker.pickImage(source: ImageSource.gallery);
-    file.value = File(pickedimage.path);
+file.value = File(pickedimage.path);
+CroppedFile croppedFile = await ImageCropper().cropImage(
+      sourcePath: file.value.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+File f=File(croppedFile.path);
+    file.value=f;
+    
+    // file.value = File(pickedimage.path);
     update();
     print(file.value);
   }

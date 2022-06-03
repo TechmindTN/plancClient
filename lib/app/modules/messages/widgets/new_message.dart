@@ -83,36 +83,51 @@ class NewMessage extends GetWidget<MessagesController> {
       margin: const EdgeInsets.only(bottom: 0),
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
+        child: Column(
           children: [
-            Expanded(
-              child: TextField(
-                style: const TextStyle(color: Colors.white),
-                controller: _controller,
-                decoration: const InputDecoration(
-                  labelText: 'Send a message',
-                  border: InputBorder.none,
-                  labelStyle: TextStyle(color: Colors.white),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    style: const TextStyle(color: Colors.white),
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      labelText: 'Send a message',
+                      border: InputBorder.none,
+                      labelStyle: TextStyle(color: Colors.white),
+                    ),
+                    onChanged: (value) {
+                      _enteredMessage.value = value;
+                    },
+                  ),
                 ),
-                onChanged: (value) {
-                  _enteredMessage.value = value;
-                },
-              ),
+                Row(children: [
+                  IconButton(
+                    onPressed: () async {
+                      await controller.changeImage();
+                    },
+                    icon: const Icon(Icons.filter),
+                    color: Colors.white,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    color: Colors.white,
+                    onPressed: _sendMessage,
+                  ),
+                ])
+              ],
             ),
-            Row(children: [
-              IconButton(
-                onPressed: () async {
-                  await controller.changeImage();
-                },
-                icon: const Icon(Icons.filter),
-                color: Colors.white,
-              ),
-              IconButton(
-                icon: const Icon(Icons.send),
-                color: Colors.white,
-                onPressed: _sendMessage,
-              ),
-            ])
+            GetBuilder<MessagesController>(
+                  init: MessagesController(),
+                  builder: (val) => Visibility(
+                      visible: val.file.value.toString() != File('').toString()
+                          ? true
+                          : false,
+                      child: Container(
+                        child: Image.file(val.file.value),
+                        height: 100,
+                        width: 200,
+                      )))
           ],
         ),
       ),

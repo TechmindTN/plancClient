@@ -51,11 +51,11 @@ class RegisterView2 extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        // if(controller.file!=null&&!controller.file.isBlank&&controller.file.path!=''){
-                        scrollController.animateTo(scrollController.position.maxScrollExtent-2, duration: Duration(seconds: 1), curve: Curves.easeIn);
-                      // }
-        },),
+      // floatingActionButton: FloatingActionButton(onPressed: () {
+      //   // if(controller.file!=null&&!controller.file.isBlank&&controller.file.path!=''){
+      //                   scrollController.animateTo(scrollController.position.maxScrollExtent-2, duration: Duration(seconds: 1), curve: Curves.easeIn);
+      //                 // }
+      //   },),
       appBar: AppBar(
         title: Text(
           "Register".tr,
@@ -303,7 +303,8 @@ class RegisterView2 extends GetView<AuthController> {
                         controller.loading=true;
                         controller.update();
                         if (formGlobalKey.currentState.validate()) {
-                          DocumentReference user = controller.data;
+                          
+                          DocumentReference user = controller.dataref;
                           var token = await FirebaseMessaging.instance.getToken();
 
                           Client c = Client(
@@ -324,7 +325,7 @@ class RegisterView2 extends GetView<AuthController> {
                               );
                           var data = await controller.registerClient(c, user);
                           if (await controller.verifylogin(
-                                  controller.u1.email, controller.u1.password) ==
+                                  controller.u1.email??controller.currentuser.email, controller.u1.password??controller.currentuser.password) ==
                               true) {
                                 controller.loading=false;
                         controller.update();
@@ -393,7 +394,16 @@ class RegisterView2 extends GetView<AuthController> {
                 SizedBox(height: 20),
                 FloatingActionButton(
                     onPressed: () async {
-                      controller.changeImage();
+                      showModalBottomSheet(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height*0.2
+                        ),
+                        context: context, builder: (context){
+                        return Column(
+                          children: [
+                            ListTile(
+                              onTap: (){
+                                controller.changeImage();
                       
                       Future.delayed(Duration(seconds: 5),(){
                         if(controller.file!=null&&controller.file.path!=''){
@@ -402,6 +412,33 @@ class RegisterView2 extends GetView<AuthController> {
                       }
                       });
                       controller.update();
+                      Navigator.pop(context);
+                              },
+                              leading: Icon(Icons.photo),
+                              title: Text("From Gallery"),
+
+                            ),
+                            ListTile(
+                              onTap: (){
+                                controller.changeCameraImage();
+                      
+                      Future.delayed(Duration(seconds: 5),(){
+                        if(controller.file!=null&&controller.file.path!=''){
+                        print('got image');
+                        scrollController.animateTo(scrollController.position.maxScrollExtent, duration: Duration(seconds: 1), curve: Curves.easeIn);
+                      }
+                      });
+                      controller.update();
+                      Navigator.pop(context);
+                              },
+                              leading: Icon(Icons.camera_alt),
+                              title: Text("From Camera"),
+
+                            ),
+                          ],
+                        );
+                      });
+                      
 
                       // storeimage.printInfo();
                       //     final ImagePicker _picker = ImagePicker();

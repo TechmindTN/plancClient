@@ -1,5 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../models/Provider.dart';
+import '../../../routes/app_pages.dart';
+import '../../e_service/views/e_service_view.dart';
+
 
 class MessageBubble extends StatelessWidget {
   final String content;
@@ -9,6 +15,7 @@ class MessageBubble extends StatelessWidget {
   final String imageUrl;
   final bool isMe;
   final Key key;
+  final ServiceProvider provider;
 
   MessageBubble(
     this.content,
@@ -16,7 +23,9 @@ class MessageBubble extends StatelessWidget {
     this.userName,
     this.imageUrl,
     this.myimageUrl,
-    this.isMe, {
+    this.isMe, 
+    this.provider,
+    {
     this.key,
   });
 
@@ -51,7 +60,10 @@ class MessageBubble extends StatelessWidget {
                 border: Border.all(
                     width: 2, color: Color.fromARGB(255, 255, 255, 255)),
               ),
-              width: 200,
+              // width: 200,
+              constraints: BoxConstraints(minWidth: 200,
+              maxWidth: MediaQuery.of(context).size.width*0.7
+              ),
               child: Column(
                 crossAxisAlignment:
                     isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -81,11 +93,11 @@ class MessageBubble extends StatelessWidget {
                                       child: Container(
                                         color:
                                             Colors.transparent.withOpacity(0.3),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.7,
+                                        // width:
+                                        //     MediaQuery.of(context).size.width,
+                                        // height:
+                                        //     MediaQuery.of(context).size.height *
+                                        //         0.7,
                                         child: Image.network(
                                           content,
                                           // scale: 20,
@@ -101,8 +113,11 @@ class MessageBubble extends StatelessWidget {
                             //Get.toNamed(Routes.CATEGORY, arguments: _category);
                           },
                           child: Container(
-                            width: 100,
-                            height: 100,
+                            constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height*0.2,
+                            maxWidth: MediaQuery.of(context).size.width*0.7
+                            ),
+                            // width: 100,
+                            // height: 100,
                             child: Stack(
                               alignment: AlignmentDirectional.topStart,
                               children: [
@@ -111,8 +126,8 @@ class MessageBubble extends StatelessWidget {
                                         BorderRadius.all(Radius.circular(10)),
                                     child: Image.network(
                                       content,
-                                      height: 100,
-                                      width: double.infinity,
+                                      // height: 100,
+                                      // width: double.infinity,
                                       fit: BoxFit.cover,
                                     )
                                     // child: CachedNetworkImage(
@@ -139,18 +154,23 @@ class MessageBubble extends StatelessWidget {
           ],
         ),
         isMe
-            ? Positioned(
+            ? (type=="text")?Positioned(
                 top: 0,
                 right: 180,
                 child: CircleAvatar(
                   backgroundImage: NetworkImage(imageUrl),
                 ),
-              )
+              ):SizedBox()
             : Positioned(
                 top: 0,
                 left: 180,
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(myimageUrl),
+                child: InkWell(
+                  onTap: (){
+                    Get.to(EServiceView(provider));
+                  },
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(myimageUrl),
+                  ),
                 ),
               ),
       ],

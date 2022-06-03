@@ -72,22 +72,21 @@ _connectivitySubscription.cancel();
       _connectionStatus = result;
       if(_connectionStatus==ConnectivityResult.wifi){
         print('got connection WIFI');
-        Firebase.initializeApp();
-        // await initServices();
-        // Phoenix.rebirth(context);
-        
-  //       SharedPreferences prefs = await SharedPreferences.getInstance();
+        // Firebase.initializeApp();
+        // if(Firebase.app().)
+        Firebase.initializeApp().then((value)  async {
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
   // var useremail = prefs.get('email');
   // if (useremail != null) {
   //   var userpass = prefs.get('pass');
-  //   Get.find<AuthController>().verifylogin(useremail, userpass);
+  //   Get.put(AuthController());
+  //   if(await Get.find<AuthController>().verifylogin(useremail, userpass)){
+  //     if (Get.find<AuthController>().currentProfile==null){
+  //       ini=Routes.REGISTER2;
+        
+  //     }}
   // }
 
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true,
-  //   badge: true,
-  //   sound: true,
-  // );
 
         Future.delayed(Duration(seconds: 1),(){
           runApp(
@@ -112,27 +111,28 @@ _connectivitySubscription.cancel();
     ),
   );
 Navigator.pushReplacementNamed(context, AppPages.INITIAL);
+        });
+        
         });
         
         }
         else if(_connectionStatus==ConnectivityResult.mobile){
-   print('got connection WIFI');
-   Firebase.initializeApp();
-  //       await initServices();
-  //       Phoenix.rebirth(context);
-        
-  //       SharedPreferences prefs = await SharedPreferences.getInstance();
+     print('got connection WIFI');
+        // Firebase.initializeApp();
+        // if(Firebase.app().)
+        Firebase.initializeApp().then((value)  async {
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
   // var useremail = prefs.get('email');
   // if (useremail != null) {
   //   var userpass = prefs.get('pass');
-  //   Get.find<AuthController>().verifylogin(useremail, userpass);
+  //   Get.put(AuthController());
+  //   if(await Get.find<AuthController>().verifylogin(useremail, userpass)){
+  //     if (Get.find<AuthController>().currentProfile==null){
+  //       ini=Routes.REGISTER2;
+        
+  //     }}
   // }
 
-  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-  //   alert: true,
-  //   badge: true,
-  //   sound: true,
-  // );
 
         Future.delayed(Duration(seconds: 1),(){
           runApp(
@@ -158,6 +158,9 @@ Navigator.pushReplacementNamed(context, AppPages.INITIAL);
   );
 Navigator.pushReplacementNamed(context, AppPages.INITIAL);
         });
+        
+        });
+      
         }
         else if(_connectionStatus==ConnectivityResult.none){
         print('no connection ');}

@@ -1,5 +1,6 @@
 import 'package:get/get.dart' show GetPage, Transition;
 
+import '../../image_editor_test.dart';
 import '../../which.dart';
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/forgot_password_view.dart';
@@ -124,6 +125,10 @@ class AppPages {
         name: Routes.CHECKOUT,
         page: () => CheckoutView(),
         binding: CheckoutBinding()),
+        // GetPage(
+        // name: Routes.Editor,
+        // page: () => ImageEditorScreen(),
+        // ),
     GetPage(
         name: Routes.CONFIRMATION,
         page: () => ConfirmationView(),

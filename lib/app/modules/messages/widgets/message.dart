@@ -58,7 +58,9 @@ class Messsages extends StatelessWidget {
                     client.profile_photo,
                     receiver_client.profile_photo,
                     chatDocs[index]['userId'] == user.id,
+                    receiver_client,
                     key: ValueKey(chatDocs[index].id),
+                    
                   );
                 });
           }

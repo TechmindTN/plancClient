@@ -141,6 +141,7 @@ class MainDrawerWidget extends StatelessWidget {
                             MaterialButton(
                               elevation: 0,
                               onPressed: () async {
+
                                 Get.find<AuthController>().currentuser = User();
                                 Get.find<AuthController>().currentProfile =
                                     Client();
@@ -150,6 +151,10 @@ class MainDrawerWidget extends StatelessWidget {
                                 Get.find<HomeController>()
                                     .interventions
                                     .clear();
+                                    Get.find<RootController>()
+                                    .currentIndex.value=0;
+                                    
+                                    
                                 Get.find<TasksController>().refreshTasks();
                                 SharedPreferences prefs =
                                     await SharedPreferences.getInstance();

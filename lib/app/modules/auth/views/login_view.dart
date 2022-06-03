@@ -157,7 +157,11 @@ class LoginView extends GetView<AuthController> {
                                   controller.loading=false;
                           controller.update();
                               print('user logged');
-                              Get.offAllNamed(Routes.ROOT);
+                              if(controller.currentProfile!=null&&controller.currentProfile.id!=null){
+                              Get.offAllNamed(Routes.ROOT);}
+                              else{
+                                Get.offAllNamed(Routes.REGISTER2);
+                              }
                             } else {
                               controller.loading=false;
                           controller.update();

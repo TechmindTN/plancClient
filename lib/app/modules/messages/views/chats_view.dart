@@ -84,17 +84,7 @@ class ChatsView extends GetView<MessagesController> {
               NewMessage(
                 chat_id: chat_id,
               ),
-              GetBuilder<MessagesController>(
-                  init: MessagesController(),
-                  builder: (val) => Visibility(
-                      visible: val.file.value.toString() != File('').toString()
-                          ? true
-                          : false,
-                      child: Container(
-                        child: Image.file(val.file.value),
-                        height: 100,
-                        width: 200,
-                      )))
+              
             ],
           ),
         ),

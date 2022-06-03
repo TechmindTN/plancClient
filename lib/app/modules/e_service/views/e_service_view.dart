@@ -145,7 +145,8 @@ class EServiceView extends GetView<EServiceController> {
                             IconButton(
                                 icon: Icon(Icons.message),
                                 onPressed: () async {
-                                  print('id user: ' + prov.user.id);
+                                   if (Get.find<AuthController>().currentProfile.first_name != null) {
+              print('id user: ' + prov.user.id);
                                   var list = [];
 
                                   var ref1 = FirebaseFirestore.instance
@@ -176,6 +177,12 @@ class EServiceView extends GetView<EServiceController> {
                                       provider: prov,
                                     ));
                                   }
+            } else {
+              Get.showSnackbar(
+                  Ui.ErrorSnackBar(message: 'You must login before !'.tr));
+              return null;
+            }
+                                  
                                 })
                           ],
                         ),
