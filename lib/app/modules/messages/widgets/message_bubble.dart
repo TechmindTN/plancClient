@@ -62,7 +62,7 @@ class MessageBubble extends StatelessWidget {
               ),
               // width: 200,
               constraints: BoxConstraints(minWidth: 200,
-              maxWidth: MediaQuery.of(context).size.width*0.7
+              maxWidth: (type=='text')?200:MediaQuery.of(context).size.width*0.7
               ),
               child: Column(
                 crossAxisAlignment:
@@ -118,33 +118,11 @@ class MessageBubble extends StatelessWidget {
                             ),
                             // width: 100,
                             // height: 100,
-                            child: Stack(
-                              alignment: AlignmentDirectional.topStart,
-                              children: [
-                                ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    child: Image.network(
-                                      content,
-                                      // height: 100,
-                                      // width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    )
-                                    // child: CachedNetworkImage(
-                                    //   height: 100,
-                                    //   width: double.infinity,
-                                    //   fit: BoxFit.cover,
-                                    //   imageUrl: media,
-                                    //   placeholder: (context, url) => Image.asset(
-                                    //     'assets/img/loading.gif',
-                                    //     fit: BoxFit.cover,
-                                    //     width: double.infinity,
-                                    //     height: 100,
-                                    //   ),
-                                    //   errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                                    // ),
-                                    ),
-                              ],
+                            child: Image.network(
+                              content,
+                              // height: 100,
+                              // width: double.infinity,
+                              // fit: BoxFit.cover,
                             ),
                           ),
                         ))

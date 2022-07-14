@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:home_services/app/models/Role.dart';
 
 class User {
+  bool authorized;
   bool auth;
   String id;
   final String password;
@@ -42,5 +43,7 @@ class User {
         'username': username,
         'email': email,
         'password': password,
+        'last_login':Timestamp.now(),
+        'authorized':true
       };
 }

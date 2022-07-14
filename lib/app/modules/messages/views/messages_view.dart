@@ -104,7 +104,7 @@ class MessagesView extends GetView<MessagesController> {
                           if (chatDocs[index]["users"]
                               .contains(controller.clientRef)) {
                             chatDocs[index]["users"].forEach((el) {
-                              if (el.id != controller.user.id) {
+                              if (el.id != controller.user.id) { 
                                 // print('el.id ' + el.id);
                                 // controller.userNetwork
                                 //     .getUserById(el.id)

@@ -98,7 +98,7 @@ class HomeController extends GetxController {
     });
     // _getAddressFromLatLng();
 
-    pro.value = await _userNetwork.getUsersByRole('Professionel');
+    pro.value = await _userNetwork.getUsersByRole('Provider');
     entreprise.value = await _userNetwork.getUsersByRole('Entreprise');
 
     Get.put<EServiceController>(EServiceController());

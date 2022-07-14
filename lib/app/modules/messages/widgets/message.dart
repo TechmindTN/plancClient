@@ -53,7 +53,7 @@ class Messsages extends StatelessWidget {
                     chatDocs[index]['content'],
                     chatDocs[index]["type"],
                     chatDocs[index]['userId'] == user.id
-                        ? user.username
+                        ? client.first_name
                         : receiver_client.name,
                     client.profile_photo,
                     receiver_client.profile_photo,

@@ -232,19 +232,19 @@ class MainDrawerWidget extends StatelessWidget {
               }
             },
           ),
-          DrawerLinkWidget(
-            icon: Icons.favorite_outline,
-            text: "Favorites",
-            onTap: (e) {
-              if (user.email == null) {
-                Get.showSnackbar(
-                    Ui.ErrorSnackBar(message: 'You must login before !'.tr));
-                return null;
-              } else {
-                Get.offAndToNamed(Routes.FAVORITES);
-              }
-            },
-          ),
+          // DrawerLinkWidget(
+          //   icon: Icons.favorite_outline,
+          //   text: "Favorites",
+          //   onTap: (e) {
+          //     if (user.email == null) {
+          //       Get.showSnackbar(
+          //           Ui.ErrorSnackBar(message: 'You must login before !'.tr));
+          //       return null;
+          //     } else {
+          //       Get.offAndToNamed(Routes.FAVORITES);
+          //     }
+          //   },
+          // ),
           DrawerLinkWidget(
             icon: Icons.chat_outlined,
             text: "Messages",
@@ -318,31 +318,31 @@ class MainDrawerWidget extends StatelessWidget {
               Get.offAndToNamed(Routes.SETTINGS_THEME_MODE);
             },
           ),
-          ListTile(
-            dense: true,
-            title: Text(
-              "Help & Privacy",
-              style: Get.textTheme.caption,
-            ),
-            trailing: Icon(
-              Icons.remove,
-              color: Get.theme.focusColor.withOpacity(0.3),
-            ),
-          ),
-          DrawerLinkWidget(
-            icon: Icons.help_outline,
-            text: "Help & FAQ",
-            onTap: (e) {
-              Get.offAndToNamed(Routes.HELP);
-            },
-          ),
-          DrawerLinkWidget(
-            icon: Icons.privacy_tip_outlined,
-            text: "Privacy Policy",
-            onTap: (e) {
-              Get.offAndToNamed(Routes.PRIVACY);
-            },
-          ),
+          // ListTile(
+          //   dense: true,
+          //   title: Text(
+          //     "Help & Privacy",
+          //     style: Get.textTheme.caption,
+          //   ),
+          //   trailing: Icon(
+          //     Icons.remove,
+          //     color: Get.theme.focusColor.withOpacity(0.3),
+          //   ),
+          // ),
+          // DrawerLinkWidget(
+          //   icon: Icons.help_outline,
+          //   text: "Help & FAQ",
+          //   onTap: (e) {
+          //     Get.offAndToNamed(Routes.HELP);
+          //   },
+          // ),
+          // DrawerLinkWidget(
+          //   icon: Icons.privacy_tip_outlined,
+          //   text: "Privacy Policy",
+          //   onTap: (e) {
+          //     Get.offAndToNamed(Routes.PRIVACY);
+          //   },
+          // ),
           user.email != null
               ? DrawerLinkWidget(
                   icon: Icons.logout,
